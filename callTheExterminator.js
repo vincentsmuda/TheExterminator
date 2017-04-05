@@ -1,6 +1,7 @@
 /*
 
-	BUGGER
+	CallTheExterminator
+	A lightweight QA reporter that sends through much needed informations.
 
 */
 
