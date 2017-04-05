@@ -157,6 +157,24 @@ class CallTheExterminator {
 
 	}
 
+	/**
+	 *	Generates Mailto link
+	 */
+	generateMailtoLink () {
+
+		// TODO
+
+	}
+
+	/**
+	 *	Sends issue to an endpoint
+	 */
+	sendIssue () {
+
+		// TODO
+
+	}
+
 }
 
 new CallTheExterminator();
