@@ -5,7 +5,11 @@
 
 */
 
-class CallTheExterminator {
+// Grab our set fields
+import Fields from '../settings/fields.js';
+
+// The class
+module.exports = class CallTheExterminator {
 
 	/**
 	 *	Construct
@@ -31,26 +35,7 @@ class CallTheExterminator {
 		this.form = this.generateFormElement();
 
 		// Set up the field mapping
-		this.fields = [
-
-			{
-				label: 'Issue',
-				name: 'issue',
-				el_type: 'input',
-				type: 'text',
-				placeholder: 'What is the issue?',
-				required: true
-			},
-
-			{
-				label: 'Description',
-				name: 'description',
-				el_type: 'textarea',
-				placeholder: 'Describe the issue.',
-				required: true
-			},
-
-		];
+		this.fields = Fields;
 
 		// Build the form
 		this.buildForm();
@@ -225,5 +210,3 @@ class CallTheExterminator {
 	}
 
 }
-
-new CallTheExterminator();
