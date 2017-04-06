@@ -18,6 +18,9 @@ class CallTheExterminator {
 		// Set the base class of the elements
 		this.base_class = 'exterminator';
 
+		// Sets the submit button text
+		this.submit_text = 'Report';
+
 		// Set the pm
 		this.pm = pm;
 
@@ -31,15 +34,18 @@ class CallTheExterminator {
 		this.fields = [
 
 			{
+				label: 'Issue',
 				name: 'issue',
+				el_type: 'input',
 				type: 'text',
 				placeholder: 'What is the issue?',
 				required: true
 			},
 
 			{
+				label: 'Description',
 				name: 'description',
-				type: 'textarea',
+				el_type: 'textarea',
 				placeholder: 'Describe the issue.',
 				required: true
 			},
@@ -63,11 +69,10 @@ class CallTheExterminator {
 		for (let i = 0, l = this.fields.length; i < l; i++) {
 
 			// Make sure the field has a type
-			this.fields[i].type = this.fields[i].type || 'text';
+			this.fields[i].el_type = this.fields[i].el_type || 'input';
 
 			// Generate the field element
-			let field_type = this.fields[i].type,
-					field = this.buildElement(field_type);
+			let field = this.buildField(this.fields[i]);
 
 			// Store the newly created field element
 			this.fields[i].el = field;
@@ -76,11 +81,31 @@ class CallTheExterminator {
 			this.addFiledParams(this.fields[i]);
 
 			// Add the field to the form
-			form.appendChild(field);
+			form.appendChild(field.wrapper);
 
 		}
 
-		console.log(form);
+		// Adds the submit button
+		this.addSubmit();
+
+		// Now write the form to the body
+		this.writeForm();
+
+	}
+
+	/**
+	 *	Adds a submit button to the form
+	 */
+	addSubmit () {
+
+		// Create the button element
+		let button = document.createElement('button');
+
+		// Add the text to the button
+		button.innerHTML = this.submit_text;
+
+		// Add the button to the form
+		this.form.appendChild(button);
 
 	}
 
@@ -89,38 +114,61 @@ class CallTheExterminator {
 	 */
 	addFiledParams (field) {
 
-		// Do a switch case for the fields
-		switch (field.type) {
+		// Set the textarea's placeholder
+		field.el.input.setAttribute('placeholder', field.placeholder || '');
 
+		// Do a switch case for the fields
+		switch (field.type || field.el_type) {
 			case 'text':
 			case 'email':
 			case 'number':
-
-				// Set the field's placeholder
-				field.el.setAttribute('placeholder', field.placeholder || '');
-
 				break;
 
 			case 'textarea':
-
-				// Set the textarea's placeholder
-				field.el.innerHTML = field.placeholder;
-
 				break;
 
 			case 'select':
-
-
-				console.log('select need to be coded');
-
 				break;
 
 			default:
-
-				console.log('What type of field is that??!?!');
-
 				break;
+		}
 
+	}
+
+	/**
+	 *	Writes the generated html to the body
+	 */
+	writeForm () {
+
+		// Add the form to the end of the body
+		document.body.appendChild(this.form);
+
+	}
+
+	/**
+	 *	Builds a field including it's wrapper element and label
+	 */
+	buildField (field) {
+
+		// Generate field
+		// Wrapper element
+		// and label
+		let field_el = this.buildElement(field.el_type),
+				field_wrapper = this.buildElement('div', 'field'),
+				field_label = this.buildElement('label');
+
+		// Add text to the label
+		if(field.label) field_label.innerHTML = field.label;
+
+		// Add the elements to the wrapper
+		if(field.label) field_wrapper.appendChild(field_label);
+		field_wrapper.appendChild(field_el);
+
+		// return the wrapper
+		return {
+			input: field_el,
+			wrapper: field_wrapper
 		}
 
 	}
@@ -144,13 +192,14 @@ class CallTheExterminator {
 	/**
 	 *	Build Element
 	 */
-	buildElement (type = 'input') {
+	buildElement (type = 'input', i_class = '') {
 
 		// Store the element
-		let el = document.createElement(type);
+		let el = document.createElement(type),
+				el_class = i_class || type;
 
 		// Give the element a class
-		el.classList.add(`${this.base_class}__${type}`);
+		el.classList.add(this.base_class + '__' + el_class);
 
 		// return the built element
 		return el;
