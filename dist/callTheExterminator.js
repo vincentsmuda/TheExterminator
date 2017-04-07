@@ -121,16 +121,37 @@ module.exports = function () {
 		// Set up the field mapping
 		this.fields = _fields2.default;
 
+		// Set up the wrapper
+		this.wrapper = this.buildWrapper();
+
 		// Build the form
-		this.buildForm();
+		this.form = this.buildForm();
 	}
 
 	/**
-  *	Builds the HTML form
+  *	Builds a wrapper that will hold our form
   */
 
 
 	_createClass(CallTheExterminator, [{
+		key: 'buildWrapper',
+		value: function buildWrapper() {
+
+			// create the wrapper element
+			var wrapper = document.createElement('div');
+
+			// add appropriate classes
+			wrapper.classList.add(this.base_class + '__wrapper');
+
+			// return the wrapper
+			return wrapper;
+		}
+
+		/**
+   *	Builds the HTML form
+   */
+
+	}, {
 		key: 'buildForm',
 		value: function buildForm() {
 
@@ -161,6 +182,9 @@ module.exports = function () {
 
 			// Now write the form to the body
 			this.writeForm();
+
+			// return the form
+			return form;
 		}
 
 		/**
@@ -218,8 +242,11 @@ module.exports = function () {
 		key: 'writeForm',
 		value: function writeForm() {
 
-			// Add the form to the end of the body
-			document.body.appendChild(this.form);
+			// Add the form to the wrapper
+			this.wrapper.appendChild(this.form);
+
+			// Add the wrapper to the body
+			document.body.appendChild(this.wrapper);
 		}
 
 		/**
@@ -2319,7 +2346,7 @@ exports = module.exports = __webpack_require__(7)(undefined);
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".exterminator__wrapper {\n  position: fixed;\n  bottom: 0;\n  right: 20px;\n  padding: 20px;\n  background: #f00; }\n", ""]);
 
 // exports
 

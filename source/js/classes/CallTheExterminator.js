@@ -37,8 +37,27 @@ module.exports = class CallTheExterminator {
 		// Set up the field mapping
 		this.fields = Fields;
 
+		// Set up the wrapper
+		this.wrapper = this.buildWrapper();
+
 		// Build the form
-		this.buildForm();
+		this.form = this.buildForm();
+
+	}
+
+	/**
+	 *	Builds a wrapper that will hold our form
+	 */
+	buildWrapper () {
+
+		// create the wrapper element
+		let wrapper = document.createElement('div');
+
+		// add appropriate classes
+		wrapper.classList.add(this.base_class + '__wrapper');
+
+		// return the wrapper
+		return wrapper;
 
 	}
 
@@ -75,6 +94,9 @@ module.exports = class CallTheExterminator {
 
 		// Now write the form to the body
 		this.writeForm();
+
+		// return the form
+		return form;
 
 	}
 
@@ -126,8 +148,11 @@ module.exports = class CallTheExterminator {
 	 */
 	writeForm () {
 
-		// Add the form to the end of the body
-		document.body.appendChild(this.form);
+		// Add the form to the wrapper
+		this.wrapper.appendChild(this.form);
+
+		// Add the wrapper to the body
+		document.body.appendChild(this.wrapper);
 
 	}
 
