@@ -2346,7 +2346,7 @@ exports = module.exports = __webpack_require__(7)(undefined);
 
 
 // module
-exports.push([module.i, ".exterminator__wrapper {\n  position: fixed;\n  bottom: 0;\n  right: 20px;\n  padding: 20px;\n  background: #f00; }\n", ""]);
+exports.push([module.i, ".exterminator__wrapper {\n  position: fixed;\n  bottom: 0;\n  right: 20px;\n  padding: 20px;\n  background: #ccc; }\n", ""]);
 
 // exports
 
