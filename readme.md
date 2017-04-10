@@ -1,5 +1,5 @@
-# Call The Exterminator
-A lightweight QA helper for clients to use when reporting bugs
+# The Exterminator
+A lightweight QA helper for clients to use when reporting bugs.
 
 # Installation
 Just require it in your html. easy peasy.
