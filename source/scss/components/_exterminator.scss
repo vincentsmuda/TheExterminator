@@ -11,6 +11,10 @@
       padding: $gutter;
       background: #ccc;
     }
+
+    &input{
+      border: 1px solid #eee;
+    }
   }
 
   // Modifiers
