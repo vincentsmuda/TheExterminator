@@ -15,6 +15,11 @@ First, you must run `$ npm install` or `$ yarn install`. Then after making modif
 - Create a handler that highlights the problem element and on the page
 - Create a wordpress plugin
 - Create a bookmark shortcut
+- Check if cookies are enabled
+- Check if _local storage_ is availabe
+- Check if adblock plugin is enabled
+- Get the browser language (locale)
+
 
 # Support
 We are aiming to support IE8+ . If you find a bug any any of the browsers, let us know or make a pull request!
