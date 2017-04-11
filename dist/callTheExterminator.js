@@ -443,7 +443,7 @@ module.exports = function () {
 
 			// Set up our body
 			var body = '',
-			    extra_info = [this.detectEnvirnoment, this.detectResolution, this.detectScrollPosition];
+			    extra_info = [this.detectURL, this.detectEnvirnoment, this.detectResolution, this.detectScrollPosition];
 
 			// Loop through all fields
 			for (var i = 0; i < this.fields.length; i++) {
@@ -488,6 +488,16 @@ module.exports = function () {
 		key: 'detectEnvirnoment',
 		value: function detectEnvirnoment() {
 			return "Envirnoment: \r\n" + _platform2.default.description;
+		}
+
+		/**
+   *	Get the current page's URL
+   */
+
+	}, {
+		key: 'detectURL',
+		value: function detectURL() {
+			return "Page: \r\n" + window.location.href;
 		}
 
 		/**

@@ -335,6 +335,7 @@ module.exports = class CallTheExterminator {
 		// Set up our body
 		let body = '',
 				extra_info = [
+					this.detectURL,
 					this.detectEnvirnoment,
 					this.detectResolution,
 					this.detectScrollPosition
@@ -388,6 +389,14 @@ module.exports = class CallTheExterminator {
 	detectEnvirnoment () {
 		return "Envirnoment: \r\n"
 			+ Platform.description;
+	}
+
+	/**
+	 *	Get the current page's URL
+	 */
+	detectURL () {
+		return "Page: \r\n"
+			+ window.location.href;
 	}
 
 	/**
