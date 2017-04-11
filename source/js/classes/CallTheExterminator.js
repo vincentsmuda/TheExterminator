@@ -410,8 +410,7 @@ module.exports = class CallTheExterminator {
 	 *	Detect's the user's current browser language
 	 */
 	detectLocale () {
-		return
-			navigator.browserLanguage
+		return navigator.browserLanguage
 			|| navigator.language
 			|| navigator.languages[0];
 	}
@@ -458,7 +457,7 @@ module.exports = class CallTheExterminator {
 	detectAdBlock () {
 
 		// if we already detected the adblock, return it
-		if(!!this.ad_blocked) return this.ad_blocked > 0 ? 'Enabled' : 'Disabled' ;
+		if(this.ad_blocked) return this.ad_blocked;
 
 		// Create our bait
 		let bait = document.createElement('div');
@@ -476,14 +475,14 @@ module.exports = class CallTheExterminator {
 		setTimeout(() => {
 
 			// check to see if it has height
-			this.ad_blocked = !bait.offsetHeight ? 1 : -1;
+			if(!bait.offsetHeight) this.ad_blocked = 'Enabled';
 
 			// remove the bait
 			bait.remove();
 
 		}, 100);
 
-		return -1;
+		return 'Disabled';
 
 	}
 
@@ -645,16 +644,17 @@ module.exports = class CallTheExterminator {
 		for (var i = 0; i < fields.length; i++) {
 
 			// Store the field in the block scope
-			let field = this.fields[i];
+			let field = this.fields[i],
+					input = field.el.input;
 
 			// Skip if is hidden
 			if(field.type && field.type == 'hidden') continue;
 
 			// Store the value in case we need to retreive it
-			this.fields[i].previous_value = this.fields[i].el.value;
+			field.previous_value = input.value;
 
 			// Clear the field's value
-			this.fields[i].el.value = '';
+			input.value = '';
 
 		}
 

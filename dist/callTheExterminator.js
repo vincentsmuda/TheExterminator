@@ -539,8 +539,7 @@ module.exports = function () {
 	}, {
 		key: 'detectLocale',
 		value: function detectLocale() {
-			return;
-			navigator.browserLanguage || navigator.language || navigator.languages[0];
+			return navigator.browserLanguage || navigator.language || navigator.languages[0];
 		}
 
 		/**
@@ -593,7 +592,7 @@ module.exports = function () {
 			var _this = this;
 
 			// if we already detected the adblock, return it
-			if (!!this.ad_blocked) return this.ad_blocked > 0 ? 'Enabled' : 'Disabled';
+			if (this.ad_blocked) return this.ad_blocked;
 
 			// Create our bait
 			var bait = document.createElement('div');
@@ -611,13 +610,13 @@ module.exports = function () {
 			setTimeout(function () {
 
 				// check to see if it has height
-				_this.ad_blocked = !bait.offsetHeight ? 1 : -1;
+				if (!bait.offsetHeight) _this.ad_blocked = 'Enabled';
 
 				// remove the bait
 				bait.remove();
 			}, 100);
 
-			return -1;
+			return 'Disabled';
 		}
 
 		/**
@@ -778,16 +777,17 @@ module.exports = function () {
 			for (var i = 0; i < fields.length; i++) {
 
 				// Store the field in the block scope
-				var field = this.fields[i];
+				var field = this.fields[i],
+				    input = field.el.input;
 
 				// Skip if is hidden
 				if (field.type && field.type == 'hidden') continue;
 
 				// Store the value in case we need to retreive it
-				this.fields[i].previous_value = this.fields[i].el.value;
+				field.previous_value = input.value;
 
 				// Clear the field's value
-				this.fields[i].el.value = '';
+				input.value = '';
 			}
 		}
 	}]);
