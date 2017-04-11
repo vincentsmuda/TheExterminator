@@ -83,6 +83,9 @@ module.exports = class CallTheExterminator {
 		// Build the form
 		this.form = this.buildForm();
 
+		// Set the adblock status
+		this.ad_blocked = this.detectAdBlock();
+
 		// Set up the events
 		this.events();
 
@@ -335,10 +338,12 @@ module.exports = class CallTheExterminator {
 		// Set up our body
 		let body = '',
 				extra_info = [
-					this.detectURL,
-					this.detectEnvirnoment,
-					this.detectResolution,
-					this.detectScrollPosition
+					{header:'Page',fn:this.detectURL},
+					{header:'Envirnoment',fn:this.detectEnvirnoment},
+					{header:'Resolution',fn:this.detectResolution},
+					{header:'Scroll Position',fn:this.detectScrollPosition},
+					{header:'Locale',fn:this.detectLocale},
+					{Header:'Adblocked',fn:this.detectAdBlock}
 				];
 
 		// Loop through all fields
@@ -360,9 +365,12 @@ module.exports = class CallTheExterminator {
 
 		// Loop through our extra informations
 		// for dev purposes
-		for (var i = 0; i < extra_info.length; i++)
+		for (var i = 0; i < extra_info.length; i++) {
 			body += (!body ? '' : "\r\n\r\n")
-				+ extra_info[i]();
+				+ extra_info[i].header + ":\r\n"
+				+ extra_info[i].fn();
+		}
+
 
 		return body;
 
@@ -387,16 +395,24 @@ module.exports = class CallTheExterminator {
 	 *	Detects the user's Envirnoment
 	 */
 	detectEnvirnoment () {
-		return "Envirnoment: \r\n"
-			+ Platform.description;
+		return Platform.description;
 	}
 
 	/**
 	 *	Get the current page's URL
 	 */
 	detectURL () {
-		return "Page: \r\n"
-			+ window.location.href;
+		return window.location.href;
+	}
+
+	/**
+	 *	Detect's the user's current browser language
+	 */
+	detectLocale () {
+		return
+			navigator.browserLanguage
+			|| navigator.language
+			|| navigator.languages[0];
 	}
 
 	/**
@@ -416,8 +432,7 @@ module.exports = class CallTheExterminator {
 				sy = s ? s.height : 0;
 
 		// Return the resolution
-		return "Resolution: \r\n"
-			+ `(${x} x ${y}) of (${sx} x ${sy})`;
+		return `(${x} x ${y}) of (${sx} x ${sy})`;
 
 	}
 
@@ -432,8 +447,42 @@ module.exports = class CallTheExterminator {
 				y = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
 
 		// return the scroll positions
-		return "Scroll Position: \r\n"
-			+ `${x} x ${y}`;
+		return `${x} x ${y}`;
+
+	}
+
+	/**
+	 *	Detects if adblock is enabled
+	 */
+	detectAdBlock () {
+
+		// if we already detected the adblock, return it
+		if(!!this.ad_blocked) return this.ad_blocked > 0 ? 'Enabled' : 'Disabled';
+
+		// Create our bait
+		let bait = document.createElement('div');
+
+		// give it some innards
+		bait.innerHTML = '&nbsp;';
+
+		// give it a baity classname
+		bait.className = 'adsbox';
+
+		// Add it to the end of the body
+		document.body.appendChild(bait);
+
+		// Check to see if it was removed
+		setTimeout(() => {
+
+			// check to see if it has height
+			this.ad_blocked = !bait.offsetHeight ? 1 : -1;
+
+			// remove the bait
+			bait.remove();
+
+		}, 100);
+
+		return -1;
 
 	}
 
