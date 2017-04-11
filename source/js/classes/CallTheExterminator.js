@@ -338,12 +338,13 @@ module.exports = class CallTheExterminator {
 		// Set up our body
 		let body = '',
 				extra_info = [
-					{header:'Page',fn:this.detectURL},
-					{header:'Envirnoment',fn:this.detectEnvirnoment},
-					{header:'Resolution',fn:this.detectResolution},
-					{header:'Scroll Position',fn:this.detectScrollPosition},
-					{header:'Locale',fn:this.detectLocale},
-					{Header:'Adblocked',fn:this.detectAdBlock}
+					{label:'Page',fn:this.detectURL},
+					{label:'Envirnoment',fn:this.detectEnvirnoment},
+					{label:'Resolution',fn:this.detectResolution},
+					{label:'Scroll Position',fn:this.detectScrollPosition},
+					{label:'Locale',fn:this.detectLocale},
+					{label:'AdBlock',fn:this.detectAdBlock},
+					{label:'Cookies',fn:this.detectCookiesEnabled}
 				];
 
 		// Loop through all fields
@@ -367,7 +368,7 @@ module.exports = class CallTheExterminator {
 		// for dev purposes
 		for (var i = 0; i < extra_info.length; i++) {
 			body += (!body ? '' : "\r\n\r\n")
-				+ extra_info[i].header + ":\r\n"
+				+ extra_info[i].label + ":\r\n"
 				+ extra_info[i].fn();
 		}
 
@@ -457,7 +458,7 @@ module.exports = class CallTheExterminator {
 	detectAdBlock () {
 
 		// if we already detected the adblock, return it
-		if(!!this.ad_blocked) return this.ad_blocked > 0 ? 'Enabled' : 'Disabled';
+		if(!!this.ad_blocked) return this.ad_blocked > 0 ? 'Enabled' : 'Disabled' ;
 
 		// Create our bait
 		let bait = document.createElement('div');
@@ -483,6 +484,20 @@ module.exports = class CallTheExterminator {
 		}, 100);
 
 		return -1;
+
+	}
+
+	/**
+	 *	Detects wheather a browser's cookies are enabled
+	 */
+	detectCookiesEnabled () {
+
+		// Do the detecting
+		let d = document,
+				enabled = ("cookie" in d && (d.cookie.length > 0 || (d.cookie = "test").indexOf.call(d.cookie, "test") > -1));
+
+		// return a string
+		return enabled ? 'Enabled' : 'Disabled or legacy browser' ;
 
 	}
 

@@ -473,7 +473,7 @@ module.exports = function () {
 
 			// Set up our body
 			var body = '',
-			    extra_info = [{ header: 'Page', fn: this.detectURL }, { header: 'Envirnoment', fn: this.detectEnvirnoment }, { header: 'Resolution', fn: this.detectResolution }, { header: 'Scroll Position', fn: this.detectScrollPosition }, { header: 'Locale', fn: this.detectLocale }, { Header: 'Adblocked', fn: this.detectAdBlock }];
+			    extra_info = [{ label: 'Page', fn: this.detectURL }, { label: 'Envirnoment', fn: this.detectEnvirnoment }, { label: 'Resolution', fn: this.detectResolution }, { label: 'Scroll Position', fn: this.detectScrollPosition }, { label: 'Locale', fn: this.detectLocale }, { label: 'AdBlock', fn: this.detectAdBlock }, { label: 'Cookies', fn: this.detectCookiesEnabled }];
 
 			// Loop through all fields
 			for (var i = 0; i < this.fields.length; i++) {
@@ -491,7 +491,7 @@ module.exports = function () {
 			// Loop through our extra informations
 			// for dev purposes
 			for (var i = 0; i < extra_info.length; i++) {
-				body += (!body ? '' : "\r\n\r\n") + extra_info[i].header + ":\r\n" + extra_info[i].fn();
+				body += (!body ? '' : "\r\n\r\n") + extra_info[i].label + ":\r\n" + extra_info[i].fn();
 			}
 
 			return body;
@@ -618,6 +618,22 @@ module.exports = function () {
 			}, 100);
 
 			return -1;
+		}
+
+		/**
+   *	Detects wheather a browser's cookies are enabled
+   */
+
+	}, {
+		key: 'detectCookiesEnabled',
+		value: function detectCookiesEnabled() {
+
+			// Do the detecting
+			var d = document,
+			    enabled = "cookie" in d && (d.cookie.length > 0 || (d.cookie = "test").indexOf.call(d.cookie, "test") > -1);
+
+			// return a string
+			return enabled ? 'Enabled' : 'Disabled or legacy browser';
 		}
 
 		/**
