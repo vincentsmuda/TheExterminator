@@ -74,10 +74,10 @@
 
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      	CallTheExterminator
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      	A lightweight QA reporter that sends through much needed informations.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
 
 // Grab Platform.js
@@ -2608,7 +2608,7 @@ exports = module.exports = __webpack_require__(7)(undefined);
 
 
 // module
-exports.push([module.i, ".exterminator__wrapper {\n  position: fixed;\n  bottom: 0;\n  right: 20px;\n  padding: 20px;\n  background: #ccc; }\n\n.exterminator__input {\n  border: 1px solid #eee; }\n", ""]);
+exports.push([module.i, ".exterminator__wrapper {\n  position: fixed;\n  bottom: 0;\n  right: 20px;\n  padding: 20px;\n  background: #ccc; }\n", ""]);
 
 // exports
 
@@ -2815,7 +2815,7 @@ var stylesInDom = {},
 	isOldIE = memoize(function() {
 		// Test for IE <= 9 as proposed by Browserhacks
 		// @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
-		// Tests for existence of standard globals is to allow style-loader 
+		// Tests for existence of standard globals is to allow style-loader
 		// to operate correctly into non-standard environments
 		// @see https://github.com/webpack-contrib/style-loader/issues/177
 		return window && document && document.all && !window.atob;

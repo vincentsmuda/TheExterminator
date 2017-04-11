@@ -1,4 +1,5 @@
-const path = require('path');
+const path = require('path'),
+      LiveReloadPlugin = require('webpack-livereload-plugin');
 
 
 module.exports = {
@@ -32,10 +33,8 @@ module.exports = {
 
     ]
   },
-  devServer: {
-    contentBase: path.join(__dirname, "dist"),
-    compress: true,
-    port: 9000
-  },
+  plugins: [
+    new LiveReloadPlugin()
+  ],
   watch: true
 };
