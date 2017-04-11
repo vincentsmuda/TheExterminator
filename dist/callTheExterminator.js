@@ -74,10 +74,10 @@
 
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /*
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      	CallTheExterminator
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      	A lightweight QA reporter that sends through much needed informations.
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
 
 // Grab Platform.js
@@ -547,13 +547,21 @@ module.exports = function () {
 	}, {
 		key: 'triggerMailto',
 		value: function triggerMailto() {
+			var _this = this;
 
 			// Send the form via email mailto link
-			var win = window.open(this.form.getAttribute('action') + '?subject=' + encodeURI(this.generateSubjectLine()) + '&body=' + encodeURI(this.generateMessageBody()) + (this.cc.length ? '&cc=' + this.cc.concat(_templateObject) : ''), '_blank');
+			var win = window.open(
+			//this.form.getAttribute('action')
+			'mailto:' + '?subject=' + encodeURI(this.generateSubjectLine()) + '&body=' + encodeURI(this.generateMessageBody()) + (this.cc.length ? '&cc=' + this.cc.concat(_templateObject) : ''), '_blank');
 
-			// Close the window after one second
+			// Set close after 1 second
 			setTimeout(function () {
-				return win.close();
+
+				// Set the successful state
+				_this.triggerSuccess();
+
+				// close the window
+				win.close();
 			}, 1000);
 		}
 
@@ -564,36 +572,127 @@ module.exports = function () {
 	}, {
 		key: 'events',
 		value: function events() {
-			var _this = this;
+			var _this2 = this;
 
 			// Set up a form submission callback
 			this.form.addEventListener('submit', function (e) {
 
-				if (_this.is_mailto) {
+				// prevent form from submitting
+				e.preventDefault();
 
-					// prevent form from submitting
-					e.preventDefault();
+				if (_this2.is_mailto) {
 
 					// Trigger the mailto
-					_this.triggerMailto();
+					_this2.triggerMailto();
 				} else {
 
-					// Do our onsubmit callbacks
-					_this.onSubmit();
+					// do ajax request
+					_this2.triggerAjax(function (successful) {
+
+						// If it fails, fallback to mailto
+						if (!successful) _this2.triggerMailto();
+
+						// Trigger the success state
+						else _this2.triggerSuccess();
+					});
 				}
 			});
 		}
 
 		/**
-   *	Sends issue to an endpoint
+   *	This is what happens when the message is sent
    */
 
 	}, {
-		key: 'sendIssue',
-		value: function sendIssue() {
+		key: 'triggerSuccess',
+		value: function triggerSuccess() {
+			var _this3 = this;
 
-			// TODO
+			// Clear the form out
+			this.clearForm();
 
+			// Set the form to success
+			this.wrapper.classList.add(this.base_class + '__wrapper--success');
+
+			// After 10 seconds remove success state
+			setTimeout(function () {
+				_this3.wrapper.classList.remove(_this3.base_class + '__wrapper--success');
+			}, 10000);
+		}
+
+		/**
+   *	Makes an ajax request to an endpoint
+   */
+
+	}, {
+		key: 'triggerAjax',
+		value: function triggerAjax(cb) {
+
+			// Set up the request
+			var r = new XMLHttpRequest(),
+			    data = 'subject=' + encodeURI(this.generateSubjectLine()) + '&body=' + encodeURI(this.generateMessageBody()) + '&email=' + this.email + (this.cc.length ? '&cc=' + this.cc.concat(_templateObject) : '');
+
+			// Do subject and body construction
+			this.onSubmit();
+
+			// Set up the post
+			r.open(this.method, this.action, true);
+
+			// Set up the content type
+			r.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+
+			// Do a check
+			r.onreadystatechange = function () {
+
+				// if is ready?? lolz
+				if (this.readyState === 4) {
+
+					// if response was successful
+					if (this.status >= 200 && this.status < 400) {
+
+						// Get the response
+						var resp = JSON.parse(this.responseText);
+
+						// return the status of the request
+						cb(resp.status);
+					} else {
+
+						// return false to the callback
+						cb(false);
+					}
+				}
+			};
+
+			// Send the request
+			r.send(data);
+		}
+
+		/**
+   *	Clears out the form
+   */
+
+	}, {
+		key: 'clearForm',
+		value: function clearForm() {
+
+			// Store the fields for easy access
+			var fields = this.fields;
+
+			// Loop through the fields
+			for (var i = 0; i < fields.length; i++) {
+
+				// Store the field in the block scope
+				var field = this.fields[i];
+
+				// Skip if is hidden
+				if (field.type && field.type == 'hidden') continue;
+
+				// Store the value in case we need to retreive it
+				this.fields[i].previous_value = this.fields[i].el.value;
+
+				// Clear the field's value
+				this.fields[i].el.value = '';
+			}
 		}
 	}]);
 
@@ -645,8 +744,11 @@ __webpack_require__(1);
 // Grab the exterminator class
 
 
+// Set the settings
+var settings = window.ExterminatorSettings || {};
+
 // init the exterminator
-new _CallTheExterminator2.default();
+new _CallTheExterminator2.default(settings);
 
 /***/ }),
 /* 3 */
@@ -2608,7 +2710,7 @@ exports = module.exports = __webpack_require__(7)(undefined);
 
 
 // module
-exports.push([module.i, ".exterminator__wrapper {\n  position: fixed;\n  bottom: 0;\n  right: 20px;\n  padding: 20px;\n  background: #ccc; }\n", ""]);
+exports.push([module.i, ".exterminator__wrapper {\n  position: fixed;\n  bottom: 0;\n  right: 20px;\n  padding: 20px;\n  background: #ccc; }\n  .exterminator__wrapper--success {\n    background: #0f0; }\n\n.exterminator__input {\n  border: 1px solid #eee; }\n", ""]);
 
 // exports
 
@@ -2815,7 +2917,7 @@ var stylesInDom = {},
 	isOldIE = memoize(function() {
 		// Test for IE <= 9 as proposed by Browserhacks
 		// @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
-		// Tests for existence of standard globals is to allow style-loader
+		// Tests for existence of standard globals is to allow style-loader 
 		// to operate correctly into non-standard environments
 		// @see https://github.com/webpack-contrib/style-loader/issues/177
 		return window && document && document.all && !window.atob;

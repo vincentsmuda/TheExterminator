@@ -10,6 +10,10 @@
       right: $gutter;
       padding: $gutter;
       background: #ccc;
+
+      &--success{
+        background: #0f0;
+      }
     }
 
     &input{

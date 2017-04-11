@@ -444,15 +444,24 @@ module.exports = class CallTheExterminator {
 
 		// Send the form via email mailto link
 		let win = window.open(
-			this.form.getAttribute('action')
+			//this.form.getAttribute('action')
+			'mailto:'
 				+ '?subject=' + encodeURI(this.generateSubjectLine())
 				+ '&body=' + encodeURI(this.generateMessageBody())
 				+	(this.cc.length ? '&cc=' + this.cc.concat`,` : ''),
 			'_blank'
 		);
 
-		// Close the window after one second
-		setTimeout(() => win.close(), 1000);
+		// Set close after 1 second
+		setTimeout(() => {
+
+			// Set the successful state
+			this.triggerSuccess();
+
+			// close the window
+			win.close();
+
+		}, 1000);
 
 	}
 
@@ -464,18 +473,26 @@ module.exports = class CallTheExterminator {
 		// Set up a form submission callback
 		this.form.addEventListener('submit', (e) => {
 
-			if(this.is_mailto) {
+			// prevent form from submitting
+			e.preventDefault();
 
-				// prevent form from submitting
-				e.preventDefault();
+			if(this.is_mailto) {
 
 				// Trigger the mailto
 				this.triggerMailto();
 
 			}else{
 
-				// Do our onsubmit callbacks
-				this.onSubmit();
+				// do ajax request
+				this.triggerAjax((successful) => {
+
+					// If it fails, fallback to mailto
+					if(!successful) this.triggerMailto();
+
+					// Trigger the success state
+					else this.triggerSuccess();
+
+				});
 
 			}
 
@@ -484,11 +501,98 @@ module.exports = class CallTheExterminator {
 	}
 
 	/**
-	 *	Sends issue to an endpoint
+	 *	This is what happens when the message is sent
 	 */
-	sendIssue () {
+	triggerSuccess () {
 
-		// TODO
+		// Clear the form out
+		this.clearForm();
+
+		// Set the form to success
+		this.wrapper.classList.add(this.base_class + '__wrapper--success');
+
+		// After 10 seconds remove success state
+		setTimeout(() => {
+			this.wrapper.classList.remove(this.base_class + '__wrapper--success');
+		},10000);
+
+	}
+
+	/**
+	 *	Makes an ajax request to an endpoint
+	 */
+	triggerAjax (cb) {
+
+		// Set up the request
+		let r = new XMLHttpRequest(),
+				data = 'subject=' + encodeURI(this.generateSubjectLine())
+				+ '&body=' + encodeURI(this.generateMessageBody())
+				+ '&email=' + this.email
+				+	(this.cc.length ? '&cc=' + this.cc.concat`,` : '');
+
+		// Do subject and body construction
+		this.onSubmit();
+
+		// Set up the post
+		r.open(this.method, this.action, true);
+
+		// Set up the content type
+		r.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+
+		// Do a check
+		r.onreadystatechange = function() {
+
+			// if is ready?? lolz
+			if (this.readyState === 4) {
+
+
+				// if response was successful
+				if (this.status >= 200 && this.status < 400) {
+
+					// Get the response
+					let resp = JSON.parse(this.responseText);
+
+					// return the status of the request
+					cb(resp.status);
+
+				} else {
+
+					// return false to the callback
+					cb(false);
+
+				}
+			}
+		};
+
+		// Send the request
+		r.send(data);
+
+	}
+
+	/**
+	 *	Clears out the form
+	 */
+	clearForm () {
+
+		// Store the fields for easy access
+		let fields = this.fields;
+
+		// Loop through the fields
+		for (var i = 0; i < fields.length; i++) {
+
+			// Store the field in the block scope
+			let field = this.fields[i];
+
+			// Skip if is hidden
+			if(field.type && field.type == 'hidden') continue;
+
+			// Store the value in case we need to retreive it
+			this.fields[i].previous_value = this.fields[i].el.value;
+
+			// Clear the field's value
+			this.fields[i].el.value = '';
+
+		}
 
 	}
 
