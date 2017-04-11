@@ -13,6 +13,8 @@ First, you must run `$ npm install` or `$ yarn install`. Then after making modif
 - Create a quick link that mimics QA user's browser varialbes  
 - Allow user to click on problem element
 - Create a handler that highlights the problem element and on the page
+- Create a wordpress plugin
+- Create a bookmark shortcut
 
 # Support
 We are aiming to support IE8+ . If you find a bug any any of the browsers, let us know or make a pull request!
