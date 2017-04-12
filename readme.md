@@ -13,6 +13,7 @@ First, you must run `$ npm install` or `$ yarn install`. Then after making modif
 - Add option for User's Name
 - Fix scroll position
 - X browser testing
+- Send through console errors too
 
 - Write documentation for non transpiling utilization
 
