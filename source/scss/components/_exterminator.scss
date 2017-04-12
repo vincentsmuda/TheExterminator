@@ -1,5 +1,9 @@
-// TODO: styles
-.exterminator{
+/**
+ *  The Exterminator Styles
+ *  See variables to adjust certain items
+ */
+
+#{$base_class}{
 
   // Elements
   &__{
@@ -18,12 +22,36 @@
 
     &input{
       border: 1px solid #eee;
+      font-size: $font_size;
+      height: 100px;
+    }
+
+    &form{
+      display: none;
+
+      #{$base_class + '--open'} & {
+        display: block;
+      }
+    }
+
+    &toggler{
+
+      &:before{
+        content:'Open';
+
+        #{$base_class + '--open'} & {
+          content:'Close';
+        }
+      }
     }
   }
 
   // Modifiers
   &--{
 
+    &open{
+      overflow: hidden;
+    }
   }
 
   // Non chained classes

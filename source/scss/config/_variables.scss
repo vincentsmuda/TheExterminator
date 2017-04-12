@@ -1,1 +1,25 @@
+
+/**
+ *  Base class of the component
+ *  You can change this to anything but make sure
+ *  to change it in the JS class as well!
+ *
+ *  @type {String} CSS Class
+ */
+$base_class: '.exterminator';
+
+/**
+ *  Gutter
+ *
+ *  @type {Measurement} The gutter base size
+ */
 $gutter: 20px;
+
+/**
+ *  Font Size
+ *  Keep this px and not relative since the contexts that the
+ *  script could be in may vary along with their ems/rems/...
+ *
+ *  @type {px}
+ */
+$font_size: 18px;

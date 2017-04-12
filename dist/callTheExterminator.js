@@ -194,6 +194,9 @@ module.exports = function () {
 		// Set up the submit button holder
 		this.button = null;
 
+		// Set up the toggler
+		this.toggler = this.buildToggler();
+
 		// Set up the wrapper
 		this.wrapper = this.buildWrapper();
 
@@ -202,9 +205,6 @@ module.exports = function () {
 
 		// Set the adblock status
 		this.ad_blocked = this.detectAdBlock();
-
-		// Set up the events
-		this.events();
 	}
 
 	/**
@@ -255,6 +255,9 @@ module.exports = function () {
 			// add appropriate classes
 			wrapper.classList.add(this.base_class + '__wrapper');
 
+			// Add the toggler button to the wrapper
+			wrapper.appendChild(this.toggler);
+
 			// return the wrapper
 			return wrapper;
 		}
@@ -298,6 +301,9 @@ module.exports = function () {
 			// Now write the form to the body
 			this.writeForm();
 
+			// Set up the form events
+			this.formEvents();
+
 			// return the form
 			return form;
 		}
@@ -327,6 +333,52 @@ module.exports = function () {
 
 			return button;
 		}
+
+		/**
+   *	Adds open/close button
+   */
+
+	}, {
+		key: 'buildToggler',
+		value: function buildToggler() {
+
+			// Create the element
+			var toggler = document.createElement('a');
+
+			// Add proper class to the anchor
+			toggler.classList.add(this.base_class + '__toggler');
+
+			// Set up the toggler events
+			this.togglerEvents(toggler);
+
+			// return the anchor
+			return toggler;
+		}
+
+		/**
+   *	Handles all events associated with the toggler
+   *	Mainly the open/close
+   */
+
+	}, {
+		key: 'togglerEvents',
+		value: function togglerEvents(toggler) {
+			var _this = this;
+
+			// Set up the vars
+			var body = document.body;
+
+			// Add toggler events
+			toggler.addEventListener('click', function () {
+
+				// Toggle the open class
+				body.classList.toggle(_this.base_class + '--open');
+			});
+		}
+
+		/**
+   *
+   */
 
 		/**
    *	Adds necessary paramaters to the field
@@ -589,7 +641,7 @@ module.exports = function () {
 	}, {
 		key: 'detectAdBlock',
 		value: function detectAdBlock() {
-			var _this = this;
+			var _this2 = this;
 
 			// if we already detected the adblock, return it
 			if (this.ad_blocked) return this.ad_blocked;
@@ -610,7 +662,7 @@ module.exports = function () {
 			setTimeout(function () {
 
 				// check to see if it has height
-				if (!bait.offsetHeight) _this.ad_blocked = 'Enabled';
+				if (!bait.offsetHeight) _this2.ad_blocked = 'Enabled';
 
 				// remove the bait
 				bait.remove();
@@ -642,7 +694,7 @@ module.exports = function () {
 	}, {
 		key: 'triggerMailto',
 		value: function triggerMailto() {
-			var _this2 = this;
+			var _this3 = this;
 
 			// Send the form via email mailto link
 			var win = window.open(
@@ -653,7 +705,7 @@ module.exports = function () {
 			setTimeout(function () {
 
 				// Set the successful state
-				_this2.triggerSuccess();
+				_this3.triggerSuccess();
 
 				// close the window
 				win.close();
@@ -665,9 +717,9 @@ module.exports = function () {
    */
 
 	}, {
-		key: 'events',
-		value: function events() {
-			var _this3 = this;
+		key: 'formEvents',
+		value: function formEvents() {
+			var _this4 = this;
 
 			// Set up a form submission callback
 			this.form.addEventListener('submit', function (e) {
@@ -675,20 +727,20 @@ module.exports = function () {
 				// prevent form from submitting
 				e.preventDefault();
 
-				if (_this3.is_mailto) {
+				if (_this4.is_mailto) {
 
 					// Trigger the mailto
-					_this3.triggerMailto();
+					_this4.triggerMailto();
 				} else {
 
 					// do ajax request
-					_this3.triggerAjax(function (successful) {
+					_this4.triggerAjax(function (successful) {
 
 						// If it fails, fallback to mailto
-						if (!successful) _this3.triggerMailto();
+						if (!successful) _this4.triggerMailto();
 
 						// Trigger the success state
-						else _this3.triggerSuccess();
+						else _this4.triggerSuccess();
 					});
 				}
 			});
@@ -701,7 +753,7 @@ module.exports = function () {
 	}, {
 		key: 'triggerSuccess',
 		value: function triggerSuccess() {
-			var _this4 = this;
+			var _this5 = this;
 
 			// Clear the form out
 			this.clearForm();
@@ -711,8 +763,8 @@ module.exports = function () {
 
 			// After 10 seconds remove success state
 			setTimeout(function () {
-				_this4.wrapper.classList.remove(_this4.base_class + '__wrapper--success');
-			}, 10000);
+				_this5.wrapper.classList.remove(_this5.base_class + '__wrapper--success');
+			}, 5000);
 		}
 
 		/**
@@ -2806,7 +2858,7 @@ exports = module.exports = __webpack_require__(8)(undefined);
 
 
 // module
-exports.push([module.i, ".exterminator__wrapper {\n  position: fixed;\n  bottom: 0;\n  right: 20px;\n  padding: 20px;\n  background: #ccc; }\n  .exterminator__wrapper--success {\n    background: #0f0; }\n\n.exterminator__input {\n  border: 1px solid #eee; }\n", ""]);
+exports.push([module.i, "/**\n *  Base class of the component\n *  You can change this to anything but make sure\n *  to change it in the JS class as well!\n *\n *  @type {String} CSS Class\n */\n/**\n *  Gutter\n *\n *  @type {Measurement} The gutter base size\n */\n/**\n *  Font Size\n *  Keep this px and not relative since the contexts that the\n *  script could be in may vary along with their ems/rems/...\n *\n *  @type {px}\n */\n/**\n *  The Exterminator Styles\n *  See variables to adjust certain items\n */\n.exterminator__wrapper {\n  position: fixed;\n  bottom: 0;\n  right: 20px;\n  padding: 20px;\n  background: #ccc; }\n  .exterminator__wrapper--success {\n    background: #0f0; }\n\n.exterminator__input {\n  border: 1px solid #eee;\n  font-size: 18px;\n  height: 100px; }\n\n.exterminator__form {\n  display: none; }\n  .exterminator--open .exterminator__form {\n    display: block; }\n\n.exterminator__toggler:before {\n  content: 'Open'; }\n  .exterminator--open .exterminator__toggler:before {\n    content: 'Close'; }\n\n.exterminator--open {\n  overflow: hidden; }\n", ""]);
 
 // exports
 

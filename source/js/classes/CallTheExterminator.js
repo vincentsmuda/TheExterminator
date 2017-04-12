@@ -77,6 +77,9 @@ module.exports = class CallTheExterminator {
 		// Set up the submit button holder
 		this.button = null;
 
+		// Set up the toggler
+		this.toggler = this.buildToggler();
+
 		// Set up the wrapper
 		this.wrapper = this.buildWrapper();
 
@@ -85,9 +88,6 @@ module.exports = class CallTheExterminator {
 
 		// Set the adblock status
 		this.ad_blocked = this.detectAdBlock();
-
-		// Set up the events
-		this.events();
 
 	}
 
@@ -139,6 +139,9 @@ module.exports = class CallTheExterminator {
 		// add appropriate classes
 		wrapper.classList.add(this.base_class + '__wrapper');
 
+		// Add the toggler button to the wrapper
+		wrapper.appendChild(this.toggler);
+
 		// return the wrapper
 		return wrapper;
 
@@ -181,6 +184,9 @@ module.exports = class CallTheExterminator {
 		// Now write the form to the body
 		this.writeForm();
 
+		// Set up the form events
+		this.formEvents();
+
 		// return the form
 		return form;
 
@@ -209,6 +215,48 @@ module.exports = class CallTheExterminator {
 		return button
 
 	}
+
+	/**
+	 *	Adds open/close button
+	 */
+	buildToggler () {
+
+		// Create the element
+		let toggler = document.createElement('a');
+
+		// Add proper class to the anchor
+		toggler.classList.add(this.base_class + '__toggler');
+
+		// Set up the toggler events
+		this.togglerEvents(toggler);
+
+		// return the anchor
+		return toggler;
+
+	}
+
+	/**
+	 *	Handles all events associated with the toggler
+	 *	Mainly the open/close
+	 */
+	togglerEvents (toggler) {
+
+		// Set up the vars
+		let body = document.body;
+
+		// Add toggler events
+		toggler.addEventListener('click', () => {
+
+			// Toggle the open class
+			body.classList.toggle(this.base_class + '--open');
+
+		});
+
+	}
+
+	/**
+	 *
+	 */
 
 	/**
 	 *	Adds necessary paramaters to the field
@@ -531,7 +579,7 @@ module.exports = class CallTheExterminator {
 	/**
 	 *	Sets up the events associated with the form
 	 */
-	events () {
+	formEvents () {
 
 		// Set up a form submission callback
 		this.form.addEventListener('submit', (e) => {
@@ -577,7 +625,7 @@ module.exports = class CallTheExterminator {
 		// After 10 seconds remove success state
 		setTimeout(() => {
 			this.wrapper.classList.remove(this.base_class + '__wrapper--success');
-		},10000);
+		},5000);
 
 	}
 
