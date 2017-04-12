@@ -9,17 +9,21 @@ First, you must run `$ npm install` or `$ yarn install`. Then after making modif
 
 # Todos
 - Style nicely
-- Create sample backend scripts and AJAX handler
-- Create a quick link that mimics QA user's browser varialbes  
-- Allow user to click on problem element
+- Add open/close animations
+- Add option for User's Name
+- Fix scroll position
+- X browser testing
+
+- Write documentation for non transpiling utilization
+
 - Create a handler that highlights the problem element and on the page
-- Add option for name
+- Allow user to click on problem element
+- Create a quick link that mimics QA user's browser variables  
 - Create a wordpress plugin
 - Create a bookmark shortcut
-- Write documentation for non transpiling utilization
 - Check if _local storage_ is available ?
-- File attachment
-- screenshot
+- File attachment?
+- screenshot?
 
 # Support
 We are aiming to support IE8+ . If you find a bug any any of the browsers, let us know or make a pull request!
