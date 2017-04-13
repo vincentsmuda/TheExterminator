@@ -14,6 +14,8 @@ $base_class: '.exterminator';
  *  @type {Measurement} The gutter base size
  */
 $gutter: 20px;
+$gutter-medium: $gutter*1.5;
+$gutter-large: $gutter*2;
 
 /**
  *  Font Size
@@ -23,3 +25,13 @@ $gutter: 20px;
  *  @type {px}
  */
 $font_size: 18px;
+
+/**
+ *  Color variables
+ *  Modify these to theme the tracker
+ *
+ *  @type {hex}
+ */
+$color-black: #000;
+$color-error: #f00;
+$color-success: #0f0;

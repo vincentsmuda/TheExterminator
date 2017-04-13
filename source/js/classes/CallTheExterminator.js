@@ -222,7 +222,26 @@ module.exports = class CallTheExterminator {
 	buildToggler () {
 
 		// Create the element
-		let toggler = document.createElement('a');
+		let toggler = document.createElement('a'),
+				span = document.createElement('span'),
+				span_count = 3;
+
+		// Add a class to the span
+		span.classList.add(this.base_class + '__toggler-span');
+
+		// add some spans for styling
+		for (let i = 1; i <= span_count; i++) {
+
+			// Store the current span
+			let current_span = span.cloneNode(true);
+
+			// Add an identifying class
+			current_span.classList.add(this.base_class + '__toggler-span--' + i);
+
+			// Add the span to the toggler
+			toggler.appendChild(current_span);
+
+		}
 
 		// Add proper class to the anchor
 		toggler.classList.add(this.base_class + '__toggler');
