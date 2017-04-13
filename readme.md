@@ -17,6 +17,7 @@ First, you must run `$ npm install` or `$ yarn install`. Then after making modif
 
 - Write documentation for non transpiling utilization
 
+- Break bug out of the base stylesheet and make it its own
 - Create a handler that highlights the problem element and on the page
 - Allow user to click on problem element
 - Create a quick link that mimics QA user's browser variables  
