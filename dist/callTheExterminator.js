@@ -8179,175 +8179,211 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 // The Detector
 module.exports = function () {
 
-	// Construct the detector
-	function Detective() {
-		_classCallCheck(this, Detective);
+		// Construct the detector
+		function Detective() {
+				_classCallCheck(this, Detective);
 
-		// Set up the addblocked state
-		this.ad_blocked = this.adBlock();
-	}
+				// Set up the addblocked state
+				this.ad_blocked = this.adBlock();
 
-	/**
-  *  Tells the Detective to detect
-  */
-
-
-	_createClass(Detective, [{
-		key: 'detect',
-		value: function detect(fn) {
-			var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-
-
-			// Return the detective's report report
-			return {
-				status: !!this[fn],
-				message: !!this[fn] ? this[fn](args) : 'Looks like the detective can\'t detect ' + fn
-			};
+				// Set up the erros string
+				// Ans set the max errors to store
+				this.error = this.detect('errors', { count: 4 }).message;
 		}
 
 		/**
-  *	Check to see if you support the current testing browser
-  */
-
-	}, {
-		key: 'support',
-		value: function support(args) {
-
-			// Check to see if we are in the clear
-			if (_platform2.default.name != 'IE' || +parseFloat(_platform2.default.version) >= args.version) return true;
-
-			// Let the user know that the browser is not supported
-			alert('The current browser is not supported by ' + this.project);
-
-			// It's not supported
-			return false;
-		}
-
-		/**
-  *	Detects the user's Envirnoment
-  */
-
-	}, {
-		key: 'envirnoment',
-		value: function envirnoment() {
-			return _platform2.default.description;
-		}
-
-		/**
-   *	Get the current page's URL
+   *  Tells the Detective to detect
    */
 
-	}, {
-		key: 'URL',
-		value: function URL() {
-			return window.location.href;
-		}
 
-		/**
-   *	Detect's the user's current browser language
-   */
+		_createClass(Detective, [{
+				key: 'detect',
+				value: function detect(fn) {
+						var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
 
-	}, {
-		key: 'locale',
-		value: function locale() {
-			return navigator.browserLanguage || navigator.language || navigator.languages[0];
-		}
 
-		/**
-   *	Detect the browser's current resolution
-   */
+						// Return the detective's report report
+						return {
+								status: !!this[fn],
+								message: !!this[fn] ? this[fn](args) : 'Looks like the detective can\'t detect ' + fn
+						};
+				}
 
-	}, {
-		key: 'resolution',
-		value: function resolution() {
+				/**
+    *	Check to see if you support the current testing browser
+    */
 
-			// Set up some basic vars
-			var w = window,
-			    d = document,
-			    e = d.documentElement,
-			    s = typeof screen !== 'undefined' ? screen : false,
-			    g = d.getElementsByTagName('body')[0],
-			    x = w.innerWidth || e.clientWidth || g.clientWidth,
-			    y = w.innerHeight || e.clientHeight || g.clientHeight,
-			    sx = s ? s.width : 0,
-			    sy = s ? s.height : 0;
+		}, {
+				key: 'support',
+				value: function support(args) {
 
-			// Return the resolution
-			return '(' + x + ' x ' + y + ') of (' + sx + ' x ' + sy + ')';
-		}
+						// Check to see if we are in the clear
+						if (_platform2.default.name != 'IE' || +parseFloat(_platform2.default.version) >= args.version) return true;
 
-		/**
-   *	Detects how far down the user had scrolled
-   */
+						// Let the user know that the browser is not supported
+						alert('The current browser is not supported by ' + this.project);
 
-	}, {
-		key: 'scrollPosition',
-		value: function scrollPosition() {
+						// It's not supported
+						return false;
+				}
 
-			// init the vars
-			var doc = document.documentElement,
-			    x = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0),
-			    y = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
+				/**
+    *	Detects the user's Envirnoment
+    */
 
-			// return the scroll positions
-			return x + ' x ' + y;
-		}
+		}, {
+				key: 'envirnoment',
+				value: function envirnoment() {
+						return _platform2.default.description;
+				}
 
-		/**
-   *	Detects if adblock is enabled
-   */
+				/**
+     *	Get the current page's URL
+     */
 
-	}, {
-		key: 'adBlock',
-		value: function adBlock() {
-			var _this = this;
+		}, {
+				key: 'URL',
+				value: function URL() {
+						return window.location.href;
+				}
 
-			// if we already detected the adblock, return it
-			if (this.ad_blocked) return this.ad_blocked;
+				/**
+     *	Detect's the user's current browser language
+     */
 
-			// Create our bait
-			var bait = document.createElement('div');
+		}, {
+				key: 'locale',
+				value: function locale() {
+						return navigator.browserLanguage || navigator.language || navigator.languages[0];
+				}
 
-			// give it some innards
-			bait.innerHTML = '&nbsp;';
+				/**
+     *	Detect the browser's current resolution
+     */
 
-			// give it a baity classname
-			bait.className = 'adsbox';
+		}, {
+				key: 'resolution',
+				value: function resolution() {
 
-			// Add it to the end of the body
-			document.body.appendChild(bait);
+						// Set up some basic vars
+						var w = window,
+						    d = document,
+						    e = d.documentElement,
+						    s = typeof screen !== 'undefined' ? screen : false,
+						    g = d.getElementsByTagName('body')[0],
+						    x = w.innerWidth || e.clientWidth || g.clientWidth,
+						    y = w.innerHeight || e.clientHeight || g.clientHeight,
+						    sx = s ? s.width : 0,
+						    sy = s ? s.height : 0;
 
-			// Check to see if it was removed
-			setTimeout(function () {
+						// Return the resolution
+						return '(' + x + ' x ' + y + ') of (' + sx + ' x ' + sy + ')';
+				}
 
-				// check to see if it has height
-				if (!bait.offsetHeight) _this.ad_blocked = 'Enabled';
+				/**
+     *	Detects how far down the user had scrolled
+     */
 
-				// remove the bait
-				bait.remove();
-			}, 100);
+		}, {
+				key: 'scrollPosition',
+				value: function scrollPosition() {
 
-			return 'Disabled';
-		}
+						// init the vars
+						var doc = document.documentElement,
+						    x = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0),
+						    y = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
 
-		/**
-   *	Detects wheather a browser's cookies are enabled
-   */
+						// return the scroll positions
+						return x + ' x ' + y;
+				}
 
-	}, {
-		key: 'cookiesEnabled',
-		value: function cookiesEnabled() {
+				/**
+     *	Detects if adblock is enabled
+     */
 
-			// Do the detecting
-			var d = document,
-			    enabled = "cookie" in d && (d.cookie.length > 0 || (d.cookie = "test").indexOf.call(d.cookie, "test") > -1);
+		}, {
+				key: 'adBlock',
+				value: function adBlock() {
+						var _this = this;
 
-			// return a string
-			return enabled ? 'Enabled' : 'Disabled or legacy browser';
-		}
-	}]);
+						// if we already detected the adblock, return it
+						if (this.ad_blocked) return this.ad_blocked;
 
-	return Detective;
+						// Create our bait
+						var bait = document.createElement('div');
+
+						// give it some innards
+						bait.innerHTML = '&nbsp;';
+
+						// give it a baity classname
+						bait.className = 'adsbox';
+
+						// Add it to the end of the body
+						document.body.appendChild(bait);
+
+						// Check to see if it was removed
+						setTimeout(function () {
+
+								// check to see if it has height
+								if (!bait.offsetHeight) _this.ad_blocked = 'Enabled';
+
+								// remove the bait
+								bait.remove();
+						}, 100);
+
+						return 'Disabled';
+				}
+
+				/**
+     *	Detects wheather a browser's cookies are enabled
+     */
+
+		}, {
+				key: 'cookiesEnabled',
+				value: function cookiesEnabled() {
+
+						// Do the detecting
+						var d = document,
+						    enabled = "cookie" in d && (d.cookie.length > 0 || (d.cookie = "test").indexOf.call(d.cookie, "test") > -1);
+
+						// return a string
+						return enabled ? 'Enabled' : 'Disabled or legacy browser';
+				}
+
+				/**
+     *  Detects all errors sent through the window (only after script has initd)
+     */
+
+		}, {
+				key: 'errors',
+				value: function errors(args) {
+						var _this2 = this;
+
+						// If we've already initd the errors listener
+						if (this.error) return this.error.log.join("\r\n");
+
+						// Set up the window error listener
+						window.addEventListener('error', function (win_error) {
+
+								// Do nothing if we've exceeded our error count
+								if (_this2.error.count <= 0) return console.log(_this2.errors());
+
+								// Add the error
+								_this2.error.log.push([win_error.message, 'Line: ' + win_error.lineno, 'Column: ' + win_error.colno].join(' | '));
+
+								// Decrement errors
+								_this2.error.count--;
+						});
+
+						// Return the array to push our errors
+						return {
+								count: args.count,
+								log: []
+						};
+				}
+		}]);
+
+		return Detective;
 }();
 
 /***/ })

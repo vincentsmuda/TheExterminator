@@ -10,6 +10,10 @@ module.exports = class Detective {
     // Set up the addblocked state
     this.ad_blocked = this.adBlock();
 
+    // Set up the erros string
+    // Ans set the max errors to store
+    this.error = this.detect('errors', {count: 4}).message;
+
   }
 
   /**
@@ -156,5 +160,40 @@ module.exports = class Detective {
 		return enabled ? 'Enabled' : 'Disabled or legacy browser' ;
 
 	}
+
+  /**
+   *  Detects all errors sent through the window (only after script has initd)
+   */
+  errors (args) {
+
+    // If we've already initd the errors listener
+    if(this.error) return this.error.log.join("\r\n");
+
+    // Set up the window error listener
+    window.addEventListener('error' , win_error => {
+
+      // Do nothing if we've exceeded our error count
+      if(this.error.count <= 0)
+        return console.log(this.errors());
+
+      // Add the error
+      this.error.log.push([
+        win_error.message,
+        'Line: ' + win_error.lineno,
+        'Column: ' + win_error.colno,
+      ].join(' | '));
+
+      // Decrement errors
+      this.error.count--;
+
+    });
+
+    // Return the array to push our errors
+    return {
+      count: args.count,
+      log: []
+    };
+
+  }
 
 }
