@@ -16,6 +16,9 @@ First, set the arguments and include the script. Put it high up on your page... 
 <script src="./path/to/exterminator.js"></script>
 ```
 
+## Mailto fallback
+If by some chance your server is down or you are blocked by a xorigin, the script will automatically fallback to a mailto which will format the message exactly the same short of the screenshot (if enabled).
+
 ## Example email output
 
 Label | Info
