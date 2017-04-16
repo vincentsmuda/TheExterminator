@@ -26,7 +26,7 @@ Expected Result:
 something
 
 Page:
-http://websites.dev/CallTheExterminator/dist/
+http://url.where.user/reported/bug
 
 Envirnoment:
 Chrome 57.0.2987.133 on OS X 10.12.3 64-bit
