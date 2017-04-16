@@ -2,7 +2,8 @@
 A lightweight QA helper for clients to use when reporting bugs. Still in a pre-alpha state
 
 ## Installation
-First, set the params and include the script. include the script high up on your page... like super hight up in the head before anything else. This will allow the script to catch any js errors coming down the pipe later on. Since this script is only meant for QA, it should __not be used in production!__ so it's okay that we break some rendering/js blocking rules...
+First, set the params and include the script. Put it high up on your page... before any other script. This will allow the exterminator to catch any js errors coming down the pipe. Since this script is only meant for QA, it should __not be used in production!__. That allows us to break some rendering/js blocking rules and dismiss the fact that it's a heavy file :)
+
 ```html
 <script type="text/javascript">
   ExterminatorSettings = {
@@ -12,7 +13,7 @@ First, set the params and include the script. include the script high up on your
     'cc': ['some@other.dude']
   }
 </script>
-<script src="./path/to/exterminator.js" charset="utf-8"></script>
+<script src="./path/to/exterminator.js"></script>
 ```
 
 ## Example email output
