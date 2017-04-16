@@ -218,7 +218,7 @@ module.exports = function () {
 
 		// Extra information to detect
 		// See the detective class for available
-		this.detect_extra_info = [{ label: 'Page', fn: 'URL' }, { label: 'Envirnoment', fn: 'envirnoment' }, { label: 'Resolution', fn: 'resolution' }, { label: 'Scroll Position', fn: 'scrollPosition' }, { label: 'Locale', fn: 'locale' }, { label: 'AdBlock', fn: 'adBlock' }, { label: 'Cookies', fn: 'cookiesEnabled' }];
+		this.detect_extra_info = [{ label: 'Page', fn: 'URL' }, { label: 'Envirnoment', fn: 'envirnoment' }, { label: 'Resolution', fn: 'resolution' }, { label: 'Scroll Position', fn: 'scrollPosition' }, { label: 'Locale', fn: 'locale' }, { label: 'AdBlock', fn: 'adBlock' }, { label: 'Cookies', fn: 'cookiesEnabled' }, { label: 'Errors', fn: 'errors' }];
 	}
 
 	/**
@@ -8187,8 +8187,8 @@ module.exports = function () {
 				this.ad_blocked = this.adBlock();
 
 				// Set up the erros string
-				// Ans set the max errors to store
-				this.error = this.detect('errors', { count: 4 }).message;
+				// And set the max errors to store
+				this.error = this.detect('errors', { count: 10 }).message;
 		}
 
 		/**
@@ -8360,7 +8360,7 @@ module.exports = function () {
 						var _this2 = this;
 
 						// If we've already initd the errors listener
-						if (this.error) return this.error.log.join("\r\n");
+						if (this.error) return this.error.log.length ? this.error.log.join("\r\n") : 'No errors logged (After script init)';
 
 						// Set up the window error listener
 						window.addEventListener('error', function (win_error) {
@@ -8374,6 +8374,9 @@ module.exports = function () {
 								// Decrement errors
 								_this2.error.count--;
 						});
+
+						// Use this to test error logging
+						// setInterval(() => somethang(),4000);
 
 						// Return the array to push our errors
 						return {

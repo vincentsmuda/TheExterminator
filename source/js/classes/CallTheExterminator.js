@@ -104,7 +104,8 @@ module.exports = class CallTheExterminator {
 			{label:'Scroll Position',fn:'scrollPosition'},
 			{label:'Locale',fn:'locale'},
 			{label:'AdBlock',fn:'adBlock'},
-			{label:'Cookies',fn:'cookiesEnabled'}
+			{label:'Cookies',fn:'cookiesEnabled'},
+			{label:'Errors',fn:'errors'}
 		];
 
 	}
