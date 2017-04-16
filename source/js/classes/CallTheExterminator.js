@@ -63,6 +63,19 @@ module.exports = class CallTheExterminator {
 		// Check if the version of browser is supported
 		this.detective.detect('support', {'version':this.min_browser});
 
+		// Extra information to detect
+		// See the detective class for available
+		this.detect_extra_info = [
+			{label:'Page',fn:'URL'},
+			{label:'Envirnoment',fn:'envirnoment'},
+			{label:'Resolution',fn:'resolution'},
+			{label:'Scroll Position',fn:'scrollPosition'},
+			{label:'Locale',fn:'locale'},
+			{label:'AdBlock',fn:'adBlock'},
+			{label:'Cookies',fn:'cookiesEnabled'},
+			{label:'Errors',fn:'errors'}
+		];
+
 		// Set the mailto flag
 		this.is_mailto = this.action.indexOf('mailto:') > -1;
 
@@ -94,19 +107,6 @@ module.exports = class CallTheExterminator {
 
 		// Set the current screenshot to empty
 		this.screenshot = null;
-
-		// Extra information to detect
-		// See the detective class for available
-		this.detect_extra_info = [
-			{label:'Page',fn:'URL'},
-			{label:'Envirnoment',fn:'envirnoment'},
-			{label:'Resolution',fn:'resolution'},
-			{label:'Scroll Position',fn:'scrollPosition'},
-			{label:'Locale',fn:'locale'},
-			{label:'AdBlock',fn:'adBlock'},
-			{label:'Cookies',fn:'cookiesEnabled'},
-			{label:'Errors',fn:'errors'}
-		];
 
 	}
 

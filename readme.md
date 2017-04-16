@@ -2,7 +2,18 @@
 A lightweight QA helper for clients to use when reporting bugs. Still in a pre-alpha state
 
 # Installation
-Just require it in your html. easy peasy.
+First, set the params and include the script. include the script high up on your page... like super hight up in the head before anything else. This will allow the script to catch any js errors coming down the pipe later on. Since this script is only meant for QA, it should __not be used in production!__ so it's okay that we break some rendering/js blocking rules...
+```html
+<script type="text/javascript">
+  ExterminatorSettings = {
+    'action': 'http://path.to.your/script/',
+    'method': 'POST',
+    'email': 'who.this.will@send.to',
+    'cc': ['some@other.dude']
+  }
+</script>
+<script src="./path/to/the.exterminator.js" charset="utf-8"></script>
+```
 
 # Installation for modifications
 First, you must run `$ npm install` or `$ yarn install`. Then after making modifications, run `$ webpack` to build the dist file (ES5 compatible) for use in all browsers. Make sure you have webpack installed globally. (`$ sudo npm install webpack -g`)
@@ -13,10 +24,9 @@ First, you must run `$ npm install` or `$ yarn install`. Then after making modif
 - Style nicely
 - Add open/close animations
 - Add option for User's Name
-- X browser testing
-- Send through console errors too
 - Write documentation for non transpiling utilization
 - Write documentation for options
+- X browser testing
 
 ## Organization
 - Break out screenshot into its own class
