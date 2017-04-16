@@ -41,7 +41,7 @@ module.exports = class CallTheExterminator {
 			action: 'mailto:',
 
 			// Set the method
-			method: 'GET',
+			method: 'POST',
 
 			// Set the pm
 			email: 'somepm@someagency.com',

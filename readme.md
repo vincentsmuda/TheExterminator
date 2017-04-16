@@ -42,7 +42,7 @@ submit_button_text | String | 'Report' | The submit button text
 project | String | 'Project Name' | The name of the project
 subject_format | String | '%project% - Bug Report -  %date_time%' | The formatting of the subject line
 action | String (URL) | 'mailto:' | Where the form will submit
-method | String | 'GET' | The method of the form
+method | String | 'POST' | The method of the form
 email | String | 'somepm@someagency.com' | Who will receive the emails?
 cc | Array[String] | [] | Add additional emails to be ccd
 labels | Boolean | false | Whether to show labels on the form

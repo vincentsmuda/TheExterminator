@@ -164,7 +164,7 @@ module.exports = function () {
 			action: 'mailto:',
 
 			// Set the method
-			method: 'GET',
+			method: 'POST',
 
 			// Set the pm
 			email: 'somepm@someagency.com',
