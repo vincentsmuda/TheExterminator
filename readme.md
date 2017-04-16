@@ -114,8 +114,6 @@ First, you must run `$ npm install` or `$ yarn install`. Then after making modif
 - Style nicely
 - Add open/close animations
 - Add option for User's Name
-- Write documentation for non transpiling utilization
-- Write documentation for options
 - X browser testing
 
 ### Organization
