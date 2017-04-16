@@ -36,6 +36,7 @@ __Screenshot:__ | http://some.server/screenshot[subject].png
 
 ## Arguments
 Name | type | default | description
+--- | --- | --- | --- |
 base_class | string | 'exterminator' | The base of the BEM
 submit_button_text | string | 'Report' | The submit button text
 project | string | 'Project Name' | The name of the project
