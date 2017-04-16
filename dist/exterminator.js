@@ -179,7 +179,10 @@ module.exports = function () {
 			min_browser: 10,
 
 			// Whether to send through a screenshot
-			sends_screenshot: false
+			sends_screenshot: false,
+
+			// Custom Logs to send through in report
+			custom_logs: []
 
 		}, args);
 
@@ -192,6 +195,9 @@ module.exports = function () {
 		// Extra information to detect
 		// See the detective class for available
 		this.detect_extra_info = [{ label: 'Page', fn: 'URL' }, { label: 'Envirnoment', fn: 'envirnoment' }, { label: 'Resolution', fn: 'resolution' }, { label: 'Scroll Position', fn: 'scrollPosition' }, { label: 'Locale', fn: 'locale' }, { label: 'AdBlock', fn: 'adBlock' }, { label: 'Cookies', fn: 'cookiesEnabled' }, { label: 'Errors', fn: 'errors' }];
+
+		// Add our custom logging functions
+		if (this.custom_logs.length) console.log(this.addCustomLogs());
 
 		// Set the mailto flag
 		this.is_mailto = this.action.indexOf('mailto:') > -1;
@@ -225,11 +231,43 @@ module.exports = function () {
 	}
 
 	/**
-  *	Applies needed transformations on the set fields
+  *	Adds custom logging to reporting loop
   */
 
 
 	_createClass(CallTheExterminator, [{
+		key: 'addCustomLogs',
+		value: function addCustomLogs() {
+
+			// Store the custom rows to loop throug
+			var rows = this.custom_logs,
+			    detect_custom_logs = [];
+
+			// Loop through the rows
+			for (var i = 0, l = rows.length; i < l; i++) {
+
+				// Add the row to the message body generator loop
+				detect_custom_logs[i] = {
+					label: rows[i].label,
+					fn: rows[i].callback.name
+				};
+
+				// Add the function as a callback
+				this.detective[rows[i].callback.name] = rows[i].callback.fn;
+			}
+
+			// Add the custom logs to the extra info
+			this.detect_extra_info = this.detect_extra_info.concat(detect_custom_logs);
+
+			// return the extra info for inspection
+			return this.detect_extra_info;
+		}
+
+		/**
+   *	Applies needed transformations on the set fields
+   */
+
+	}, {
 		key: 'processFields',
 		value: function processFields(fields) {
 

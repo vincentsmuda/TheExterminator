@@ -37,17 +37,70 @@ __Screenshot:__ | http://some.server/screenshot[subject].png
 ## Arguments
 Name | type | default | description
 --- | --- | --- | --- |
-base_class | string | 'exterminator' | The base of the BEM
-submit_button_text | string | 'Report' | The submit button text
-project | string | 'Project Name' | The name of the project
-subject_format | string | '%project% - Bug Report -  %date_time%' | The formatting of the subject line
-action | string (url) | 'mailto:' | Where the form will submit
-method | string | 'GET' | The method of the form
-email | string | 'somepm@someagency.com' | Who will receive the emails?
-cc | array | [] | Add additional emails to be ccd
-labels | boolean | false | Whether to show labels on the form
-min_browser | int | 10 | Checking version of IE and complaining to client
-sends_screenshot | boolean | false | Whether to send through a screenshot (Still experimental)
+base_class | String | 'exterminator' | The base of the BEM
+submit_button_text | String | 'Report' | The submit button text
+project | String | 'Project Name' | The name of the project
+subject_format | String | '%project% - Bug Report -  %date_time%' | The formatting of the subject line
+action | String (URL) | 'mailto:' | Where the form will submit
+method | String | 'GET' | The method of the form
+email | String | 'somepm@someagency.com' | Who will receive the emails?
+cc | Array[String] | [] | Add additional emails to be ccd
+labels | Boolean | false | Whether to show labels on the form
+min_browser | Integer | 10 | Checking version of IE and complaining to client
+sends_screenshot | Boolean | false | Whether to send through a screenshot (Still experimental)
+custom_logs | Array[Object] | [] | See "Adding custom Logs" below
+
+## Adding Custom Logs
+Do you want to add some server info or custom rows to your generated email without re-bulding the script? First let's create our arguments variable with a __custom_logs__ parameter:
+
+```html
+<script type="text/javascript">
+  ExterminatorSettings = {
+    ...
+    'custom_logs': [],
+    ...
+  }
+</script>
+```
+
+Next we'll Add an object to the custom logs array like so with the params of __label__ and __callback__:
+
+```html
+<script type="text/javascript">
+  ExterminatorSettings = {
+    ...
+    'custom_logs': [
+      {
+        label: 'POST Variables',
+        callback: {}
+      }
+    ],
+    ...
+  }
+</script>
+```
+
+Finally, we'll add two params within the callback object with the keys of __name__ and __fn__:
+
+```html
+<script type="text/javascript">
+  ExterminatorSettings = {
+    ...
+    'custom_logs': [
+      {
+        label: 'POST Variables',
+        callback: {
+          name: 'postVars',
+          fn: function () {
+            return '<?= implode(" - ", $_POST) ?>' || 'Nothing posted.';
+          }
+        }
+      }
+    ],
+    ...
+  }
+</script>
+```
 
 ## Installation for modifications
 First, you must run `$ npm install` or `$ yarn install`. Then after making modifications, run `$ webpack` to build the dist file (ES5 compatible) for use in all browsers. Make sure you have webpack installed globally. (`$ sudo npm install webpack -g`)
