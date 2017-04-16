@@ -82,7 +82,7 @@ Next we'll Add an object to the custom logs array like so with the params of __l
 
 Finally, we'll add two params within the callback object with the keys of __name__ and __fn__:
 
-```html
+```php
 <script type="text/javascript">
   ExterminatorSettings = {
     ...
