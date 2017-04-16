@@ -562,11 +562,23 @@ module.exports = class CallTheExterminator {
 	 *	Generates a browser screenshot
 	 */
 	generateScreenshot (cb) {
-		html2canvas(document.body)
+
+		// Store the body for easy access
+		let body = document.body;
+
+		// First, hide the exterminator
+		body.classList.add(this.base_class + '--screenshot');
+
+		// Now use html2canvas to take a screenshot
+		html2canvas(document.body,{ background: '#fff' })
 		.then(canvas => {
 
+			// After screenshot has been taken, put
+			// the exterminator back
+			body.classList.remove(this.base_class + '--screenshot');
+
 			// Turn the canvas into an image and
-			// store it in the obj
+			// store it in the obj as base64 "image/png"
 			this.screenshot = canvas.toDataURL();
 
 			// run our callback

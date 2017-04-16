@@ -709,10 +709,21 @@ module.exports = function () {
 		value: function generateScreenshot(cb) {
 			var _this3 = this;
 
-			(0, _html2canvas2.default)(document.body).then(function (canvas) {
+			// Store the body for easy access
+			var body = document.body;
+
+			// First, hide the exterminator
+			body.classList.add(this.base_class + '--screenshot');
+
+			// Now use html2canvas to take a screenshot
+			(0, _html2canvas2.default)(document.body, { background: '#fff' }).then(function (canvas) {
+
+				// After screenshot has been taken, put
+				// the exterminator back
+				body.classList.remove(_this3.base_class + '--screenshot');
 
 				// Turn the canvas into an image and
-				// store it in the obj
+				// store it in the obj as base64 "image/png"
 				_this3.screenshot = canvas.toDataURL();
 
 				// run our callback
@@ -2892,7 +2903,7 @@ exports = module.exports = __webpack_require__(8)(undefined);
 
 
 // module
-exports.push([module.i, "/**\n *  Base class of the component\n *  You can change this to anything but make sure\n *  to change it in the JS class as well!\n *\n *  @type {String} CSS Class\n */\n/**\n *  Gutter\n *\n *  @type {Measurement} The gutter base size\n */\n/**\n *  Font Size\n *  Keep this px and not relative since the contexts that the\n *  script could be in may vary along with their ems/rems/...\n *\n *  @type {px}\n */\n/**\n *  Color variables\n *  Modify these to theme the tracker\n *\n *  @type {hex}\n */\n/**\n *  The Exterminator Styles\n *  See variables to adjust certain items\n */\n.exterminator__wrapper {\n  position: fixed;\n  bottom: 0;\n  right: 20px;\n  padding: 20px; }\n  .exterminator--open .exterminator__wrapper {\n    background: #ccc; }\n  .exterminator__wrapper--success {\n    background: #0f0; }\n\n.exterminator__input {\n  border: 1px solid #eee;\n  font-size: 18px;\n  height: 100px; }\n\n.exterminator__form {\n  display: none; }\n  .exterminator--open .exterminator__form {\n    display: block; }\n\n.exterminator__toggler {\n  position: relative;\n  display: block;\n  height: 26px;\n  line-height: 26px;\n  width: 20px;\n  background: #000;\n  color: #000;\n  border-radius: 50%; }\n  .exterminator--open .exterminator__toggler-span {\n    display: none; }\n  .exterminator__toggler-span:before, .exterminator__toggler-span:after {\n    content: '';\n    display: block;\n    position: absolute;\n    width: 20px;\n    top: 0;\n    height: 2px;\n    margin-top: -1px;\n    background: #000; }\n  .exterminator__toggler-span:before {\n    left: 0;\n    transform-origin: left center; }\n  .exterminator__toggler-span:after {\n    right: 0;\n    transform-origin: right center; }\n  .exterminator__toggler-span--1:before {\n    transform: rotate(45deg); }\n  .exterminator__toggler-span--1:after {\n    transform: rotate(-45deg); }\n  .exterminator__toggler-span--2:before {\n    top: 50%;\n    left: -5px; }\n  .exterminator__toggler-span--2:after {\n    top: 50%;\n    right: -5px; }\n  .exterminator__toggler-span--3:before {\n    top: 100%;\n    transform: rotate(-45deg); }\n  .exterminator__toggler-span--3:after {\n    top: 100%;\n    transform: rotate(45deg); }\n  .exterminator__toggler:before {\n    content: '\\D7';\n    font-size: 2em; }\n  .exterminator--open .exterminator__toggler {\n    background-color: transparent; }\n\n.exterminator--open {\n  background-color: transparent;\n  overflow: hidden; }\n", ""]);
+exports.push([module.i, "/**\n *  Base class of the component\n *  You can change this to anything but make sure\n *  to change it in the JS class as well!\n *\n *  @type {String} CSS Class\n */\n/**\n *  Gutter\n *\n *  @type {Measurement} The gutter base size\n */\n/**\n *  Font Size\n *  Keep this px and not relative since the contexts that the\n *  script could be in may vary along with their ems/rems/...\n *\n *  @type {px}\n */\n/**\n *  Color variables\n *  Modify these to theme the tracker\n *\n *  @type {hex}\n */\n/**\n *  The Exterminator Styles\n *  See variables to adjust certain items\n */\n.exterminator__wrapper {\n  position: fixed;\n  bottom: 0;\n  right: 20px;\n  padding: 20px; }\n  .exterminator--screenshot .exterminator__wrapper {\n    display: none; }\n  .exterminator--open .exterminator__wrapper {\n    background: #ccc; }\n  .exterminator__wrapper--success {\n    background: #0f0; }\n\n.exterminator__input {\n  border: 1px solid #eee;\n  font-size: 18px;\n  height: 100px; }\n\n.exterminator__form {\n  display: none; }\n  .exterminator--open .exterminator__form {\n    display: block; }\n\n.exterminator__toggler {\n  position: relative;\n  display: block;\n  height: 26px;\n  line-height: 26px;\n  width: 20px;\n  background: #000;\n  color: #000;\n  border-radius: 50%; }\n  .exterminator--open .exterminator__toggler-span {\n    display: none; }\n  .exterminator__toggler-span:before, .exterminator__toggler-span:after {\n    content: '';\n    display: block;\n    position: absolute;\n    width: 20px;\n    top: 0;\n    height: 2px;\n    margin-top: -1px;\n    background: #000; }\n  .exterminator__toggler-span:before {\n    left: 0;\n    transform-origin: left center; }\n  .exterminator__toggler-span:after {\n    right: 0;\n    transform-origin: right center; }\n  .exterminator__toggler-span--1:before {\n    transform: rotate(45deg); }\n  .exterminator__toggler-span--1:after {\n    transform: rotate(-45deg); }\n  .exterminator__toggler-span--2:before {\n    top: 50%;\n    left: -5px; }\n  .exterminator__toggler-span--2:after {\n    top: 50%;\n    right: -5px; }\n  .exterminator__toggler-span--3:before {\n    top: 100%;\n    transform: rotate(-45deg); }\n  .exterminator__toggler-span--3:after {\n    top: 100%;\n    transform: rotate(45deg); }\n  .exterminator__toggler:before {\n    content: '\\D7';\n    font-size: 2em; }\n  .exterminator--open .exterminator__toggler {\n    background-color: transparent; }\n\n.exterminator--open {\n  background-color: transparent; }\n", ""]);
 
 // exports
 

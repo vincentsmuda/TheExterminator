@@ -14,6 +14,10 @@
       right: $gutter;
       padding: $gutter;
 
+      #{$base_class + '--screenshot'} & {
+        display: none;
+      }
+
       #{$base_class + '--open'} & {
         background: #ccc;
       }
@@ -132,7 +136,7 @@
 
     &open{
       background-color: transparent;
-      overflow: hidden;
+      // overflow: hidden;
     }
   }
 
