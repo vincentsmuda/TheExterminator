@@ -6,7 +6,7 @@
 */
 
 // Grab Platform.js for browser info
-import Platform from 'platform';
+import Detective from './Detective';
 
 // Grab html2canvas for screenshots
 import html2canvas from 'html2canvas';
@@ -57,8 +57,11 @@ module.exports = class CallTheExterminator {
 
 		}, args);
 
+		// Instantiate our detective
+		this.detective = new Detective();
+
 		// Check if the version of browser is supported
-		this.checkSupport();
+		this.detective.detect('support', {'version':this.min_browser});
 
 		// Set the mailto flag
 		this.is_mailto = this.action.indexOf('mailto:') > -1;
@@ -89,25 +92,21 @@ module.exports = class CallTheExterminator {
 		// Build the form
 		this.form = this.buildForm();
 
-		// Set the adblock status
-		this.ad_blocked = this.detectAdBlock();
-
 		// Set the current screenshot to empty
 		this.screenshot = null;
 
-	}
+		// Extra information to detect
+		// See the detective class for available
+		this.detect_extra_info = [
+			{label:'Page',fn:'URL'},
+			{label:'Envirnoment',fn:'envirnoment'},
+			{label:'Resolution',fn:'resolution'},
+			{label:'Scroll Position',fn:'scrollPosition'},
+			{label:'Locale',fn:'locale'},
+			{label:'AdBlock',fn:'adBlock'},
+			{label:'Cookies',fn:'cookiesEnabled'}
+		];
 
-	/**
-	 *	Check to see if you support the current testing browser
-	 */
-	checkSupport () {
-		if (
-			Platform.name == 'IE' &&
-			+ parseFloat(Platform.version) < this.min_browser
-		) alert(
-			'The current browser is not supported by '
-			+ this.project
-		);
 	}
 
 	/**
@@ -233,7 +232,7 @@ module.exports = class CallTheExterminator {
 				span_count = 3;
 
 		// Add a class to the span
-		span.classList.add(this.base_class + '__toggler-span');
+		span.classList.add('bug__span');
 
 		// add some spans for styling
 		for (let i = 1; i <= span_count; i++) {
@@ -242,7 +241,7 @@ module.exports = class CallTheExterminator {
 			let current_span = span.cloneNode(true);
 
 			// Add an identifying class
-			current_span.classList.add(this.base_class + '__toggler-span--' + i);
+			current_span.classList.add('bug__span--' + i);
 
 			// Add the span to the toggler
 			toggler.appendChild(current_span);
@@ -251,6 +250,7 @@ module.exports = class CallTheExterminator {
 
 		// Add proper class to the anchor
 		toggler.classList.add(this.base_class + '__toggler');
+		toggler.classList.add('bug');
 
 		// Set up the toggler events
 		this.togglerEvents(toggler);
@@ -409,16 +409,7 @@ module.exports = class CallTheExterminator {
 	generateMessageBody () {
 
 		// Set up our body
-		let body = '',
-				extra_info = [
-					{label:'Page',fn:this.detectURL},
-					{label:'Envirnoment',fn:this.detectEnvirnoment},
-					{label:'Resolution',fn:this.detectResolution},
-					{label:'Scroll Position',fn:this.detectScrollPosition},
-					{label:'Locale',fn:this.detectLocale},
-					{label:'AdBlock',fn:this.detectAdBlock},
-					{label:'Cookies',fn:this.detectCookiesEnabled}
-				];
+		let body = '';
 
 		// Loop through all fields
 		for (var i = 0; i < this.fields.length; i++) {
@@ -439,122 +430,14 @@ module.exports = class CallTheExterminator {
 
 		// Loop through our extra informations
 		// for dev purposes
-		for (var i = 0; i < extra_info.length; i++) {
+		for (var i = 0; i < this.detect_extra_info.length; i++) {
 			body += (!body ? '' : "\r\n\r\n")
-				+ extra_info[i].label + ":\r\n"
-				+ extra_info[i].fn();
+				+ this.detect_extra_info[i].label + ":\r\n"
+				+ this.detective.detect(this.detect_extra_info[i].fn).message;
 		}
 
-
+		// Return the constructed body
 		return body;
-
-	}
-
-	/**
-	 *	Detects the user's Envirnoment
-	 */
-	detectEnvirnoment () {
-		return Platform.description;
-	}
-
-	/**
-	 *	Get the current page's URL
-	 */
-	detectURL () {
-		return window.location.href;
-	}
-
-	/**
-	 *	Detect's the user's current browser language
-	 */
-	detectLocale () {
-		return navigator.browserLanguage
-			|| navigator.language
-			|| navigator.languages[0];
-	}
-
-	/**
-	 *	Detect the browser's current resolution
-	 */
-	detectResolution () {
-
-		// Set up some basic vars
-		let w = window,
-		    d = document,
-		    e = d.documentElement,
-				s = typeof screen !== 'undefined' ? screen : false,
-		    g = d.getElementsByTagName('body')[0],
-				x = w.innerWidth || e.clientWidth || g.clientWidth,
-    		y = w.innerHeight|| e.clientHeight|| g.clientHeight,
-				sx = s ? s.width : 0,
-				sy = s ? s.height : 0;
-
-		// Return the resolution
-		return `(${x} x ${y}) of (${sx} x ${sy})`;
-
-	}
-
-	/**
-	 *	Detects how far down the user had scrolled
-	 */
-	detectScrollPosition () {
-
-		// init the vars
-		let doc = document.documentElement,
-				x = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0),
-				y = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
-
-		// return the scroll positions
-		return `${x} x ${y}`;
-
-	}
-
-	/**
-	 *	Detects if adblock is enabled
-	 */
-	detectAdBlock () {
-
-		// if we already detected the adblock, return it
-		if(this.ad_blocked) return this.ad_blocked;
-
-		// Create our bait
-		let bait = document.createElement('div');
-
-		// give it some innards
-		bait.innerHTML = '&nbsp;';
-
-		// give it a baity classname
-		bait.className = 'adsbox';
-
-		// Add it to the end of the body
-		document.body.appendChild(bait);
-
-		// Check to see if it was removed
-		setTimeout(() => {
-
-			// check to see if it has height
-			if(!bait.offsetHeight) this.ad_blocked = 'Enabled';
-
-			// remove the bait
-			bait.remove();
-
-		}, 100);
-
-		return 'Disabled';
-
-	}
-
-	/**
-	 *	Detects wheather a browser's cookies are enabled
-	 */
-	detectCookiesEnabled () {
-
-		// Do the detecting
-		let d = document,
-				enabled = ("cookie" in d && (d.cookie.length > 0 || (d.cookie = "test").indexOf.call(d.cookie, "test") > -1));
-
-		// return a string
-		return enabled ? 'Enabled' : 'Disabled or legacy browser' ;
 
 	}
 

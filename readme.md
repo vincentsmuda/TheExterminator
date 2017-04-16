@@ -11,20 +11,16 @@ First, you must run `$ npm install` or `$ yarn install`. Then after making modif
 - Style nicely
 - Add open/close animations
 - Add option for User's Name
-- Fix scroll position
 - X browser testing
 - Send through console errors too
 - Write documentation for non transpiling utilization
+- Write documentation for options
 
-- Break bug out of the base stylesheet and make it its own
 - Create a handler that highlights the problem element and on the page
 - Allow user to click on problem element
 - Create a quick link that mimics QA user's browser variables  
 - Create a wordpress plugin
 - Create a bookmark shortcut
-- Check if _local storage_ is available ?
-- File attachment?
-- screenshot?
 
 # Support
 We are aiming to support IE8+ . If you find a bug any any of the browsers, let us know or make a pull request!

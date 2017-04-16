@@ -118,9 +118,9 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _templateObject = _taggedTemplateLiteral([','], [',']);
 
-var _platform = __webpack_require__(11);
+var _Detective = __webpack_require__(16);
 
-var _platform2 = _interopRequireDefault(_platform);
+var _Detective2 = _interopRequireDefault(_Detective);
 
 var _html2canvas = __webpack_require__(15);
 
@@ -180,8 +180,11 @@ module.exports = function () {
 
 		}, args);
 
+		// Instantiate our detective
+		this.detective = new _Detective2.default();
+
 		// Check if the version of browser is supported
-		this.checkSupport();
+		this.detective.detect('support', { 'version': this.min_browser });
 
 		// Set the mailto flag
 		this.is_mailto = this.action.indexOf('mailto:') > -1;
@@ -210,29 +213,20 @@ module.exports = function () {
 		// Build the form
 		this.form = this.buildForm();
 
-		// Set the adblock status
-		this.ad_blocked = this.detectAdBlock();
-
 		// Set the current screenshot to empty
 		this.screenshot = null;
+
+		// Extra information to detect
+		// See the detective class for available
+		this.detect_extra_info = [{ label: 'Page', fn: 'URL' }, { label: 'Envirnoment', fn: 'envirnoment' }, { label: 'Resolution', fn: 'resolution' }, { label: 'Scroll Position', fn: 'scrollPosition' }, { label: 'Locale', fn: 'locale' }, { label: 'AdBlock', fn: 'adBlock' }, { label: 'Cookies', fn: 'cookiesEnabled' }];
 	}
 
 	/**
-  *	Check to see if you support the current testing browser
+  *	Applies needed transformations on the set fields
   */
 
 
 	_createClass(CallTheExterminator, [{
-		key: 'checkSupport',
-		value: function checkSupport() {
-			if (_platform2.default.name == 'IE' && +parseFloat(_platform2.default.version) < this.min_browser) alert('The current browser is not supported by ' + this.project);
-		}
-
-		/**
-   *	Applies needed transformations on the set fields
-   */
-
-	}, {
 		key: 'processFields',
 		value: function processFields(fields) {
 
@@ -358,7 +352,7 @@ module.exports = function () {
 			    span_count = 3;
 
 			// Add a class to the span
-			span.classList.add(this.base_class + '__toggler-span');
+			span.classList.add('bug__span');
 
 			// add some spans for styling
 			for (var i = 1; i <= span_count; i++) {
@@ -367,7 +361,7 @@ module.exports = function () {
 				var current_span = span.cloneNode(true);
 
 				// Add an identifying class
-				current_span.classList.add(this.base_class + '__toggler-span--' + i);
+				current_span.classList.add('bug__span--' + i);
 
 				// Add the span to the toggler
 				toggler.appendChild(current_span);
@@ -375,6 +369,7 @@ module.exports = function () {
 
 			// Add proper class to the anchor
 			toggler.classList.add(this.base_class + '__toggler');
+			toggler.classList.add('bug');
 
 			// Set up the toggler events
 			this.togglerEvents(toggler);
@@ -552,8 +547,7 @@ module.exports = function () {
 		value: function generateMessageBody() {
 
 			// Set up our body
-			var body = '',
-			    extra_info = [{ label: 'Page', fn: this.detectURL }, { label: 'Envirnoment', fn: this.detectEnvirnoment }, { label: 'Resolution', fn: this.detectResolution }, { label: 'Scroll Position', fn: this.detectScrollPosition }, { label: 'Locale', fn: this.detectLocale }, { label: 'AdBlock', fn: this.detectAdBlock }, { label: 'Cookies', fn: this.detectCookiesEnabled }];
+			var body = '';
 
 			// Loop through all fields
 			for (var i = 0; i < this.fields.length; i++) {
@@ -570,134 +564,12 @@ module.exports = function () {
 
 			// Loop through our extra informations
 			// for dev purposes
-			for (var i = 0; i < extra_info.length; i++) {
-				body += (!body ? '' : "\r\n\r\n") + extra_info[i].label + ":\r\n" + extra_info[i].fn();
+			for (var i = 0; i < this.detect_extra_info.length; i++) {
+				body += (!body ? '' : "\r\n\r\n") + this.detect_extra_info[i].label + ":\r\n" + this.detective.detect(this.detect_extra_info[i].fn).message;
 			}
 
+			// Return the constructed body
 			return body;
-		}
-
-		/**
-   *	Detects the user's Envirnoment
-   */
-
-	}, {
-		key: 'detectEnvirnoment',
-		value: function detectEnvirnoment() {
-			return _platform2.default.description;
-		}
-
-		/**
-   *	Get the current page's URL
-   */
-
-	}, {
-		key: 'detectURL',
-		value: function detectURL() {
-			return window.location.href;
-		}
-
-		/**
-   *	Detect's the user's current browser language
-   */
-
-	}, {
-		key: 'detectLocale',
-		value: function detectLocale() {
-			return navigator.browserLanguage || navigator.language || navigator.languages[0];
-		}
-
-		/**
-   *	Detect the browser's current resolution
-   */
-
-	}, {
-		key: 'detectResolution',
-		value: function detectResolution() {
-
-			// Set up some basic vars
-			var w = window,
-			    d = document,
-			    e = d.documentElement,
-			    s = typeof screen !== 'undefined' ? screen : false,
-			    g = d.getElementsByTagName('body')[0],
-			    x = w.innerWidth || e.clientWidth || g.clientWidth,
-			    y = w.innerHeight || e.clientHeight || g.clientHeight,
-			    sx = s ? s.width : 0,
-			    sy = s ? s.height : 0;
-
-			// Return the resolution
-			return '(' + x + ' x ' + y + ') of (' + sx + ' x ' + sy + ')';
-		}
-
-		/**
-   *	Detects how far down the user had scrolled
-   */
-
-	}, {
-		key: 'detectScrollPosition',
-		value: function detectScrollPosition() {
-
-			// init the vars
-			var doc = document.documentElement,
-			    x = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0),
-			    y = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
-
-			// return the scroll positions
-			return x + ' x ' + y;
-		}
-
-		/**
-   *	Detects if adblock is enabled
-   */
-
-	}, {
-		key: 'detectAdBlock',
-		value: function detectAdBlock() {
-			var _this2 = this;
-
-			// if we already detected the adblock, return it
-			if (this.ad_blocked) return this.ad_blocked;
-
-			// Create our bait
-			var bait = document.createElement('div');
-
-			// give it some innards
-			bait.innerHTML = '&nbsp;';
-
-			// give it a baity classname
-			bait.className = 'adsbox';
-
-			// Add it to the end of the body
-			document.body.appendChild(bait);
-
-			// Check to see if it was removed
-			setTimeout(function () {
-
-				// check to see if it has height
-				if (!bait.offsetHeight) _this2.ad_blocked = 'Enabled';
-
-				// remove the bait
-				bait.remove();
-			}, 100);
-
-			return 'Disabled';
-		}
-
-		/**
-   *	Detects wheather a browser's cookies are enabled
-   */
-
-	}, {
-		key: 'detectCookiesEnabled',
-		value: function detectCookiesEnabled() {
-
-			// Do the detecting
-			var d = document,
-			    enabled = "cookie" in d && (d.cookie.length > 0 || (d.cookie = "test").indexOf.call(d.cookie, "test") > -1);
-
-			// return a string
-			return enabled ? 'Enabled' : 'Disabled or legacy browser';
 		}
 
 		/**
@@ -707,7 +579,7 @@ module.exports = function () {
 	}, {
 		key: 'generateScreenshot',
 		value: function generateScreenshot(cb) {
-			var _this3 = this;
+			var _this2 = this;
 
 			// Store the body for easy access
 			var body = document.body;
@@ -720,11 +592,11 @@ module.exports = function () {
 
 				// After screenshot has been taken, put
 				// the exterminator back
-				body.classList.remove(_this3.base_class + '--screenshot');
+				body.classList.remove(_this2.base_class + '--screenshot');
 
 				// Turn the canvas into an image and
 				// store it in the obj as base64 "image/png"
-				_this3.screenshot = canvas.toDataURL();
+				_this2.screenshot = canvas.toDataURL();
 
 				// run our callback
 				cb();
@@ -738,7 +610,7 @@ module.exports = function () {
 	}, {
 		key: 'triggerMailto',
 		value: function triggerMailto() {
-			var _this4 = this;
+			var _this3 = this;
 
 			// Send the form via email mailto link
 			var win = window.open(
@@ -749,7 +621,7 @@ module.exports = function () {
 			setTimeout(function () {
 
 				// Set the successful state
-				_this4.triggerSuccess();
+				_this3.triggerSuccess();
 
 				// close the window
 				win.close();
@@ -763,7 +635,7 @@ module.exports = function () {
 	}, {
 		key: 'formEvents',
 		value: function formEvents() {
-			var _this5 = this;
+			var _this4 = this;
 
 			// Set up a form submission callback
 			this.form.addEventListener('submit', function (e) {
@@ -771,23 +643,23 @@ module.exports = function () {
 				// prevent form from submitting
 				e.preventDefault();
 
-				if (_this5.is_mailto) {
+				if (_this4.is_mailto) {
 
 					// Trigger the mailto
-					_this5.triggerMailto();
+					_this4.triggerMailto();
 				} else {
 
 					// Generate a screenshot
-					_this5.generateScreenshot(function () {
+					_this4.generateScreenshot(function () {
 
 						// do ajax request
-						_this5.triggerAjax(function (successful) {
+						_this4.triggerAjax(function (successful) {
 
 							// If it fails, fallback to mailto
-							if (!successful) _this5.triggerMailto();
+							if (!successful) _this4.triggerMailto();
 
 							// Trigger the success state
-							else _this5.triggerSuccess();
+							else _this4.triggerSuccess();
 						});
 					});
 				}
@@ -801,7 +673,7 @@ module.exports = function () {
 	}, {
 		key: 'triggerSuccess',
 		value: function triggerSuccess() {
-			var _this6 = this;
+			var _this5 = this;
 
 			// Clear the form out
 			this.clearForm();
@@ -811,7 +683,7 @@ module.exports = function () {
 
 			// After 10 seconds remove success state
 			setTimeout(function () {
-				_this6.wrapper.classList.remove(_this6.base_class + '__wrapper--success');
+				_this5.wrapper.classList.remove(_this5.base_class + '__wrapper--success');
 			}, 5000);
 		}
 
@@ -2903,7 +2775,7 @@ exports = module.exports = __webpack_require__(8)(undefined);
 
 
 // module
-exports.push([module.i, "/**\n *  Base class of the component\n *  You can change this to anything but make sure\n *  to change it in the JS class as well!\n *\n *  @type {String} CSS Class\n */\n/**\n *  Gutter\n *\n *  @type {Measurement} The gutter base size\n */\n/**\n *  Font Size\n *  Keep this px and not relative since the contexts that the\n *  script could be in may vary along with their ems/rems/...\n *\n *  @type {px}\n */\n/**\n *  Color variables\n *  Modify these to theme the tracker\n *\n *  @type {hex}\n */\n/**\n *  The Exterminator Styles\n *  See variables to adjust certain items\n */\n.exterminator__wrapper {\n  position: fixed;\n  bottom: 0;\n  right: 20px;\n  padding: 20px; }\n  .exterminator--screenshot .exterminator__wrapper {\n    display: none; }\n  .exterminator--open .exterminator__wrapper {\n    background: #ccc; }\n  .exterminator__wrapper--success {\n    background: #0f0; }\n\n.exterminator__input {\n  border: 1px solid #eee;\n  font-size: 18px;\n  height: 100px; }\n\n.exterminator__form {\n  display: none; }\n  .exterminator--open .exterminator__form {\n    display: block; }\n\n.exterminator__toggler {\n  position: relative;\n  display: block;\n  height: 26px;\n  line-height: 26px;\n  width: 20px;\n  background: #000;\n  color: #000;\n  border-radius: 50%; }\n  .exterminator--open .exterminator__toggler-span {\n    display: none; }\n  .exterminator__toggler-span:before, .exterminator__toggler-span:after {\n    content: '';\n    display: block;\n    position: absolute;\n    width: 20px;\n    top: 0;\n    height: 2px;\n    margin-top: -1px;\n    background: #000; }\n  .exterminator__toggler-span:before {\n    left: 0;\n    transform-origin: left center; }\n  .exterminator__toggler-span:after {\n    right: 0;\n    transform-origin: right center; }\n  .exterminator__toggler-span--1:before {\n    transform: rotate(45deg); }\n  .exterminator__toggler-span--1:after {\n    transform: rotate(-45deg); }\n  .exterminator__toggler-span--2:before {\n    top: 50%;\n    left: -5px; }\n  .exterminator__toggler-span--2:after {\n    top: 50%;\n    right: -5px; }\n  .exterminator__toggler-span--3:before {\n    top: 100%;\n    transform: rotate(-45deg); }\n  .exterminator__toggler-span--3:after {\n    top: 100%;\n    transform: rotate(45deg); }\n  .exterminator__toggler:before {\n    content: '\\D7';\n    font-size: 2em; }\n  .exterminator--open .exterminator__toggler {\n    background-color: transparent; }\n\n.exterminator--open {\n  background-color: transparent; }\n", ""]);
+exports.push([module.i, "/**\n *  Base class of the component\n *  You can change this to anything but make sure\n *  to change it in the JS class as well!\n *\n *  @type {String} CSS Class\n */\n/**\n *  Gutter\n *\n *  @type {Measurement} The gutter base size\n */\n/**\n *  Font Size\n *  Keep this px and not relative since the contexts that the\n *  script could be in may vary along with their ems/rems/...\n *\n *  @type {px}\n */\n/**\n *  Color variables\n *  Modify these to theme the tracker\n *\n *  @type {hex}\n */\n.bug {\n  position: relative;\n  display: block;\n  height: 26px;\n  line-height: 26px;\n  width: 20px;\n  background: #000;\n  color: #000;\n  border-radius: 50%; }\n  .exterminator--open .bug__span {\n    display: none; }\n  .bug__span:before, .bug__span:after {\n    content: '';\n    display: block;\n    position: absolute;\n    width: 20px;\n    top: 0;\n    height: 2px;\n    margin-top: -1px;\n    background: #000; }\n  .bug__span:before {\n    left: 0;\n    transform-origin: left center; }\n  .bug__span:after {\n    right: 0;\n    transform-origin: right center; }\n  .bug__span--1:before {\n    transform: rotate(45deg); }\n  .bug__span--1:after {\n    transform: rotate(-45deg); }\n  .bug__span--2:before {\n    top: 50%;\n    left: -5px; }\n  .bug__span--2:after {\n    top: 50%;\n    right: -5px; }\n  .bug__span--3:before {\n    top: 100%;\n    transform: rotate(-45deg); }\n  .bug__span--3:after {\n    top: 100%;\n    transform: rotate(45deg); }\n  .bug:before {\n    content: '\\D7';\n    font-size: 2em; }\n\n/**\n *  The Exterminator Styles\n *  See variables to adjust certain items\n */\n.exterminator__wrapper {\n  position: fixed;\n  bottom: 0;\n  right: 20px;\n  padding: 20px; }\n  .exterminator--screenshot .exterminator__wrapper {\n    display: none; }\n  .exterminator--open .exterminator__wrapper {\n    background: #ccc; }\n  .exterminator__wrapper--success {\n    background: #0f0; }\n\n.exterminator__input {\n  border: 1px solid #eee;\n  font-size: 18px;\n  height: 100px; }\n\n.exterminator__form {\n  display: none; }\n  .exterminator--open .exterminator__form {\n    display: block; }\n\n.exterminator--open {\n  background-color: transparent; }\n  .exterminator--open .bug {\n    background-color: transparent; }\n", ""]);
 
 // exports
 
@@ -8285,6 +8157,198 @@ module.exports = XHR;
 },{}]},{},[4])(4)
 });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // Grab Platform.js for browser info
+
+
+var _platform = __webpack_require__(11);
+
+var _platform2 = _interopRequireDefault(_platform);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+// The Detector
+module.exports = function () {
+
+	// Construct the detector
+	function Detective() {
+		_classCallCheck(this, Detective);
+
+		// Set up the addblocked state
+		this.ad_blocked = this.adBlock();
+	}
+
+	/**
+  *  Tells the Detective to detect
+  */
+
+
+	_createClass(Detective, [{
+		key: 'detect',
+		value: function detect(fn) {
+			var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+
+
+			// Return the detective's report report
+			return {
+				status: !!this[fn],
+				message: !!this[fn] ? this[fn](args) : 'Looks like the detective can\'t detect ' + fn
+			};
+		}
+
+		/**
+  *	Check to see if you support the current testing browser
+  */
+
+	}, {
+		key: 'support',
+		value: function support(args) {
+
+			// Check to see if we are in the clear
+			if (_platform2.default.name != 'IE' || +parseFloat(_platform2.default.version) >= args.version) return true;
+
+			// Let the user know that the browser is not supported
+			alert('The current browser is not supported by ' + this.project);
+
+			// It's not supported
+			return false;
+		}
+
+		/**
+  *	Detects the user's Envirnoment
+  */
+
+	}, {
+		key: 'envirnoment',
+		value: function envirnoment() {
+			return _platform2.default.description;
+		}
+
+		/**
+   *	Get the current page's URL
+   */
+
+	}, {
+		key: 'URL',
+		value: function URL() {
+			return window.location.href;
+		}
+
+		/**
+   *	Detect's the user's current browser language
+   */
+
+	}, {
+		key: 'locale',
+		value: function locale() {
+			return navigator.browserLanguage || navigator.language || navigator.languages[0];
+		}
+
+		/**
+   *	Detect the browser's current resolution
+   */
+
+	}, {
+		key: 'resolution',
+		value: function resolution() {
+
+			// Set up some basic vars
+			var w = window,
+			    d = document,
+			    e = d.documentElement,
+			    s = typeof screen !== 'undefined' ? screen : false,
+			    g = d.getElementsByTagName('body')[0],
+			    x = w.innerWidth || e.clientWidth || g.clientWidth,
+			    y = w.innerHeight || e.clientHeight || g.clientHeight,
+			    sx = s ? s.width : 0,
+			    sy = s ? s.height : 0;
+
+			// Return the resolution
+			return '(' + x + ' x ' + y + ') of (' + sx + ' x ' + sy + ')';
+		}
+
+		/**
+   *	Detects how far down the user had scrolled
+   */
+
+	}, {
+		key: 'scrollPosition',
+		value: function scrollPosition() {
+
+			// init the vars
+			var doc = document.documentElement,
+			    x = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0),
+			    y = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
+
+			// return the scroll positions
+			return x + ' x ' + y;
+		}
+
+		/**
+   *	Detects if adblock is enabled
+   */
+
+	}, {
+		key: 'adBlock',
+		value: function adBlock() {
+			var _this = this;
+
+			// if we already detected the adblock, return it
+			if (this.ad_blocked) return this.ad_blocked;
+
+			// Create our bait
+			var bait = document.createElement('div');
+
+			// give it some innards
+			bait.innerHTML = '&nbsp;';
+
+			// give it a baity classname
+			bait.className = 'adsbox';
+
+			// Add it to the end of the body
+			document.body.appendChild(bait);
+
+			// Check to see if it was removed
+			setTimeout(function () {
+
+				// check to see if it has height
+				if (!bait.offsetHeight) _this.ad_blocked = 'Enabled';
+
+				// remove the bait
+				bait.remove();
+			}, 100);
+
+			return 'Disabled';
+		}
+
+		/**
+   *	Detects wheather a browser's cookies are enabled
+   */
+
+	}, {
+		key: 'cookiesEnabled',
+		value: function cookiesEnabled() {
+
+			// Do the detecting
+			var d = document,
+			    enabled = "cookie" in d && (d.cookie.length > 0 || (d.cookie = "test").indexOf.call(d.cookie, "test") > -1);
+
+			// return a string
+			return enabled ? 'Enabled' : 'Disabled or legacy browser';
+		}
+	}]);
+
+	return Detective;
+}();
 
 /***/ })
 /******/ ]);
