@@ -19,19 +19,19 @@ First, set the params and include the script. include the script high up on your
 
 ###Subject: Project Name | Bug Report | Sun Apr 16 2017 15:08:35 GMT-0400 (EDT)
 
----|---
- __Action Taken:__ | Did something 
- __Result:__ | nothing 
- __Expected Result:__ | something 
- __Page:__ | http://url.where.user/reported/bug 
- __Envirnoment:__ | Chrome 57.0.2987.133 on OS X 10.12.3 64-bit 
- __Resolution:__ | (785 x 768) of (1366 x 768) 
- __Scroll Position:__ | 0 x 305 
- __Locale:__ | en-US 
- __AdBlock:__ | Enabled 
- __Cookies:__ | Enabled 
- __Errors:__ | No errors logged (After script init) 
- __Screenshot:__ | http://your.server.somewhere/screenshot.Project-Name--Bug-Report--Sun-Apr-16-2017-150835-GMT-0400-EDT.1492369717.png 
+--- | ---
+__Action Taken:__ | Did something
+__Result:__ | nothing
+__Expected Result:__ | something
+__Page:__ | http://url.where.user/reported/bug
+__Envirnoment:__ | Chrome 57.0.2987.133 on OS X 10.12.3 64-bit
+__Resolution:__ | (785 x 768) of (1366 x 768) 
+__Scroll Position:__ | 0 x 305
+__Locale:__ | en-US
+__AdBlock:__ | Enabled
+__Cookies:__ | Enabled
+__Errors:__ | No errors logged (After script init)
+__Screenshot:__ | http://your.server.somewhere/screenshot.Project-Name--Bug-Report--Sun-Apr-16-2017-150835-GMT-0400-EDT.1492369717.png
 
 ## Installation for modifications
 First, you must run `$ npm install` or `$ yarn install`. Then after making modifications, run `$ webpack` to build the dist file (ES5 compatible) for use in all browsers. Make sure you have webpack installed globally. (`$ sudo npm install webpack -g`)
