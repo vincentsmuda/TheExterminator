@@ -5,8 +5,11 @@
 
 */
 
-// Grab Platform.js
+// Grab Platform.js for browser info
 import Platform from 'platform';
+
+// Grab html2canvas for screenshots
+import html2canvas from 'html2canvas';
 
 // Grab our set fields
 import Fields from '../settings/fields.js';
@@ -88,6 +91,9 @@ module.exports = class CallTheExterminator {
 
 		// Set the adblock status
 		this.ad_blocked = this.detectAdBlock();
+
+		// Set the current screenshot to empty
+		this.screenshot = null;
 
 	}
 
@@ -445,21 +451,6 @@ module.exports = class CallTheExterminator {
 	}
 
 	/**
-	 *	This event gets fired before the form is submitted
-	 */
-	onSubmit () {
-
-		// generate our subject line
-		this.fields_map.subject.input.value =
-			this.generateSubjectLine();
-
-		// generate our message body
-		this.fields_map.body.input.value =
-			this.generateMessageBody();
-
-	}
-
-	/**
 	 *	Detects the user's Envirnoment
 	 */
 	detectEnvirnoment () {
@@ -568,6 +559,23 @@ module.exports = class CallTheExterminator {
 	}
 
 	/**
+	 *	Generates a browser screenshot
+	 */
+	generateScreenshot (cb) {
+		html2canvas(document.body)
+		.then(canvas => {
+
+			// Turn the canvas into an image and
+			// store it in the obj
+			this.screenshot = canvas.toDataURL();
+
+			// run our callback
+			cb();
+
+		});
+	}
+
+	/**
 	 *	Submits the form as a mailto link
 	 */
 	triggerMailto () {
@@ -613,14 +621,19 @@ module.exports = class CallTheExterminator {
 
 			}else{
 
-				// do ajax request
-				this.triggerAjax((successful) => {
+				// Generate a screenshot
+				this.generateScreenshot(() => {
 
-					// If it fails, fallback to mailto
-					if(!successful) this.triggerMailto();
+					// do ajax request
+					this.triggerAjax((successful) => {
 
-					// Trigger the success state
-					else this.triggerSuccess();
+						// If it fails, fallback to mailto
+						if(!successful) this.triggerMailto();
+
+						// Trigger the success state
+						else this.triggerSuccess();
+
+					});
 
 				});
 
@@ -654,14 +667,13 @@ module.exports = class CallTheExterminator {
 	triggerAjax (cb) {
 
 		// Set up the request
-		let r = new XMLHttpRequest(),
+		let r = new
+		 XMLHttpRequest(),
 				data = 'subject=' + encodeURI(this.generateSubjectLine())
 				+ '&body=' + encodeURI(this.generateMessageBody())
 				+ '&email=' + this.email
-				+	(this.cc.length ? '&cc=' + this.cc.concat`,` : '');
-
-		// Do subject and body construction
-		this.onSubmit();
+				+	(this.cc.length ? '&cc=' + this.cc.concat`,` : '')
+				+ (this.screenshot ? '&screenshot=' + this.screenshot : '');
 
 		// Set up the post
 		r.open(this.method, this.action, true);
@@ -674,7 +686,6 @@ module.exports = class CallTheExterminator {
 
 			// if is ready?? lolz
 			if (this.readyState === 4) {
-
 
 				// if response was successful
 				if (this.status >= 200 && this.status < 400) {

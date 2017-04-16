@@ -1,8 +1,8 @@
 <?php
 
-  // Allow cross origin requests
-  header('Access-Control-Allow-Origin: *');
-  header('Access-Control-Allow-Methods: POST');
+// Allow cross origin requests
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST');
 
   // Store the request for easier access
   $r = $_REQUEST;
@@ -12,6 +12,10 @@
     'From: The Exterminator <info@someagency.com>',
     'CC: ' . $r['cc']
   ];
+
+  // If the screenshot is set
+  if(!empty($r['screenshot']))
+    $r['subject'] .= "\r\n\r\n{$r['screenshot']}";
 
   // Send the email
   $mailed = mail (
