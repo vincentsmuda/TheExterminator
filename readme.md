@@ -17,7 +17,7 @@ First, set the params and include the script. include the script high up on your
 
 ## Example email output
 
-Subject \| Project Name \| Bug Report \| Sun Apr 16 2017 15:08:35 GMT-0400 (EDT)
+Subject - Project Name - Bug Report - Sun Apr 16 2017 15:08:35 GMT-0400 (EDT)
 --- | ---
 __Action Taken:__ | Did something
 __Result:__ | nothing
