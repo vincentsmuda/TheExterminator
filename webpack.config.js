@@ -5,7 +5,7 @@ const path = require('path'),
 module.exports = {
   entry: './source/entry.js',
   output: {
-    filename: 'CallTheExterminator.js',
+    filename: 'exterminator.js',
     path: path.resolve(__dirname, 'dist')
   },
   module: {

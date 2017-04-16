@@ -12,7 +12,7 @@ First, set the params and include the script. include the script high up on your
     'cc': ['some@other.dude']
   }
 </script>
-<script src="./path/to/the.exterminator.js" charset="utf-8"></script>
+<script src="./path/to/exterminator.js" charset="utf-8"></script>
 ```
 
 # Installation for modifications
