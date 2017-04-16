@@ -31,7 +31,7 @@ __Locale:__ | en-US
 __AdBlock:__ | Enabled
 __Cookies:__ | Enabled
 __Errors:__ | No errors logged (After script init)
-__Screenshot:__ | http://your.server.somewhere/screenshot.Project-Name--Bug-Report--Sun-Apr-16-2017-150835-GMT-0400-EDT.1492369717.png
+__Screenshot:__ | http://some.server/screenshot...png
 
 ## Installation for modifications
 First, you must run `$ npm install` or `$ yarn install`. Then after making modifications, run `$ webpack` to build the dist file (ES5 compatible) for use in all browsers. Make sure you have webpack installed globally. (`$ sudo npm install webpack -g`)
