@@ -17,15 +17,16 @@ First, set the params and include the script. include the script high up on your
 
 ## Example email output
 
-###Subject: Project Name | Bug Report | Sun Apr 16 2017 15:08:35 GMT-0400 (EDT)
+### Subject: Project Name | Bug Report | Sun Apr 16 2017 15:08:35 GMT-0400 (EDT)
 
+Label | Info
 --- | ---
 __Action Taken:__ | Did something
 __Result:__ | nothing
 __Expected Result:__ | something
 __Page:__ | http://url.where.user/reported/bug
 __Envirnoment:__ | Chrome 57.0.2987.133 on OS X 10.12.3 64-bit
-__Resolution:__ | (785 x 768) of (1366 x 768) 
+__Resolution:__ | (785 x 768) of (1366 x 768)
 __Scroll Position:__ | 0 x 305
 __Locale:__ | en-US
 __AdBlock:__ | Enabled
