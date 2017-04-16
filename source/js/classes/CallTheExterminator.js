@@ -29,7 +29,7 @@ module.exports = class CallTheExterminator {
 			base_class: 'exterminator',
 
 			// Sets the submit button text
-			submit_text: 'Report',
+			submit_button_text: 'Report',
 
 			// Set the project name
 			project: 'Project Name',
@@ -52,8 +52,11 @@ module.exports = class CallTheExterminator {
 			// Show labels
 			labels: false,
 
-			// Set the minimum browser
-			min_browser: 'ie10'
+			// Set the minimum browser (IE)
+			min_browser: 10,
+
+			// Whether to send through a screenshot
+			sends_screenshot: false
 
 		}, args);
 
@@ -213,7 +216,7 @@ module.exports = class CallTheExterminator {
 		button.value = 'Submit';
 
 		// Add the text to the button
-		button.innerHTML = this.submit_text;
+		button.innerHTML = this.submit_button_text;
 
 		// Add the button to the form
 		this.form.appendChild(button);
@@ -446,6 +449,9 @@ module.exports = class CallTheExterminator {
 	 *	Generates a browser screenshot
 	 */
 	generateScreenshot (cb) {
+
+		// Jump out if we don't want to render a screenshot
+		if(!this.sends_screenshot) cb();
 
 		// Store the body for easy access
 		let body = document.body;

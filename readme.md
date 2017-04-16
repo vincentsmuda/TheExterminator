@@ -2,7 +2,7 @@
 A lightweight QA helper for clients to use when reporting bugs. Still in a pre-alpha state
 
 ## Installation
-First, set the params and include the script. Put it high up on your page... before any other script. This will allow the exterminator to catch any js errors coming down the pipe. Since this script is only meant for QA, it should __not be used in production!__. That allows us to break some rendering/js blocking rules and dismiss the fact that it's a heavy file :)
+First, set the arguments and include the script. Put it high up on your page... before any other script. This will allow the exterminator to catch any js errors coming down the pipe. Since this script is only meant for QA, it should __not be used in production!__. That allows us to break some rendering/js blocking rules and dismiss the fact that it's a heavy file :)
 
 ```html
 <script type="text/javascript">
@@ -33,6 +33,20 @@ __AdBlock:__ | Enabled
 __Cookies:__ | Enabled
 __Errors:__ | No errors logged (After script init)
 __Screenshot:__ | http://some.server/screenshot[subject].png
+
+## Arguments
+Name | type | default | description
+base_class | string | 'exterminator' | The base of the BEM
+submit_button_text | string | 'Report' | The submit button text
+project | string | 'Project Name' | The name of the project
+subject_format | string | '%project% - Bug Report -  %date_time%' | The formatting of the subject line
+action | string (url) | 'mailto:' | Where the form will submit
+method | string | 'GET' | The method of the form
+email | string | 'somepm@someagency.com' | Who will receive the emails?
+cc | array | [] | Add additional emails to be ccd
+labels | boolean | false | Whether to show labels on the form
+min_browser | int | 10 | Checking version of IE and complaining to client
+sends_screenshot | boolean | false | Whether to send through a screenshot (Still experimental)
 
 ## Installation for modifications
 First, you must run `$ npm install` or `$ yarn install`. Then after making modifications, run `$ webpack` to build the dist file (ES5 compatible) for use in all browsers. Make sure you have webpack installed globally. (`$ sudo npm install webpack -g`)

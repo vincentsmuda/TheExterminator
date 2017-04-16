@@ -152,7 +152,7 @@ module.exports = function () {
 			base_class: 'exterminator',
 
 			// Sets the submit button text
-			submit_text: 'Report',
+			submit_button_text: 'Report',
 
 			// Set the project name
 			project: 'Project Name',
@@ -175,8 +175,11 @@ module.exports = function () {
 			// Show labels
 			labels: false,
 
-			// Set the minimum browser
-			min_browser: 'ie10'
+			// Set the minimum browser (IE)
+			min_browser: 10,
+
+			// Whether to send through a screenshot
+			sends_screenshot: false
 
 		}, args);
 
@@ -330,7 +333,7 @@ module.exports = function () {
 			button.value = 'Submit';
 
 			// Add the text to the button
-			button.innerHTML = this.submit_text;
+			button.innerHTML = this.submit_button_text;
 
 			// Add the button to the form
 			this.form.appendChild(button);
@@ -580,6 +583,9 @@ module.exports = function () {
 		key: 'generateScreenshot',
 		value: function generateScreenshot(cb) {
 			var _this2 = this;
+
+			// Jump out if we don't want to render a screenshot
+			if (!this.sends_screenshot) cb();
 
 			// Store the body for easy access
 			var body = document.body;
