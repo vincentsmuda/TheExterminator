@@ -16,40 +16,40 @@ First, set the params and include the script. include the script high up on your
 ```
 
 ## Example email output
-Action Taken:
+__Action Taken:__
 Did something
 
-Result:
+__Result:__
 nothing
 
-Expected Result:
+__Expected Result:__
 something
 
-Page:
+__Page:__
 http://url.where.user/reported/bug
 
-Envirnoment:
+__Envirnoment:__
 Chrome 57.0.2987.133 on OS X 10.12.3 64-bit
 
-Resolution:
+__Resolution:__
 (785 x 768) of (1366 x 768)
 
-Scroll Position:
+__Scroll Position:__
 0 x 305
 
-Locale:
+__Locale:__
 en-US
 
-AdBlock:
+__AdBlock:__
 Enabled
 
-Cookies:
+__Cookies:__
 Enabled
 
-Errors:
+__Errors:__
 No errors logged (After script init)
 
-Screenshot:
+__Screenshot:__
 http://your.server.somewhere/screenshot.Project-Name--Bug-Report--Sun-Apr-16-2017-150835-GMT-0400-EDT.1492369717.png
 
 ## Installation for modifications
