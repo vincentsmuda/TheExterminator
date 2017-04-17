@@ -1,5 +1,5 @@
 # The Exterminator
-A lightweight QA helper for clients to use when reporting bugs. Still in a pre-alpha state
+An easy to use QA helper for clients to use when reporting bugs. Still in a pre-alpha state.
 
 ## Installation
 First, set the arguments and include the script. Put it high up on your page... before any other script. This will allow the exterminator to catch any js errors coming down the pipe. Since this script is only meant for QA, it should __not be used in production!__. That allows us to break some rendering/js blocking rules and dismiss the fact that it's a heavy file :)
