@@ -83,8 +83,7 @@ module.exports = class CallTheExterminator {
 		];
 
 		// Add our custom logging functions
-		if(this.custom_logs.length)
-			console.log(this.addCustomLogs());
+		if(this.custom_logs.length) this.addCustomLogs();
 
 		// Set the mailto flag
 		this.is_mailto = this.action.indexOf('mailto:') > -1;

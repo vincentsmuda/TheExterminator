@@ -197,7 +197,7 @@ module.exports = function () {
 		this.detect_extra_info = [{ label: 'Page', fn: 'URL' }, { label: 'Envirnoment', fn: 'envirnoment' }, { label: 'Resolution', fn: 'resolution' }, { label: 'Scroll Position', fn: 'scrollPosition' }, { label: 'Locale', fn: 'locale' }, { label: 'AdBlock', fn: 'adBlock' }, { label: 'Cookies', fn: 'cookiesEnabled' }, { label: 'Errors', fn: 'errors' }];
 
 		// Add our custom logging functions
-		if (this.custom_logs.length) console.log(this.addCustomLogs());
+		if (this.custom_logs.length) this.addCustomLogs();
 
 		// Set the mailto flag
 		this.is_mailto = this.action.indexOf('mailto:') > -1;
