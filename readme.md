@@ -115,12 +115,12 @@ First, you must run `$ npm install` or `$ yarn install`. Then after making modif
 - Add open/close animations
 - Add option for User's Name
 - X browser testing
-
-### Organization
-- Break out screenshot into its own class
+- Add name field
+- Add number counters (max 150)
 
 ### Code
 - Use promises in place of nested CBs
+- Break out screenshot into its own class
 
 ### Later
 - Create a handler that highlights the problem element and on the page
