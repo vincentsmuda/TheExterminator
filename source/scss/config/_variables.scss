@@ -33,5 +33,10 @@ $font_size: 18px;
  *  @type {hex}
  */
 $color-black: #000;
-$color-error: #f00;
+$color-red: #e84a64;
+$color-error: $color-red;
 $color-success: #0f0;
+$color-blue-grey: #384D66;
+$color-text: darken($color-blue-grey, 3%);
+$color-border: #eee;
+$color-background: #fff;
