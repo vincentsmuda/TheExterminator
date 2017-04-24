@@ -390,10 +390,10 @@ module.exports = function () {
 			// Create the element
 			var toggler = document.createElement('a'),
 			    span = document.createElement('span'),
-			    span_count = 3;
+			    span_count = 1;
 
 			// Add a class to the span
-			span.classList.add('bug__span');
+			span.classList.add(this.base_class + '__toggler-span');
 
 			// add some spans for styling
 			for (var i = 1; i <= span_count; i++) {
@@ -402,7 +402,7 @@ module.exports = function () {
 				var current_span = span.cloneNode(true);
 
 				// Add an identifying class
-				current_span.classList.add('bug__span--' + i);
+				current_span.classList.add(this.base_class + '__toggler-span--' + i);
 
 				// Add the span to the toggler
 				toggler.appendChild(current_span);
@@ -410,7 +410,6 @@ module.exports = function () {
 
 			// Add proper class to the anchor
 			toggler.classList.add(this.base_class + '__toggler');
-			toggler.classList.add('bug');
 
 			// Set up the toggler events
 			this.togglerEvents(toggler);
