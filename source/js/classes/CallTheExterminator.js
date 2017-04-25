@@ -248,6 +248,9 @@ module.exports = class CallTheExterminator {
 		// Create the button element
 		let button = document.createElement('button');
 
+		// Add the proper class to the button
+		button.classList.add(this.base_class + '__submit');
+
 		// Set the button to submit
 		button.setAttribute('type', 'submit');
 
