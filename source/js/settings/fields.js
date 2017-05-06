@@ -7,15 +7,6 @@
 module.exports = [
 
   {
-    label: 'Name',
-    name: 'name',
-    el_type: 'input',
-    placeholder: '',
-    type: 'text',
-    required: true
-  },
-
-  {
     label: 'Action Taken',
     name: 'action_taken',
     el_type: 'textarea',

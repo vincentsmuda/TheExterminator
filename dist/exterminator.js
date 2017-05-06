@@ -143,6 +143,8 @@ module.exports = function () {
   *	Construct
   */
 	function CallTheExterminator(args) {
+		var _this = this;
+
 		_classCallCheck(this, CallTheExterminator);
 
 		// Add arguments to the object
@@ -214,8 +216,13 @@ module.exports = function () {
 		// Set the current screenshot to empty
 		this.screenshot = null;
 
+		// Set up a sending flag
+		this.is_sending = false;
+
 		// Fires the rest of the setup once the window loads
-		window.onload = this.windowReady;
+		window.addEventListener('load', function () {
+			_this.windowReady();
+		});
 	}
 
 	/**
@@ -445,13 +452,16 @@ module.exports = function () {
 	}, {
 		key: 'togglerEvents',
 		value: function togglerEvents(toggler) {
-			var _this = this;
+			var _this2 = this;
 
 			// Add toggler events
 			toggler.addEventListener('click', function () {
 
+				// Jump out if we are sending
+				if (_this2.is_sending) return;
+
 				// Toggle the open class
-				_this.shell.classList.toggle(_this.base_class + '--open');
+				_this2.shell.classList.toggle(_this2.base_class + '--open');
 			});
 		}
 
@@ -635,7 +645,7 @@ module.exports = function () {
 	}, {
 		key: 'generateScreenshot',
 		value: function generateScreenshot(cb) {
-			var _this2 = this;
+			var _this3 = this;
 
 			// Jump out if we don't want to render a screenshot
 			if (!this.sends_screenshot) cb();
@@ -648,11 +658,11 @@ module.exports = function () {
 
 				// After screenshot has been taken, put
 				// the exterminator back
-				_this2.shell.classList.remove(_this2.base_class + '--screenshot');
+				_this3.shell.classList.remove(_this3.base_class + '--screenshot');
 
 				// Turn the canvas into an image and
 				// store it in the obj as base64 "image/png"
-				_this2.screenshot = canvas.toDataURL();
+				_this3.screenshot = canvas.toDataURL();
 
 				// run our callback
 				cb();
@@ -666,7 +676,7 @@ module.exports = function () {
 	}, {
 		key: 'triggerMailto',
 		value: function triggerMailto() {
-			var _this3 = this;
+			var _this4 = this;
 
 			// Send the form via email mailto link
 			var win = window.open(
@@ -677,11 +687,28 @@ module.exports = function () {
 			setTimeout(function () {
 
 				// Set the successful state
-				_this3.triggerSuccess();
+				_this4.triggerSuccess();
 
 				// close the window
 				win.close();
 			}, 1000);
+		}
+
+		/**
+   *	Sets the sending state of the form
+   */
+
+	}, {
+		key: 'setSendingState',
+		value: function setSendingState() {
+			var is_sending = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
+
+			// Turn on the sending flag
+			this.is_sending = is_sending;
+
+			// Add a "sending" class to the shell
+			this.shell.classList[is_sending ? 'add' : 'remove'](this.base_class + '--sending');
 		}
 
 		/**
@@ -691,7 +718,7 @@ module.exports = function () {
 	}, {
 		key: 'formEvents',
 		value: function formEvents() {
-			var _this4 = this;
+			var _this5 = this;
 
 			// Set up a form submission callback
 			this.form.addEventListener('submit', function (e) {
@@ -699,23 +726,27 @@ module.exports = function () {
 				// prevent form from submitting
 				e.preventDefault();
 
-				if (_this4.is_mailto) {
+				// Set the sending state of the form
+				_this5.setSendingState(true);
+
+				// If the form is set to trigger a mailto
+				if (_this5.is_mailto) {
 
 					// Trigger the mailto
-					_this4.triggerMailto();
+					_this5.triggerMailto();
 				} else {
 
 					// Generate a screenshot
-					_this4.generateScreenshot(function () {
+					_this5.generateScreenshot(function () {
 
 						// do ajax request
-						_this4.triggerAjax(function (successful) {
+						_this5.triggerAjax(function (successful) {
 
 							// If it fails, fallback to mailto
-							if (!successful) _this4.triggerMailto();
+							if (!successful) _this5.triggerMailto();
 
 							// Trigger the success state
-							else _this4.triggerSuccess();
+							else _this5.triggerSuccess();
 						});
 					});
 				}
@@ -729,17 +760,20 @@ module.exports = function () {
 	}, {
 		key: 'triggerSuccess',
 		value: function triggerSuccess() {
-			var _this5 = this;
+			var _this6 = this;
 
 			// Clear the form out
 			this.clearForm();
 
+			// Remove the sending state
+			this.setSendingState(false);
+
 			// Set the form to success
 			this.wrapper.classList.add(this.base_class + '__wrapper--success');
 
-			// After 10 seconds remove success state
+			// After 5 seconds remove success state
 			setTimeout(function () {
-				_this5.wrapper.classList.remove(_this5.base_class + '__wrapper--success');
+				_this6.wrapper.classList.remove(_this6.base_class + '__wrapper--success');
 			}, 5000);
 		}
 
@@ -1031,19 +1065,24 @@ module.exports = function () {
 						// give it a baity classname
 						bait.className = 'adsbox';
 
-						// Add it to the end of the body
-						document.body.appendChild(bait);
+						// Fires the rest of the setup once the window loads
+						window.addEventListener('load', function () {
 
-						// Check to see if it was removed
-						setTimeout(function () {
+								// Add it to the end of the body
+								document.body.appendChild(bait);
 
-								// check to see if it has height
-								if (!bait.offsetHeight) _this.ad_blocked = 'Enabled';
+								// Check to see if it was removed
+								setTimeout(function () {
 
-								// remove the bait
-								bait.remove();
-						}, 100);
+										// check to see if it has height
+										if (!bait.offsetHeight) _this.ad_blocked = 'Enabled';
 
+										// remove the bait
+										bait.remove();
+								}, 100);
+						});
+
+						// Set it to disabled
 						return 'Disabled';
 				}
 
@@ -1116,13 +1155,6 @@ module.exports = function () {
  */
 
 module.exports = [{
-  label: 'Name',
-  name: 'name',
-  el_type: 'input',
-  placeholder: '',
-  type: 'text',
-  required: true
-}, {
   label: 'Action Taken',
   name: 'action_taken',
   el_type: 'textarea',
@@ -3069,7 +3101,7 @@ exports = module.exports = __webpack_require__(9)(undefined);
 
 
 // module
-exports.push([module.i, "/**\n *  Base class of the component\n *  You can change this to anything but make sure\n *  to change it in the JS class as well!\n *\n *  @type {String} CSS Class\n */\n/**\n *  Gutter\n *\n *  @type {Measurement} The gutter base size\n */\n/**\n *  Font Size\n *  Keep this px and not relative since the contexts that the\n *  script could be in may vary along with their ems/rems/...\n *\n *  @type {px}\n */\n/**\n *  Color variables\n *  Modify these to theme the tracker\n *\n *  @type {hex}\n */\n@font-face {\n  font-family: system;\n  font-style: normal;\n  font-weight: 300;\n  src: local(\".SFNSText-Light\"), local(\".HelveticaNeueDeskInterface-Light\"), local(\".LucidaGrandeUI\"), local(\"Ubuntu Light\"), local(\"Segoe UI Light\"), local(\"Roboto-Light\"), local(\"DroidSans\"), local(\"Tahoma\"); }\n\n/**\n *  Reset for our classes\n */\n.exterminator,\n[class^=\".exterminator__\"],\n[class*=\" .exterminator__\"] {\n  margin: 0;\n  padding: 0;\n  vertical-align: baseline;\n  display: block;\n  -webkit-font-smoothing: antialiased !important;\n  transition: all .2s linear 0s;\n  font-family: \"system\";\n  box-sizing: border-box; }\n\n/**\n *  The Exterminator Styles\n *  See variables to adjust certain items\n */\n.exterminator__toggler {\n  position: fixed;\n  bottom: 20px;\n  right: 5%;\n  width: 44px;\n  height: 44px;\n  border-radius: 4px;\n  border: 1px solid #33465c;\n  background: #33465c;\n  /* image replacement */\n  overflow: hidden;\n  text-indent: 100%;\n  white-space: nowrap;\n  z-index: 2; }\n  .exterminator__toggler span {\n    /* the span element is used to create the menu icon */\n    position: absolute;\n    display: block;\n    width: 20px;\n    height: 2px;\n    background: #fff;\n    top: 50%;\n    margin-top: -1px;\n    left: 50%;\n    margin-left: -10px;\n    transition: background 0.3s; }\n    .exterminator__toggler span::before, .exterminator__toggler span::after {\n      content: '';\n      position: absolute;\n      left: 0;\n      background: inherit;\n      width: 100%;\n      height: 100%;\n      /* Force Hardware Acceleration in WebKit */\n      transform: translateZ(0);\n      backface-visibility: hidden;\n      transition: transform 0.3s, background 0s; }\n    .exterminator__toggler span::before {\n      top: -6px;\n      transform: rotate(0); }\n    .exterminator__toggler span::after {\n      bottom: -6px;\n      transform: rotate(0); }\n  .exterminator--open .exterminator__toggler {\n    box-shadow: none; }\n    .exterminator--open .exterminator__toggler span {\n      background: rgba(232, 74, 100, 0); }\n      .exterminator--open .exterminator__toggler span::before, .exterminator--open .exterminator__toggler span::after {\n        background: #fff; }\n      .exterminator--open .exterminator__toggler span::before {\n        top: 0;\n        transform: rotate(135deg); }\n      .exterminator--open .exterminator__toggler span::after {\n        bottom: 0;\n        transform: rotate(225deg); }\n\n.exterminator__form {\n  color: #33465c;\n  position: fixed;\n  width: 90%;\n  max-width: 400px;\n  height: 630px;\n  right: 5%;\n  bottom: 20px;\n  border-radius: 4px;\n  padding: 20px;\n  background: #fff;\n  visibility: hidden;\n  overflow: hidden;\n  z-index: 1;\n  /* Force Hardware Acceleration in WebKit */\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  transform: scale(0);\n  transform-origin: 100% 100%;\n  transition: transform 0.3s, visibility 0s 0.3s;\n  border: 1px solid #33465c;\n  box-shadow: 0 64px 64px 0 rgba(135, 152, 163, 0.1), 0 32px 32px 0 rgba(135, 152, 163, 0.1), 0 16px 16px 0 rgba(135, 152, 163, 0.1), 0 8px 8px 0 rgba(135, 152, 163, 0.1), 0 4px 4px 0 rgba(135, 152, 163, 0.1), 0 2px 2px 0 rgba(135, 152, 163, 0.1); }\n  .exterminator--open .exterminator__form {\n    visibility: visible;\n    transform: scale(1);\n    transition: transform 0.3s, visibility 0s 0s; }\n\n.exterminator__title {\n  color: #33465c;\n  font-size: 24px;\n  font-weight: 600;\n  margin-bottom: 20px;\n  display: block; }\n\n.exterminator__label {\n  color: #33465c;\n  margin-bottom: 5px; }\n\n.exterminator__field {\n  margin-bottom: 24px; }\n\n.exterminator__input {\n  border: 1px solid #eee;\n  padding: 10px 15px;\n  color: #33465c;\n  width: 100%;\n  font-size: 15px; }\n\n.exterminator__textarea {\n  height: 100px; }\n\n.exterminator__submit {\n  text-transform: uppercase;\n  display: block;\n  width: 100%;\n  border-radius: 4px;\n  border: 1px solid #33465c;\n  background: #33465c;\n  padding: 10px;\n  font-weight: 600;\n  letter-spacing: 0.3px;\n  color: #fff;\n  cursor: pointer; }\n  .exterminator__submit:hover {\n    background: #2d3e52; }\n", ""]);
+exports.push([module.i, "/**\n *  Base class of the component\n *  You can change this to anything but make sure\n *  to change it in the JS class as well!\n *\n *  @type {String} CSS Class\n */\n/**\n *  Gutter\n *\n *  @type {Measurement} The gutter base size\n */\n/**\n *  Font Size\n *  Keep this px and not relative since the contexts that the\n *  script could be in may vary along with their ems/rems/...\n *\n *  @type {px}\n */\n/**\n *  Color variables\n *  Modify these to theme the tracker\n *\n *  @type {hex}\n */\n@font-face {\n  font-family: system;\n  font-style: normal;\n  font-weight: 300;\n  src: local(\".SFNSText-Light\"), local(\".HelveticaNeueDeskInterface-Light\"), local(\".LucidaGrandeUI\"), local(\"Ubuntu Light\"), local(\"Segoe UI Light\"), local(\"Roboto-Light\"), local(\"DroidSans\"), local(\"Tahoma\"); }\n\n@keyframes spin {\n  0% {\n    transform: rotate(0deg); }\n  100% {\n    transform: rotate(-1080deg); } }\n\n/**\n *  Reset for our classes\n */\n.exterminator,\n[class^=\".exterminator__\"],\n[class*=\" .exterminator__\"] {\n  margin: 0;\n  padding: 0;\n  vertical-align: baseline;\n  display: block;\n  -webkit-font-smoothing: antialiased !important;\n  transition: all .2s linear 0s;\n  font-family: \"system\";\n  box-sizing: border-box; }\n\n/**\n *  The Exterminator Styles\n *  See variables to adjust certain items\n */\n.exterminator__toggler {\n  position: fixed;\n  box-sizing: border-box;\n  bottom: 20px;\n  right: 5%;\n  width: 44px;\n  height: 44px;\n  border-radius: 4px;\n  border: 1px solid #33465c;\n  background: #33465c;\n  /* image replacement */\n  overflow: hidden;\n  text-indent: 100%;\n  white-space: nowrap;\n  z-index: 2;\n  font-weight: 400; }\n  .exterminator__toggler span {\n    /* the span element is used to create the menu icon */\n    position: absolute;\n    display: block;\n    width: 20px;\n    height: 2px;\n    background: #fff;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    transition: background 0.3s; }\n    .exterminator__toggler span::before, .exterminator__toggler span::after {\n      content: '';\n      position: absolute;\n      left: 0;\n      background: inherit;\n      width: 100%;\n      height: 100%;\n      /* Force Hardware Acceleration in WebKit */\n      transform: translateZ(0);\n      backface-visibility: hidden;\n      transition: transform 0.3s, background 0s; }\n    .exterminator__toggler span::before {\n      top: -6px;\n      transform: rotate(0); }\n    .exterminator__toggler span::after {\n      bottom: -6px;\n      transform: rotate(0); }\n  .exterminator--open .exterminator__toggler {\n    box-shadow: none; }\n    .exterminator--open .exterminator__toggler span {\n      background: rgba(232, 74, 100, 0); }\n      .exterminator--open .exterminator__toggler span::before, .exterminator--open .exterminator__toggler span::after {\n        background: #fff; }\n      .exterminator--open .exterminator__toggler span::before {\n        top: 0;\n        transform: rotate(135deg); }\n      .exterminator--open .exterminator__toggler span::after {\n        bottom: 0;\n        transform: rotate(225deg); }\n  .exterminator--sending .exterminator__toggler {\n    box-shadow: inherit;\n    background-color: #33465c;\n    border-color: #33465c;\n    cursor: wait;\n    animation-name: spin;\n    animation-duration: 2s;\n    animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);\n    animation-iteration-count: infinite; }\n    .exterminator--sending .exterminator__toggler span {\n      background: transparent;\n      width: 2px;\n      transition: all 0.3s; }\n      .exterminator--sending .exterminator__toggler span::before, .exterminator--sending .exterminator__toggler span::after {\n        background: transparent;\n        left: -1em;\n        line-height: 0em;\n        width: 2em;\n        font-size: 1.7em;\n        color: #fff;\n        text-align: center;\n        transition: none;\n        -webkit-font-smoothing: antialiased; }\n      .exterminator--sending .exterminator__toggler span::before {\n        content: '\\293A';\n        top: calc(-2px - 0.3em);\n        transform: rotate(0); }\n      .exterminator--sending .exterminator__toggler span::after {\n        content: '\\293B';\n        bottom: calc(2px - 0.3em);\n        transform: rotate(0); }\n\n.exterminator__form {\n  color: #33465c;\n  position: fixed;\n  width: 90%;\n  max-width: 400px;\n  height: 630px;\n  right: 5%;\n  bottom: 20px;\n  border-radius: 4px;\n  padding: 20px;\n  background: #fff;\n  visibility: hidden;\n  overflow: hidden;\n  z-index: 1;\n  /* Force Hardware Acceleration in WebKit */\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  transform: scale(0);\n  transform-origin: 100% 100%;\n  transition: transform 0.3s, visibility 0s 0.3s;\n  border: 1px solid #33465c;\n  box-shadow: 0 64px 64px 0 rgba(135, 152, 163, 0.1), 0 32px 32px 0 rgba(135, 152, 163, 0.1), 0 16px 16px 0 rgba(135, 152, 163, 0.1), 0 8px 8px 0 rgba(135, 152, 163, 0.1), 0 4px 4px 0 rgba(135, 152, 163, 0.1), 0 2px 2px 0 rgba(135, 152, 163, 0.1); }\n  .exterminator--open .exterminator__form {\n    visibility: visible;\n    transform: scale(1);\n    transition: transform 0.3s, visibility 0s 0s; }\n  .exterminator--sending .exterminator__form {\n    visibility: hidden;\n    transform: scale(0);\n    transition: transform 0.3s, visibility 0s 0.3s; }\n\n.exterminator__title {\n  color: #33465c;\n  font-size: 24px;\n  font-weight: 600;\n  margin-bottom: 20px;\n  display: block; }\n\n.exterminator__label {\n  color: #33465c;\n  margin-bottom: 5px; }\n\n.exterminator__field {\n  margin-bottom: 24px; }\n\n.exterminator__input {\n  border: 1px solid #eee;\n  padding: 10px 15px;\n  color: #33465c;\n  width: 100%;\n  font-size: 15px; }\n\n.exterminator__textarea {\n  height: 100px; }\n\n.exterminator__submit {\n  text-transform: uppercase;\n  display: block;\n  width: 100%;\n  border-radius: 4px;\n  border: 1px solid #33465c;\n  background: #33465c;\n  padding: 10px;\n  font-weight: 600;\n  letter-spacing: 0.3px;\n  color: #fff;\n  cursor: pointer; }\n  .exterminator__submit:hover {\n    background: #2d3e52; }\n", ""]);
 
 // exports
 

@@ -102,8 +102,13 @@ module.exports = class CallTheExterminator {
 		// Set the current screenshot to empty
 		this.screenshot = null;
 
+		// Set up a sending flag
+		this.is_sending = false;
+
 		// Fires the rest of the setup once the window loads
-		window.onload = this.windowReady;
+		window.addEventListener('load', () => {
+			this.windowReady();
+		});
 
 	}
 
@@ -327,6 +332,9 @@ module.exports = class CallTheExterminator {
 
 		// Add toggler events
 		toggler.addEventListener('click', () => {
+
+			// Jump out if we are sending
+			if(this.is_sending) return;
 
 			// Toggle the open class
 			this.shell.classList.toggle(this.base_class + '--open');
@@ -555,6 +563,19 @@ module.exports = class CallTheExterminator {
 	}
 
 	/**
+	 *	Sets the sending state of the form
+	 */
+	setSendingState (is_sending = true) {
+
+		// Turn on the sending flag
+		this.is_sending = is_sending;
+
+		// Add a "sending" class to the shell
+		this.shell.classList[is_sending?'add':'remove'](this.base_class + '--sending');
+
+	}
+
+	/**
 	 *	Sets up the events associated with the form
 	 */
 	formEvents () {
@@ -565,6 +586,10 @@ module.exports = class CallTheExterminator {
 			// prevent form from submitting
 			e.preventDefault();
 
+			// Set the sending state of the form
+			this.setSendingState(true);
+
+			// If the form is set to trigger a mailto
 			if(this.is_mailto) {
 
 				// Trigger the mailto
@@ -602,10 +627,13 @@ module.exports = class CallTheExterminator {
 		// Clear the form out
 		this.clearForm();
 
+		// Remove the sending state
+		this.setSendingState(false);
+
 		// Set the form to success
 		this.wrapper.classList.add(this.base_class + '__wrapper--success');
 
-		// After 10 seconds remove success state
+		// After 5 seconds remove success state
 		setTimeout(() => {
 			this.wrapper.classList.remove(this.base_class + '__wrapper--success');
 		},5000);

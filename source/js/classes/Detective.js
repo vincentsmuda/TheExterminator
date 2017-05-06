@@ -129,20 +129,26 @@ module.exports = class Detective {
 		// give it a baity classname
 		bait.className = 'adsbox';
 
-		// Add it to the end of the body
-		document.body.appendChild(bait);
+    // Fires the rest of the setup once the window loads
+		window.addEventListener('load', () => {
 
-		// Check to see if it was removed
-		setTimeout(() => {
+      // Add it to the end of the body
+  		document.body.appendChild(bait);
 
-			// check to see if it has height
-			if(!bait.offsetHeight) this.ad_blocked = 'Enabled';
+  		// Check to see if it was removed
+  		setTimeout(() => {
 
-			// remove the bait
-			bait.remove();
+  			// check to see if it has height
+  			if(!bait.offsetHeight) this.ad_blocked = 'Enabled';
 
-		}, 100);
+  			// remove the bait
+  			bait.remove();
 
+  		}, 100);
+
+    });
+
+    // Set it to disabled
 		return 'Disabled';
 
 	}
