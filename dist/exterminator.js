@@ -742,7 +742,7 @@ module.exports = function () {
 			// Send the form via email mailto link
 			var win = window.open(
 			//this.form.getAttribute('action')
-			'mailto:' + '?subject=' + encodeURI(this.generateSubjectLine()) + '&body=' + encodeURI(this.generateMessageBody()) + (this.cc.length ? '&cc=' + this.cc.concat(_templateObject) : ''), '_blank');
+			'mailto:' + this.email + '?subject=' + encodeURI(this.generateSubjectLine()) + '&body=' + encodeURI(this.generateMessageBody()) + (this.cc.length ? '&cc=' + this.cc.concat(_templateObject) : ''), '_blank');
 
 			// Set close after 1 second
 			setTimeout(function () {

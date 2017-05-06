@@ -602,6 +602,7 @@ module.exports = class CallTheExterminator {
 		let win = window.open(
 			//this.form.getAttribute('action')
 			'mailto:'
+				+ this.email
 				+ '?subject=' + encodeURI(this.generateSubjectLine())
 				+ '&body=' + encodeURI(this.generateMessageBody())
 				+	(this.cc.length ? '&cc=' + this.cc.concat`,` : ''),
