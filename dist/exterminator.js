@@ -227,6 +227,10 @@ module.exports = function () {
 		key: 'windowReady',
 		value: function windowReady() {
 
+			// Set the top level wrapper element
+			// should keep this to the body
+			this.shell = document.body;
+
 			// Builds the form
 			this.form = this.generateFormElement();
 
@@ -443,14 +447,11 @@ module.exports = function () {
 		value: function togglerEvents(toggler) {
 			var _this = this;
 
-			// Set up the vars
-			var body = document.body;
-
 			// Add toggler events
 			toggler.addEventListener('click', function () {
 
 				// Toggle the open class
-				body.classList.toggle(_this.base_class + '--open');
+				_this.shell.classList.toggle(_this.base_class + '--open');
 			});
 		}
 
@@ -480,7 +481,7 @@ module.exports = function () {
 		}
 
 		/**
-   *	Writes the generated html to the body
+   *	Writes the generated html to the shell
    */
 
 	}, {
@@ -490,8 +491,8 @@ module.exports = function () {
 			// Add the form to the wrapper
 			this.wrapper.appendChild(this.form);
 
-			// Add the wrapper to the body
-			document.body.appendChild(this.wrapper);
+			// Add the wrapper to the shell
+			this.shell.appendChild(this.wrapper);
 		}
 
 		/**
@@ -639,18 +640,15 @@ module.exports = function () {
 			// Jump out if we don't want to render a screenshot
 			if (!this.sends_screenshot) cb();
 
-			// Store the body for easy access
-			var body = document.body;
-
 			// First, hide the exterminator
-			body.classList.add(this.base_class + '--screenshot');
+			this.shell.classList.add(this.base_class + '--screenshot');
 
 			// Now use html2canvas to take a screenshot
-			(0, _html2canvas2.default)(document.body, { background: '#fff' }).then(function (canvas) {
+			(0, _html2canvas2.default)(this.shell, { background: '#fff' }).then(function (canvas) {
 
 				// After screenshot has been taken, put
 				// the exterminator back
-				body.classList.remove(_this2.base_class + '--screenshot');
+				_this2.shell.classList.remove(_this2.base_class + '--screenshot');
 
 				// Turn the canvas into an image and
 				// store it in the obj as base64 "image/png"

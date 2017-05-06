@@ -112,6 +112,10 @@ module.exports = class CallTheExterminator {
 	 */
 	windowReady () {
 
+		// Set the top level wrapper element
+		// should keep this to the body
+		this.shell = document.body;
+
 		// Builds the form
 		this.form = this.generateFormElement();
 
@@ -321,14 +325,11 @@ module.exports = class CallTheExterminator {
 	 */
 	togglerEvents (toggler) {
 
-		// Set up the vars
-		let body = document.body;
-
 		// Add toggler events
 		toggler.addEventListener('click', () => {
 
 			// Toggle the open class
-			body.classList.toggle(this.base_class + '--open');
+			this.shell.classList.toggle(this.base_class + '--open');
 
 		});
 
@@ -358,15 +359,15 @@ module.exports = class CallTheExterminator {
 	}
 
 	/**
-	 *	Writes the generated html to the body
+	 *	Writes the generated html to the shell
 	 */
 	writeForm () {
 
 		// Add the form to the wrapper
 		this.wrapper.appendChild(this.form);
 
-		// Add the wrapper to the body
-		document.body.appendChild(this.wrapper);
+		// Add the wrapper to the shell
+		this.shell.appendChild(this.wrapper);
 
 	}
 
@@ -504,19 +505,16 @@ module.exports = class CallTheExterminator {
 		// Jump out if we don't want to render a screenshot
 		if(!this.sends_screenshot) cb();
 
-		// Store the body for easy access
-		let body = document.body;
-
 		// First, hide the exterminator
-		body.classList.add(this.base_class + '--screenshot');
+		this.shell.classList.add(this.base_class + '--screenshot');
 
 		// Now use html2canvas to take a screenshot
-		html2canvas(document.body,{ background: '#fff' })
+		html2canvas(this.shell,{ background: '#fff' })
 		.then(canvas => {
 
 			// After screenshot has been taken, put
 			// the exterminator back
-			body.classList.remove(this.base_class + '--screenshot');
+			this.shell.classList.remove(this.base_class + '--screenshot');
 
 			// Turn the canvas into an image and
 			// store it in the obj as base64 "image/png"
