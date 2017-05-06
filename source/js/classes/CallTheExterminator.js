@@ -96,14 +96,27 @@ module.exports = class CallTheExterminator {
 		// Set up the field map
 		this.fields_map = {};
 
+		// Set up the submit button holder
+		this.button = null;
+
+		// Set the current screenshot to empty
+		this.screenshot = null;
+
+		// Fires the rest of the setup once the window loads
+		window.onload = this.windowReady;
+
+	}
+
+	/**
+	 *	All the functions to fire when the window is ready
+	 */
+	windowReady () {
+
 		// Builds the form
 		this.form = this.generateFormElement();
 
 		// Set up the field mapping
 		this.fields = this.processFields(Fields);
-
-		// Set up the submit button holder
-		this.button = null;
 
 		// Set up the toggler
 		this.toggler = this.buildToggler();
@@ -113,9 +126,6 @@ module.exports = class CallTheExterminator {
 
 		// Build the form
 		this.form = this.buildForm();
-
-		// Set the current screenshot to empty
-		this.screenshot = null;
 
 	}
 

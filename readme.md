@@ -111,9 +111,6 @@ First, you must run `$ npm install` or `$ yarn install`. Then after making modif
 ## Todos
 
 ### MVP
-- Style nicely
-- Add open/close animations
-- Add option for User's Name
 - X browser testing
 - Add name field
 - Add number counters (max 150)
@@ -123,6 +120,7 @@ First, you must run `$ npm install` or `$ yarn install`. Then after making modif
 - Break out screenshot into its own class
 
 ### Later
+- Add option for User's Name
 - Create a handler that highlights the problem element and on the page
 - Allow user to click on problem element
 - Create a quick link that mimics QA user's browser variables  

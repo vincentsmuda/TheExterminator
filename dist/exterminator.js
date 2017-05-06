@@ -208,34 +208,46 @@ module.exports = function () {
 		// Set up the field map
 		this.fields_map = {};
 
-		// Builds the form
-		this.form = this.generateFormElement();
-
-		// Set up the field mapping
-		this.fields = this.processFields(_fields2.default);
-
 		// Set up the submit button holder
 		this.button = null;
 
-		// Set up the toggler
-		this.toggler = this.buildToggler();
-
-		// Set up the wrapper
-		this.wrapper = this.buildWrapper();
-
-		// Build the form
-		this.form = this.buildForm();
-
 		// Set the current screenshot to empty
 		this.screenshot = null;
+
+		// Fires the rest of the setup once the window loads
+		window.onload = this.windowReady;
 	}
 
 	/**
-  *	Adds custom logging to reporting loop
+  *	All the functions to fire when the window is ready
   */
 
 
 	_createClass(CallTheExterminator, [{
+		key: 'windowReady',
+		value: function windowReady() {
+
+			// Builds the form
+			this.form = this.generateFormElement();
+
+			// Set up the field mapping
+			this.fields = this.processFields(_fields2.default);
+
+			// Set up the toggler
+			this.toggler = this.buildToggler();
+
+			// Set up the wrapper
+			this.wrapper = this.buildWrapper();
+
+			// Build the form
+			this.form = this.buildForm();
+		}
+
+		/**
+   *	Adds custom logging to reporting loop
+   */
+
+	}, {
 		key: 'addCustomLogs',
 		value: function addCustomLogs() {
 
