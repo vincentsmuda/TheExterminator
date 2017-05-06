@@ -523,6 +523,9 @@ module.exports = function () {
 			// Add class to field
 			field_el.classList.add(this.base_class + '__input');
 
+			// Add required to field
+			if (field.required) field_el.setAttribute('required', 'required');
+
 			// Add text to the label
 			if (field.label && this.label) field_label.innerHTML = field.label;
 
@@ -650,11 +653,28 @@ module.exports = function () {
 			// Jump out if we don't want to render a screenshot
 			if (!this.sends_screenshot) cb();
 
+			// Get the user's scroll position
+			var doc = document.documentElement,
+			    pos_x = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0),
+			    pos_y = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
+
 			// First, hide the exterminator
 			this.shell.classList.add(this.base_class + '--screenshot');
 
+			// Scroll the window to the top
+			window.scrollTo(0, 0);
+
+			// Add the viewport ghost
+			this.addViewportghost(pos_x, pos_y);
+
 			// Now use html2canvas to take a screenshot
 			(0, _html2canvas2.default)(this.shell, { background: '#fff' }).then(function (canvas) {
+
+				// remove the viewport ghost
+				_this3.removeViewportghost();
+
+				// Set the scroll position back to where they were
+				window.scrollTo(pos_x, pos_y);
 
 				// After screenshot has been taken, put
 				// the exterminator back
@@ -667,6 +687,47 @@ module.exports = function () {
 				// run our callback
 				cb();
 			});
+		}
+
+		/**
+   *	Builds a ghost so we can see where the user
+   *	reported the bug
+   */
+
+	}, {
+		key: 'addViewportghost',
+		value: function addViewportghost(x, y) {
+
+			// We haven't already created the ghost
+			if (!this.screenshot_ghost) {
+
+				// Create the ghost and store it in the obj
+				this.screenshot_ghost = document.createElement('div');
+
+				// Give it the class it needs
+				this.screenshot_ghost.classList.add(this.base_class + '__screenshot-ghost');
+			}
+
+			// Set its x and y coords
+			this.screenshot_ghost.style.left = x + 'px';
+			this.screenshot_ghost.style.top = y + 'px';
+			this.screenshot_ghost.style.width = (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) + 'px';
+			this.screenshot_ghost.style.height = (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) + 'px';
+
+			// add the ghost to the body
+			this.shell.appendChild(this.screenshot_ghost);
+		}
+
+		/**
+   *	Removes the ghost from the viewport
+   */
+
+	}, {
+		key: 'removeViewportghost',
+		value: function removeViewportghost() {
+
+			// removes the ghost from the shell....
+			this.shell.removeChild(this.screenshot_ghost);
 		}
 
 		/**
@@ -769,11 +830,11 @@ module.exports = function () {
 			this.setSendingState(false);
 
 			// Set the form to success
-			this.wrapper.classList.add(this.base_class + '__wrapper--success');
+			this.shell.classList.add(this.base_class + '--sent');
 
 			// After 5 seconds remove success state
 			setTimeout(function () {
-				_this6.wrapper.classList.remove(_this6.base_class + '__wrapper--success');
+				_this6.shell.classList.remove(_this6.base_class + '--sent');
 			}, 5000);
 		}
 
@@ -3101,7 +3162,7 @@ exports = module.exports = __webpack_require__(9)(undefined);
 
 
 // module
-exports.push([module.i, "/**\n *  Base class of the component\n *  You can change this to anything but make sure\n *  to change it in the JS class as well!\n *\n *  @type {String} CSS Class\n */\n/**\n *  Gutter\n *\n *  @type {Measurement} The gutter base size\n */\n/**\n *  Font Size\n *  Keep this px and not relative since the contexts that the\n *  script could be in may vary along with their ems/rems/...\n *\n *  @type {px}\n */\n/**\n *  Color variables\n *  Modify these to theme the tracker\n *\n *  @type {hex}\n */\n@font-face {\n  font-family: system;\n  font-style: normal;\n  font-weight: 300;\n  src: local(\".SFNSText-Light\"), local(\".HelveticaNeueDeskInterface-Light\"), local(\".LucidaGrandeUI\"), local(\"Ubuntu Light\"), local(\"Segoe UI Light\"), local(\"Roboto-Light\"), local(\"DroidSans\"), local(\"Tahoma\"); }\n\n@keyframes spin {\n  0% {\n    transform: rotate(0deg); }\n  100% {\n    transform: rotate(-1080deg); } }\n\n/**\n *  Reset for our classes\n */\n.exterminator,\n[class^=\".exterminator__\"],\n[class*=\" .exterminator__\"] {\n  margin: 0;\n  padding: 0;\n  vertical-align: baseline;\n  display: block;\n  -webkit-font-smoothing: antialiased !important;\n  transition: all .2s linear 0s;\n  font-family: \"system\";\n  box-sizing: border-box; }\n\n/**\n *  The Exterminator Styles\n *  See variables to adjust certain items\n */\n.exterminator__toggler {\n  position: fixed;\n  box-sizing: border-box;\n  bottom: 20px;\n  right: 5%;\n  width: 44px;\n  height: 44px;\n  border-radius: 4px;\n  border: 1px solid #33465c;\n  background: #33465c;\n  /* image replacement */\n  overflow: hidden;\n  text-indent: 100%;\n  white-space: nowrap;\n  z-index: 2;\n  font-weight: 400; }\n  .exterminator__toggler span {\n    /* the span element is used to create the menu icon */\n    position: absolute;\n    display: block;\n    width: 20px;\n    height: 2px;\n    background: #fff;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    transition: background 0.3s; }\n    .exterminator__toggler span::before, .exterminator__toggler span::after {\n      content: '';\n      position: absolute;\n      left: 0;\n      background: inherit;\n      width: 100%;\n      height: 100%;\n      /* Force Hardware Acceleration in WebKit */\n      transform: translateZ(0);\n      backface-visibility: hidden;\n      transition: transform 0.3s, background 0s; }\n    .exterminator__toggler span::before {\n      top: -6px;\n      transform: rotate(0); }\n    .exterminator__toggler span::after {\n      bottom: -6px;\n      transform: rotate(0); }\n  .exterminator--open .exterminator__toggler {\n    box-shadow: none; }\n    .exterminator--open .exterminator__toggler span {\n      background: rgba(232, 74, 100, 0); }\n      .exterminator--open .exterminator__toggler span::before, .exterminator--open .exterminator__toggler span::after {\n        background: #fff; }\n      .exterminator--open .exterminator__toggler span::before {\n        top: 0;\n        transform: rotate(135deg); }\n      .exterminator--open .exterminator__toggler span::after {\n        bottom: 0;\n        transform: rotate(225deg); }\n  .exterminator--sending .exterminator__toggler {\n    box-shadow: inherit;\n    background-color: #33465c;\n    border-color: #33465c;\n    cursor: wait;\n    animation-name: spin;\n    animation-duration: 2s;\n    animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);\n    animation-iteration-count: infinite; }\n    .exterminator--sending .exterminator__toggler span {\n      background: transparent;\n      width: 2px;\n      transition: all 0.3s; }\n      .exterminator--sending .exterminator__toggler span::before, .exterminator--sending .exterminator__toggler span::after {\n        background: transparent;\n        left: -1em;\n        line-height: 0em;\n        width: 2em;\n        font-size: 1.7em;\n        color: #fff;\n        text-align: center;\n        transition: none;\n        -webkit-font-smoothing: antialiased; }\n      .exterminator--sending .exterminator__toggler span::before {\n        content: '\\293A';\n        top: calc(-2px - 0.3em);\n        transform: rotate(0); }\n      .exterminator--sending .exterminator__toggler span::after {\n        content: '\\293B';\n        bottom: calc(2px - 0.3em);\n        transform: rotate(0); }\n\n.exterminator__form {\n  color: #33465c;\n  position: fixed;\n  width: 90%;\n  max-width: 400px;\n  height: 630px;\n  right: 5%;\n  bottom: 20px;\n  border-radius: 4px;\n  padding: 20px;\n  background: #fff;\n  visibility: hidden;\n  overflow: hidden;\n  z-index: 1;\n  /* Force Hardware Acceleration in WebKit */\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  transform: scale(0);\n  transform-origin: 100% 100%;\n  transition: transform 0.3s, visibility 0s 0.3s;\n  border: 1px solid #33465c;\n  box-shadow: 0 64px 64px 0 rgba(135, 152, 163, 0.1), 0 32px 32px 0 rgba(135, 152, 163, 0.1), 0 16px 16px 0 rgba(135, 152, 163, 0.1), 0 8px 8px 0 rgba(135, 152, 163, 0.1), 0 4px 4px 0 rgba(135, 152, 163, 0.1), 0 2px 2px 0 rgba(135, 152, 163, 0.1); }\n  .exterminator--open .exterminator__form {\n    visibility: visible;\n    transform: scale(1);\n    transition: transform 0.3s, visibility 0s 0s; }\n  .exterminator--sending .exterminator__form {\n    visibility: hidden;\n    transform: scale(0);\n    transition: transform 0.3s, visibility 0s 0.3s; }\n\n.exterminator__title {\n  color: #33465c;\n  font-size: 24px;\n  font-weight: 600;\n  margin-bottom: 20px;\n  display: block; }\n\n.exterminator__label {\n  color: #33465c;\n  margin-bottom: 5px; }\n\n.exterminator__field {\n  margin-bottom: 24px; }\n\n.exterminator__input {\n  border: 1px solid #eee;\n  padding: 10px 15px;\n  color: #33465c;\n  width: 100%;\n  font-size: 15px; }\n\n.exterminator__textarea {\n  height: 100px; }\n\n.exterminator__submit {\n  text-transform: uppercase;\n  display: block;\n  width: 100%;\n  border-radius: 4px;\n  border: 1px solid #33465c;\n  background: #33465c;\n  padding: 10px;\n  font-weight: 600;\n  letter-spacing: 0.3px;\n  color: #fff;\n  cursor: pointer; }\n  .exterminator__submit:hover {\n    background: #2d3e52; }\n", ""]);
+exports.push([module.i, "/**\n *  Base class of the component\n *  You can change this to anything but make sure\n *  to change it in the JS class as well!\n *\n *  @type {String} CSS Class\n */\n/**\n *  Gutter\n *\n *  @type {Measurement} The gutter base size\n */\n/**\n *  Font Size\n *  Keep this px and not relative since the contexts that the\n *  script could be in may vary along with their ems/rems/...\n *\n *  @type {px}\n */\n/**\n *  Color variables\n *  Modify these to theme the tracker\n *\n *  @type {hex}\n */\n@font-face {\n  font-family: system;\n  font-style: normal;\n  font-weight: 300;\n  src: local(\".SFNSText-Light\"), local(\".HelveticaNeueDeskInterface-Light\"), local(\".LucidaGrandeUI\"), local(\"Ubuntu Light\"), local(\"Segoe UI Light\"), local(\"Roboto-Light\"), local(\"DroidSans\"), local(\"Tahoma\"); }\n\n@keyframes spin {\n  0% {\n    transform: rotate(0deg); }\n  100% {\n    transform: rotate(-1080deg); } }\n\n@keyframes tada {\n  from {\n    transform: scale3d(1, 1, 1); }\n  10%, 20% {\n    transform: scale3d(0.7, 0.7, 0.7) rotate3d(0, 0, 1, -3deg); }\n  30%, 50%, 70%, 90% {\n    transform: scale3d(1.3, 1.3, 1.3) rotate3d(0, 0, 1, 3deg); }\n  40%, 60%, 80% {\n    transform: scale3d(1.3, 1.3, 1.3) rotate3d(0, 0, 1, -3deg); }\n  to {\n    transform: scale3d(1, 1, 1); } }\n\n@keyframes shake {\n  from, to {\n    transform: translate3d(0, 0, 0); }\n  10%, 30%, 50%, 70%, 90% {\n    transform: translate3d(-10px, 0, 0); }\n  20%, 40%, 60%, 80% {\n    transform: translate3d(10px, 0, 0); } }\n\n/**\n *\tHendles the screenshot state\n */\n.exterminator--screenshot {\n  overflow: hidden;\n  height: auto; }\n\n/**\n *  Reset for our classes\n */\n.exterminator,\n[class^=\".exterminator__\"],\n[class*=\" .exterminator__\"] {\n  margin: 0;\n  padding: 0;\n  vertical-align: baseline;\n  display: block;\n  -webkit-font-smoothing: antialiased !important;\n  transition: all .2s linear 0s;\n  font-family: \"system\";\n  box-sizing: border-box; }\n\n/**\n *  The Exterminator Styles\n *  See variables to adjust certain items\n */\n.exterminator__wrapper {\n  position: relative;\n  z-index: 10000; }\n\n.exterminator__toggler {\n  position: fixed;\n  box-sizing: border-box;\n  bottom: 0px;\n  right: 0;\n  width: 44px;\n  height: 44px;\n  border-radius: 4px;\n  border: 1px solid #33465c;\n  background: #33465c;\n  /* image replacement */\n  overflow: hidden;\n  text-indent: 100%;\n  white-space: nowrap;\n  z-index: 2;\n  font-weight: 400; }\n  .exterminator__toggler span {\n    /* the span element is used to create the menu icon */\n    position: absolute;\n    display: block;\n    width: 20px;\n    height: 2px;\n    background: #fff;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    transition: background 0.3s; }\n    .exterminator__toggler span::before, .exterminator__toggler span::after {\n      content: '';\n      position: absolute;\n      left: 0;\n      background: inherit;\n      width: 100%;\n      height: 100%;\n      /* Force Hardware Acceleration in WebKit */\n      transform: translateZ(0);\n      backface-visibility: hidden;\n      transition: transform 0.3s, background 0s; }\n    .exterminator__toggler span::before {\n      top: -6px;\n      transform: rotate(0); }\n    .exterminator__toggler span::after {\n      bottom: -6px;\n      transform: rotate(0); }\n  .exterminator--open .exterminator__toggler,\n  .exterminator--error .exterminator__toggler {\n    box-shadow: none; }\n    .exterminator--open .exterminator__toggler span,\n    .exterminator--error .exterminator__toggler span {\n      background: rgba(232, 74, 100, 0); }\n      .exterminator--open .exterminator__toggler span::before, .exterminator--open .exterminator__toggler span::after,\n      .exterminator--error .exterminator__toggler span::before,\n      .exterminator--error .exterminator__toggler span::after {\n        background: #fff; }\n      .exterminator--open .exterminator__toggler span::before,\n      .exterminator--error .exterminator__toggler span::before {\n        top: 0;\n        transform: rotate(135deg); }\n      .exterminator--open .exterminator__toggler span::after,\n      .exterminator--error .exterminator__toggler span::after {\n        bottom: 0;\n        transform: rotate(225deg); }\n  .exterminator--sending .exterminator__toggler {\n    box-shadow: inherit;\n    background-color: #FFCC00;\n    border-color: #FFCC00;\n    cursor: wait;\n    animation-name: spin;\n    animation-duration: 2s;\n    animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);\n    animation-iteration-count: infinite; }\n    .exterminator--sending .exterminator__toggler span {\n      background: transparent;\n      width: 2px;\n      transition: all 0.3s; }\n      .exterminator--sending .exterminator__toggler span::before, .exterminator--sending .exterminator__toggler span::after {\n        background: transparent;\n        left: -1em;\n        line-height: 0em;\n        width: 2em;\n        font-size: 1.7em;\n        color: #fff;\n        text-align: center;\n        transition: none;\n        -webkit-font-smoothing: antialiased; }\n      .exterminator--sending .exterminator__toggler span::before {\n        content: '\\293A';\n        top: calc(-2px - 0.3em);\n        transform: rotate(0); }\n      .exterminator--sending .exterminator__toggler span::after {\n        content: '\\293B';\n        bottom: calc(2px - 0.3em);\n        transform: rotate(0); }\n  .exterminator--sent .exterminator__toggler {\n    box-shadow: inherit;\n    background-color: #0f0;\n    border-color: #0f0;\n    animation-name: tada;\n    animation-duration: 1s; }\n    .exterminator--sent .exterminator__toggler span {\n      background-color: transparent; }\n      .exterminator--sent .exterminator__toggler span::before, .exterminator--sent .exterminator__toggler span::after {\n        left: auto;\n        background-color: #fff; }\n      .exterminator--sent .exterminator__toggler span::before {\n        top: 0;\n        transform: rotate(-45deg);\n        right: -3px; }\n      .exterminator--sent .exterminator__toggler span::after {\n        top: 3px;\n        transform: rotate(45deg);\n        left: -2px;\n        width: 50%; }\n  .exterminator--error .exterminator__toggler {\n    box-shadow: inherit;\n    background-color: #e84a64;\n    border-color: #e84a64;\n    animation-name: shake;\n    animation-duration: 0.75s; }\n\n.exterminator__form {\n  color: #33465c;\n  position: fixed;\n  width: 100%;\n  max-width: 400px;\n  right: 0px;\n  bottom: 0px;\n  border-radius: 4px;\n  padding: 20px;\n  background: #fff;\n  visibility: hidden;\n  overflow: hidden;\n  z-index: 1;\n  /* Force Hardware Acceleration in WebKit */\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  transform: scale(0);\n  transform-origin: 100% 100%;\n  transition: transform 0.3s, visibility 0s 0.3s;\n  border: 1px solid #33465c;\n  box-shadow: 0 64px 64px 0 rgba(135, 152, 163, 0.1), 0 32px 32px 0 rgba(135, 152, 163, 0.1), 0 16px 16px 0 rgba(135, 152, 163, 0.1), 0 8px 8px 0 rgba(135, 152, 163, 0.1), 0 4px 4px 0 rgba(135, 152, 163, 0.1), 0 2px 2px 0 rgba(135, 152, 163, 0.1); }\n  .exterminator--open .exterminator__form {\n    visibility: visible;\n    transform: scale(1);\n    transition: transform 0.3s, visibility 0s 0s; }\n  .exterminator--sending .exterminator__form {\n    visibility: hidden;\n    transform: scale(0);\n    transition: transform 0.3s, visibility 0s 0.3s; }\n\n.exterminator__title {\n  color: #33465c;\n  font-size: 24px;\n  font-weight: 600;\n  margin-bottom: 20px;\n  display: block; }\n\n.exterminator__label {\n  color: #33465c;\n  margin-bottom: 5px; }\n\n.exterminator__field {\n  margin-bottom: 24px; }\n\n.exterminator__input {\n  border: 1px solid #eee;\n  padding: 10px 15px;\n  color: #33465c;\n  width: 100%;\n  font-size: 15px; }\n  .exterminator__input:valid {\n    border-color: #0f0; }\n\n.exterminator__textarea {\n  height: 100px; }\n\n.exterminator__submit {\n  text-transform: uppercase;\n  display: block;\n  max-width: calc(100% - 100px);\n  width: 100%;\n  border-radius: 4px;\n  border: 1px solid #33465c;\n  background: #33465c;\n  padding: 10px;\n  font-weight: 600;\n  letter-spacing: 0.3px;\n  color: #fff;\n  cursor: pointer; }\n  .exterminator__submit:hover {\n    background: #2d3e52; }\n\n.exterminator__screenshot-ghost {\n  position: absolute;\n  z-index: 100000000;\n  background: rgba(255, 0, 0, 0.1);\n  top: 0;\n  left: 0;\n  border: 10px solid #e84a64;\n  box-sizing: border-box;\n  width: 100%;\n  height: 100%;\n  opacity: 0.5; }\n\n@media (min-width: 600px) {\n  .exterminator__toggler, .exterminator__form {\n    bottom: 20px;\n    right: 5%; }\n  .exterminator__form {\n    width: 90%; } }\n", ""]);
 
 // exports
 

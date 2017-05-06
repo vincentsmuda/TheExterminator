@@ -394,6 +394,10 @@ module.exports = class CallTheExterminator {
 		// Add class to field
 		field_el.classList.add(this.base_class + '__input');
 
+		// Add required to field
+		if(field.required)
+			field_el.setAttribute('required','required');
+
 		// Add text to the label
 		if(field.label && this.label) field_label.innerHTML = field.label;
 
@@ -513,12 +517,29 @@ module.exports = class CallTheExterminator {
 		// Jump out if we don't want to render a screenshot
 		if(!this.sends_screenshot) cb();
 
+		// Get the user's scroll position
+		let doc = document.documentElement,
+				pos_x = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0),
+				pos_y = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+
 		// First, hide the exterminator
 		this.shell.classList.add(this.base_class + '--screenshot');
+
+		// Scroll the window to the top
+		window.scrollTo(0, 0);
+
+		// Add the viewport ghost
+		this.addViewportghost(pos_x,pos_y);
 
 		// Now use html2canvas to take a screenshot
 		html2canvas(this.shell,{ background: '#fff' })
 		.then(canvas => {
+
+			// remove the viewport ghost
+			this.removeViewportghost();
+
+			// Set the scroll position back to where they were
+			window.scrollTo(pos_x,pos_y);
 
 			// After screenshot has been taken, put
 			// the exterminator back
@@ -532,6 +553,44 @@ module.exports = class CallTheExterminator {
 			cb();
 
 		});
+	}
+
+	/**
+	 *	Builds a ghost so we can see where the user
+	 *	reported the bug
+	 */
+	addViewportghost (x,y) {
+
+		// We haven't already created the ghost
+		if(!this.screenshot_ghost) {
+
+			// Create the ghost and store it in the obj
+			this.screenshot_ghost = document.createElement('div');
+
+			// Give it the class it needs
+			this.screenshot_ghost.classList.add(this.base_class + '__screenshot-ghost');
+
+		}
+
+		// Set its x and y coords
+		this.screenshot_ghost.style.left = x + 'px';
+		this.screenshot_ghost.style.top = y + 'px';
+		this.screenshot_ghost.style.width = (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) + 'px';
+		this.screenshot_ghost.style.height = (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) + 'px';
+
+		// add the ghost to the body
+		this.shell.appendChild(this.screenshot_ghost);
+
+	}
+
+	/**
+	 *	Removes the ghost from the viewport
+	 */
+	removeViewportghost () {
+
+		// removes the ghost from the shell....
+		this.shell.removeChild(this.screenshot_ghost);
+
 	}
 
 	/**
@@ -631,11 +690,11 @@ module.exports = class CallTheExterminator {
 		this.setSendingState(false);
 
 		// Set the form to success
-		this.wrapper.classList.add(this.base_class + '__wrapper--success');
+		this.shell.classList.add(this.base_class + '--sent');
 
 		// After 5 seconds remove success state
 		setTimeout(() => {
-			this.wrapper.classList.remove(this.base_class + '__wrapper--success');
+			this.shell.classList.remove(this.base_class + '--sent');
 		},5000);
 
 	}
