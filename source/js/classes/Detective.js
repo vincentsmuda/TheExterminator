@@ -74,7 +74,7 @@ module.exports = class Detective {
     let results = this.bandwidth_tester.getResults();
 
     // Now we add it to our return
-    return `${results.speed_mbps} MB/s`;
+    return `${results.speed_mbps} Mb/s`;
 
   }
 
