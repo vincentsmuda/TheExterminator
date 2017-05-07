@@ -1,6 +1,9 @@
 // Grab Platform.js for browser info
 import Platform from 'platform';
 
+// Grab the bandwidth tester
+import Bandwidth from './Bandwidth';
+
 // The Detector
 module.exports = class Detective {
 
@@ -16,6 +19,12 @@ module.exports = class Detective {
     // Set up the erros string
     // And set the max errors to store
     this.error = this.detect('errors', {count: 10}).message;
+
+    // Set up the bandwidth tester
+    this.bandwidth_tester = new Bandwidth({
+      'tests_to_run': 5,
+      'autostart': true
+    });
 
   }
 
@@ -55,6 +64,19 @@ module.exports = class Detective {
     return false;
 
 	}
+
+  /**
+   *  Determine the user's bandwidth
+   */
+  bandwidth () {
+
+    // Store the results for local use
+    let results = this.bandwidth_tester.getResults();
+
+    // Now we add it to our return
+    return `${results.speed_mbps} MB/s`;
+
+  }
 
   /**
 	 *	Detects the user's Envirnoment
