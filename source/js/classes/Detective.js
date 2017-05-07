@@ -10,6 +10,9 @@ module.exports = class Detective {
     // Set up the addblocked state
     this.ad_blocked = this.adBlock();
 
+    // Set up the battery status
+    this.battery_message = this.batteryStatus();
+
     // Set up the erros string
     // And set the max errors to store
     this.error = this.detect('errors', {count: 10}).message;
@@ -118,6 +121,86 @@ module.exports = class Detective {
 		return `${x} x ${y}`;
 
 	}
+
+  /**
+   *  Detects browser plugins installed
+   */
+  browserPlugins () {
+
+    // Store the plugins into a var
+    let plugins = navigator.plugins,
+        plugin_list = [],
+        delimiter = "\n";
+
+    // Loop through plugins
+    for (var i = 0; i < plugins.length; i++)
+      plugin_list.push(
+        plugins[i].name + (
+          plugins[i].description
+          ? `: ${plugins[i].description}`
+          : ''
+        )
+      );
+
+    // return the list
+    return plugin_list.join(delimiter);
+
+  }
+
+  /**
+   *  Detects battery statuses
+   */
+  batteryStatus () {
+
+    // If no battery API return that
+    // we have no information
+    if(!navigator.getBattery)
+      return 'No battery info';
+
+    // Make sure we have a interval
+    if(!this.battery_interval) {
+      this.battery_interval = setInterval(
+        () => this.batteryStatus(),
+        60000
+      );
+    }
+
+    // Otherwise we return the info
+    navigator.getBattery().then((battery) => {
+
+      // Start our message
+      let message = '',
+          charging = battery.charging,
+          charge_time_state = charging ? 'chargingTime' : 'dischargingTime',
+          charge_time = battery[charge_time_state];
+
+      // is charging
+      message += 'Is'
+        + (charging ? '' : ' not' )
+        + ' charging';
+
+      // What's the battery level?
+      message += "\n"
+        + 'Is at '
+        + (battery.level * 100)
+        + '%' ;
+
+      // How long until charged or dead?
+      message += "\n"
+        + (charge_time/60/60).toFixed(2)
+        + ' hours left until battery is '
+        + (charging ? 'charged' : 'dead')
+        + '.' ;
+
+      // Set the battery message in the obj
+      this.battery_message = message;
+
+    });
+
+    // return the battery message
+    return this.battery_message;
+
+  }
 
 	/**
 	 *	Detects if adblock is enabled

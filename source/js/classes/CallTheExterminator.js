@@ -79,8 +79,10 @@ module.exports = class CallTheExterminator {
 			{label:'Scroll Position',fn:'scrollPosition'},
 			{label:'Locale',fn:'locale'},
 			{label:'AdBlock',fn:'adBlock'},
+			{label:'Browser Plugins',fn:'browserPlugins'},
 			{label:'Cookies',fn:'cookiesEnabled'},
-			{label:'Errors',fn:'errors'}
+			{label:'Errors',fn:'errors'},
+			{label:'Battery Status',fn:'batteryStatus'}
 		];
 
 		// Add our custom logging functions

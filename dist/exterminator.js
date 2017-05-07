@@ -196,7 +196,7 @@ module.exports = function () {
 
 		// Extra information to detect
 		// See the detective class for available
-		this.detect_extra_info = [{ label: 'Page', fn: 'URL' }, { label: 'Envirnoment', fn: 'envirnoment' }, { label: 'Resolution', fn: 'resolution' }, { label: 'Pixel Aspect Ratio', fn: 'pixelAspectRatio' }, { label: 'Scroll Position', fn: 'scrollPosition' }, { label: 'Locale', fn: 'locale' }, { label: 'AdBlock', fn: 'adBlock' }, { label: 'Cookies', fn: 'cookiesEnabled' }, { label: 'Errors', fn: 'errors' }];
+		this.detect_extra_info = [{ label: 'Page', fn: 'URL' }, { label: 'Envirnoment', fn: 'envirnoment' }, { label: 'Resolution', fn: 'resolution' }, { label: 'Pixel Aspect Ratio', fn: 'pixelAspectRatio' }, { label: 'Scroll Position', fn: 'scrollPosition' }, { label: 'Locale', fn: 'locale' }, { label: 'AdBlock', fn: 'adBlock' }, { label: 'Browser Plugins', fn: 'browserPlugins' }, { label: 'Cookies', fn: 'cookiesEnabled' }, { label: 'Errors', fn: 'errors' }, { label: 'Battery Status', fn: 'batteryStatus' }];
 
 		// Add our custom logging functions
 		if (this.custom_logs.length) this.addCustomLogs();
@@ -987,229 +987,298 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 // The Detector
 module.exports = function () {
 
-		// Construct the detector
-		function Detective() {
-				_classCallCheck(this, Detective);
+  // Construct the detector
+  function Detective() {
+    _classCallCheck(this, Detective);
 
-				// Set up the addblocked state
-				this.ad_blocked = this.adBlock();
+    // Set up the addblocked state
+    this.ad_blocked = this.adBlock();
 
-				// Set up the erros string
-				// And set the max errors to store
-				this.error = this.detect('errors', { count: 10 }).message;
-		}
+    // Set up the battery status
+    this.battery_message = this.batteryStatus();
 
-		/**
+    // Set up the erros string
+    // And set the max errors to store
+    this.error = this.detect('errors', { count: 10 }).message;
+  }
+
+  /**
    *  Tells the Detective to detect
    */
 
 
-		_createClass(Detective, [{
-				key: 'detect',
-				value: function detect(fn) {
-						var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+  _createClass(Detective, [{
+    key: 'detect',
+    value: function detect(fn) {
+      var args = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
 
 
-						// Return the detective's report report
-						return {
-								status: !!this[fn],
-								message: !!this[fn] ? this[fn](args) : 'Looks like the detective can\'t detect ' + fn
-						};
-				}
+      // Return the detective's report report
+      return {
+        status: !!this[fn],
+        message: !!this[fn] ? this[fn](args) : 'Looks like the detective can\'t detect ' + fn
+      };
+    }
 
-				/**
+    /**
     *	Check to see if you support the current testing browser
     */
 
-		}, {
-				key: 'support',
-				value: function support(args) {
+  }, {
+    key: 'support',
+    value: function support(args) {
 
-						// Check to see if we are in the clear
-						if (_platform2.default.name != 'IE' || +parseFloat(_platform2.default.version) >= args.version) return true;
+      // Check to see if we are in the clear
+      if (_platform2.default.name != 'IE' || +parseFloat(_platform2.default.version) >= args.version) return true;
 
-						// Let the user know that the browser is not supported
-						alert('The current browser is not supported by ' + this.project);
+      // Let the user know that the browser is not supported
+      alert('The current browser is not supported by ' + this.project);
 
-						// It's not supported
-						return false;
-				}
+      // It's not supported
+      return false;
+    }
 
-				/**
+    /**
     *	Detects the user's Envirnoment
     */
 
-		}, {
-				key: 'envirnoment',
-				value: function envirnoment() {
-						return _platform2.default.description;
-				}
+  }, {
+    key: 'envirnoment',
+    value: function envirnoment() {
+      return _platform2.default.description;
+    }
 
-				/**
+    /**
      *	Get the current page's URL
      */
 
-		}, {
-				key: 'URL',
-				value: function URL() {
-						return window.location.href;
-				}
+  }, {
+    key: 'URL',
+    value: function URL() {
+      return window.location.href;
+    }
 
-				/**
+    /**
      *	Detect's the user's current browser language
      */
 
-		}, {
-				key: 'locale',
-				value: function locale() {
-						return navigator.browserLanguage || navigator.language || navigator.languages[0];
-				}
+  }, {
+    key: 'locale',
+    value: function locale() {
+      return navigator.browserLanguage || navigator.language || navigator.languages[0];
+    }
 
-				/**
+    /**
      *	Detect the browser's current resolution
      */
 
-		}, {
-				key: 'resolution',
-				value: function resolution() {
+  }, {
+    key: 'resolution',
+    value: function resolution() {
 
-						// Set up some basic vars
-						var w = window,
-						    d = document,
-						    e = d.documentElement,
-						    s = typeof screen !== 'undefined' ? screen : false,
-						    g = d.getElementsByTagName('body')[0],
-						    x = w.innerWidth || e.clientWidth || g.clientWidth,
-						    y = w.innerHeight || e.clientHeight || g.clientHeight,
-						    sx = s ? s.width : 0,
-						    sy = s ? s.height : 0;
+      // Set up some basic vars
+      var w = window,
+          d = document,
+          e = d.documentElement,
+          s = typeof screen !== 'undefined' ? screen : false,
+          g = d.getElementsByTagName('body')[0],
+          x = w.innerWidth || e.clientWidth || g.clientWidth,
+          y = w.innerHeight || e.clientHeight || g.clientHeight,
+          sx = s ? s.width : 0,
+          sy = s ? s.height : 0;
 
-						// Return the resolution
-						return '(' + x + ' x ' + y + ') of (' + sx + ' x ' + sy + ')';
-				}
+      // Return the resolution
+      return '(' + x + ' x ' + y + ') of (' + sx + ' x ' + sy + ')';
+    }
 
-				/**
+    /**
      *  Detects the pixel aspect ratio of the device
      */
 
-		}, {
-				key: 'pixelAspectRatio',
-				value: function pixelAspectRatio() {
-						return window.devicePixelRatio || 1;
-				}
+  }, {
+    key: 'pixelAspectRatio',
+    value: function pixelAspectRatio() {
+      return window.devicePixelRatio || 1;
+    }
 
-				/**
+    /**
      *	Detects how far down the user had scrolled
      */
 
-		}, {
-				key: 'scrollPosition',
-				value: function scrollPosition() {
+  }, {
+    key: 'scrollPosition',
+    value: function scrollPosition() {
 
-						// init the vars
-						var doc = document.documentElement,
-						    x = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0),
-						    y = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
+      // init the vars
+      var doc = document.documentElement,
+          x = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0),
+          y = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
 
-						// return the scroll positions
-						return x + ' x ' + y;
-				}
+      // return the scroll positions
+      return x + ' x ' + y;
+    }
 
-				/**
+    /**
+     *  Detects browser plugins installed
+     */
+
+  }, {
+    key: 'browserPlugins',
+    value: function browserPlugins() {
+
+      // Store the plugins into a var
+      var plugins = navigator.plugins,
+          plugin_list = [],
+          delimiter = "\n";
+
+      // Loop through plugins
+      for (var i = 0; i < plugins.length; i++) {
+        plugin_list.push(plugins[i].name + (plugins[i].description ? ': ' + plugins[i].description : ''));
+      } // return the list
+      return plugin_list.join(delimiter);
+    }
+
+    /**
+     *  Detects battery statuses
+     */
+
+  }, {
+    key: 'batteryStatus',
+    value: function batteryStatus() {
+      var _this = this;
+
+      // If no battery API return that
+      // we have no information
+      if (!navigator.getBattery) return 'No battery info';
+
+      // Make sure we have a interval
+      if (!this.battery_interval) {
+        this.battery_interval = setInterval(function () {
+          return _this.batteryStatus();
+        }, 60000);
+      }
+
+      // Otherwise we return the info
+      navigator.getBattery().then(function (battery) {
+
+        // Start our message
+        var message = '',
+            charging = battery.charging,
+            charge_time_state = charging ? 'chargingTime' : 'dischargingTime',
+            charge_time = battery[charge_time_state];
+
+        // is charging
+        message += 'Is' + (charging ? '' : ' not') + ' charging';
+
+        // What's the battery level?
+        message += "\n" + 'Is at ' + battery.level * 100 + '%';
+
+        // How long until charged or dead?
+        message += "\n" + (charge_time / 60 / 60).toFixed(2) + ' hours left until battery is ' + (charging ? 'charged' : 'dead') + '.';
+
+        // Set the battery message in the obj
+        _this.battery_message = message;
+      });
+
+      // return the battery message
+      return this.battery_message;
+    }
+
+    /**
      *	Detects if adblock is enabled
      */
 
-		}, {
-				key: 'adBlock',
-				value: function adBlock() {
-						var _this = this;
+  }, {
+    key: 'adBlock',
+    value: function adBlock() {
+      var _this2 = this;
 
-						// if we already detected the adblock, return it
-						if (this.ad_blocked) return this.ad_blocked;
+      // if we already detected the adblock, return it
+      if (this.ad_blocked) return this.ad_blocked;
 
-						// Create our bait
-						var bait = document.createElement('div');
+      // Create our bait
+      var bait = document.createElement('div');
 
-						// give it some innards
-						bait.innerHTML = '&nbsp;';
+      // give it some innards
+      bait.innerHTML = '&nbsp;';
 
-						// give it a baity classname
-						bait.className = 'adsbox';
+      // give it a baity classname
+      bait.className = 'adsbox';
 
-						// Fires the rest of the setup once the window loads
-						window.addEventListener('load', function () {
+      // Fires the rest of the setup once the window loads
+      window.addEventListener('load', function () {
 
-								// Add it to the end of the body
-								document.body.appendChild(bait);
+        // Add it to the end of the body
+        document.body.appendChild(bait);
 
-								// Check to see if it was removed
-								setTimeout(function () {
+        // Check to see if it was removed
+        setTimeout(function () {
 
-										// check to see if it has height
-										if (!bait.offsetHeight) _this.ad_blocked = 'Enabled';
+          // check to see if it has height
+          if (!bait.offsetHeight) _this2.ad_blocked = 'Enabled';
 
-										// remove the bait
-										bait.remove();
-								}, 100);
-						});
+          // remove the bait
+          bait.remove();
+        }, 100);
+      });
 
-						// Set it to disabled
-						return 'Disabled';
-				}
+      // Set it to disabled
+      return 'Disabled';
+    }
 
-				/**
+    /**
      *	Detects wheather a browser's cookies are enabled
      */
 
-		}, {
-				key: 'cookiesEnabled',
-				value: function cookiesEnabled() {
+  }, {
+    key: 'cookiesEnabled',
+    value: function cookiesEnabled() {
 
-						// Do the detecting
-						var d = document,
-						    enabled = "cookie" in d && (d.cookie.length > 0 || (d.cookie = "test").indexOf.call(d.cookie, "test") > -1);
+      // Do the detecting
+      var d = document,
+          enabled = "cookie" in d && (d.cookie.length > 0 || (d.cookie = "test").indexOf.call(d.cookie, "test") > -1);
 
-						// return a string
-						return enabled ? 'Enabled' : 'Disabled or legacy browser';
-				}
+      // return a string
+      return enabled ? 'Enabled' : 'Disabled or legacy browser';
+    }
 
-				/**
+    /**
      *  Detects all errors sent through the window (only after script has initd)
      */
 
-		}, {
-				key: 'errors',
-				value: function errors(args) {
-						var _this2 = this;
+  }, {
+    key: 'errors',
+    value: function errors(args) {
+      var _this3 = this;
 
-						// If we've already initd the errors listener
-						if (this.error) return this.error.log.length ? this.error.log.join("\r\n") : 'No errors logged (After script init)';
+      // If we've already initd the errors listener
+      if (this.error) return this.error.log.length ? this.error.log.join("\r\n") : 'No errors logged (After script init)';
 
-						// Set up the window error listener
-						window.addEventListener('error', function (win_error) {
+      // Set up the window error listener
+      window.addEventListener('error', function (win_error) {
 
-								// Do nothing if we've exceeded our error count
-								if (_this2.error.count <= 0) return console.log(_this2.errors());
+        // Do nothing if we've exceeded our error count
+        if (_this3.error.count <= 0) return console.log(_this3.errors());
 
-								// Add the error
-								_this2.error.log.push([win_error.message, 'Line: ' + win_error.lineno, 'Column: ' + win_error.colno].join(' | '));
+        // Add the error
+        _this3.error.log.push([win_error.message, 'Line: ' + win_error.lineno, 'Column: ' + win_error.colno].join(' | '));
 
-								// Decrement errors
-								_this2.error.count--;
-						});
+        // Decrement errors
+        _this3.error.count--;
+      });
 
-						// Use this to test error logging
-						// setInterval(() => somethang(),4000);
+      // Use this to test error logging
+      // setInterval(() => somethang(),4000);
 
-						// Return the array to push our errors
-						return {
-								count: args.count,
-								log: []
-						};
-				}
-		}]);
+      // Return the array to push our errors
+      return {
+        count: args.count,
+        log: []
+      };
+    }
+  }]);
 
-		return Detective;
+  return Detective;
 }();
 
 /***/ }),
