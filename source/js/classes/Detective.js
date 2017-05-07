@@ -97,6 +97,13 @@ module.exports = class Detective {
 
 	}
 
+  /**
+   *  Detects the pixel aspect ratio of the device
+   */
+  pixelAspectRatio () {
+    return window.devicePixelRatio || 1;
+  }
+
 	/**
 	 *	Detects how far down the user had scrolled
 	 */

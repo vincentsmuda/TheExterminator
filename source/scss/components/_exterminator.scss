@@ -196,6 +196,7 @@
       color: $color-text;
     	position: fixed;
     	width: 100%;
+			max-height: 100vh;
     	max-width: 400px;
     	right: 0px;
     	bottom: 0px;
@@ -203,7 +204,8 @@
     	padding: 20px;
     	background: #fff;
     	visibility: hidden;
-    	overflow: hidden;
+    	overflow: scroll;
+			-webkit-overflow-scrolling: touch;
     	z-index: 1;
     	/* Force Hardware Acceleration in WebKit */
     	-webkit-backface-visibility: hidden;
@@ -245,11 +247,12 @@
   	}
 
     &input {
+			font-size: 16px;
+			font-weight: normal;
       border: 1px solid $color-border;
     	padding: 10px 15px;
     	color: $color-text;
     	width: 100%;
-    	font-size: 15px;
 
 			&:valid{
 				border-color: $color-success;

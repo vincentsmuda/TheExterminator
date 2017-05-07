@@ -112,7 +112,6 @@ First, you must run `$ npm install` or `$ yarn install`. Then after making modif
 
 ### MVP
 - X browser testing
-- Add name field
 - Add number counters (max 150)
 
 ### Code
@@ -129,4 +128,4 @@ First, you must run `$ npm install` or `$ yarn install`. Then after making modif
 - Create a shopify App
 
 ## Support
-We are aiming to support IE8+ . If you find a bug any any of the browsers, let us know or make a pull request!
+We are aiming to support IE9+ . If you find a bug any any of the browsers, let us know or make a pull request!
