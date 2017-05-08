@@ -6666,8 +6666,8 @@ module.exports = function () {
       'autostart': false
     }, args);
 
-    // Because there are 1024 b > kb > mb > gb
-    this.per_k = 1024;
+    // how to devide the bits
+    this.per_k = 1000;
 
     // Set how accurate we need it to be
     this.decimal_places = 2;
