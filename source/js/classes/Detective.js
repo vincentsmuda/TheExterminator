@@ -1,6 +1,9 @@
 // Grab Platform.js for browser info
 import Platform from 'platform';
 
+// Grab the bandwidth tester
+import Bandwidth from './Bandwidth';
+
 // The Detector
 module.exports = class Detective {
 
@@ -10,9 +13,18 @@ module.exports = class Detective {
     // Set up the addblocked state
     this.ad_blocked = this.adBlock();
 
+    // Set up the battery status
+    this.battery_message = this.batteryStatus();
+
     // Set up the erros string
     // And set the max errors to store
     this.error = this.detect('errors', {count: 10}).message;
+
+    // Set up the bandwidth tester
+    this.bandwidth_tester = new Bandwidth({
+      'tests_to_run': 5,
+      'autostart': true
+    });
 
   }
 
@@ -52,6 +64,19 @@ module.exports = class Detective {
     return false;
 
 	}
+
+  /**
+   *  Determine the user's bandwidth
+   */
+  bandwidth () {
+
+    // Store the results for local use
+    let results = this.bandwidth_tester.getResults();
+
+    // Now we add it to our return
+    return `${results.speed_mbps} Mb/s`;
+
+  }
 
   /**
 	 *	Detects the user's Envirnoment
@@ -97,6 +122,13 @@ module.exports = class Detective {
 
 	}
 
+  /**
+   *  Detects the pixel aspect ratio of the device
+   */
+  pixelAspectRatio () {
+    return window.devicePixelRatio || 1;
+  }
+
 	/**
 	 *	Detects how far down the user had scrolled
 	 */
@@ -111,6 +143,86 @@ module.exports = class Detective {
 		return `${x} x ${y}`;
 
 	}
+
+  /**
+   *  Detects browser plugins installed
+   */
+  browserPlugins () {
+
+    // Store the plugins into a var
+    let plugins = navigator.plugins,
+        plugin_list = [],
+        delimiter = "\n";
+
+    // Loop through plugins
+    for (var i = 0; i < plugins.length; i++)
+      plugin_list.push(
+        plugins[i].name + (
+          plugins[i].description
+          ? `: ${plugins[i].description}`
+          : ''
+        )
+      );
+
+    // return the list
+    return plugin_list.join(delimiter);
+
+  }
+
+  /**
+   *  Detects battery statuses
+   */
+  batteryStatus () {
+
+    // If no battery API return that
+    // we have no information
+    if(!navigator.getBattery)
+      return 'No battery info';
+
+    // Make sure we have a interval
+    if(!this.battery_interval) {
+      this.battery_interval = setInterval(
+        () => this.batteryStatus(),
+        60000
+      );
+    }
+
+    // Otherwise we return the info
+    navigator.getBattery().then((battery) => {
+
+      // Start our message
+      let message = '',
+          charging = battery.charging,
+          charge_time_state = charging ? 'chargingTime' : 'dischargingTime',
+          charge_time = battery[charge_time_state];
+
+      // is charging
+      message += 'Is'
+        + (charging ? '' : ' not' )
+        + ' charging';
+
+      // What's the battery level?
+      message += "\n"
+        + 'Is at '
+        + (battery.level * 100)
+        + '%' ;
+
+      // How long until charged or dead?
+      message += "\n"
+        + (charge_time/60/60).toFixed(2)
+        + ' hours left until battery is '
+        + (charging ? 'charged' : 'dead')
+        + '.' ;
+
+      // Set the battery message in the obj
+      this.battery_message = message;
+
+    });
+
+    // return the battery message
+    return this.battery_message;
+
+  }
 
 	/**
 	 *	Detects if adblock is enabled
@@ -129,20 +241,26 @@ module.exports = class Detective {
 		// give it a baity classname
 		bait.className = 'adsbox';
 
-		// Add it to the end of the body
-		document.body.appendChild(bait);
+    // Fires the rest of the setup once the window loads
+		window.addEventListener('load', () => {
 
-		// Check to see if it was removed
-		setTimeout(() => {
+      // Add it to the end of the body
+  		document.body.appendChild(bait);
 
-			// check to see if it has height
-			if(!bait.offsetHeight) this.ad_blocked = 'Enabled';
+  		// Check to see if it was removed
+  		setTimeout(() => {
 
-			// remove the bait
-			bait.remove();
+  			// check to see if it has height
+  			if(!bait.offsetHeight) this.ad_blocked = 'Enabled';
 
-		}, 100);
+  			// remove the bait
+  			bait.remove();
 
+  		}, 100);
+
+    });
+
+    // Set it to disabled
 		return 'Disabled';
 
 	}

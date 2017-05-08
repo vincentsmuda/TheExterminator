@@ -1,5 +1,10 @@
-// #{$base_class + '--open'} &
-// #{$base_class + '--screenshot'} &
+/**
+ *	Hendles the screenshot state
+ */
+#{$base_class + '--screenshot'} {
+	overflow: hidden;
+	height: auto;
+}
 
 /**
  *  Reset for our classes
@@ -26,10 +31,16 @@
   // Elements
   &__{
 
+		&wrapper{
+			position: relative;
+			z-index: 10000;
+		}
+
     &toggler {
     	position: fixed;
-    	bottom: 20px;
-    	right: 5%;
+			box-sizing: border-box;
+    	bottom: 0px;
+    	right: 0;
     	width: 44px;
     	height: 44px;
     	border-radius: 4px;
@@ -40,18 +51,18 @@
     	text-indent: 100%;
     	white-space: nowrap;
     	z-index: 2;
+			font-weight: 400;
 
     	span {
     		/* the span element is used to create the menu icon */
-    		position: absolute;
+				position: absolute;
     		display: block;
     		width: 20px;
     		height: 2px;
     		background: #fff;
     		top: 50%;
-    		margin-top: -1px;
     		left: 50%;
-    		margin-left: -10px;
+				transform: translate(-50%,-50%);
     		transition: background 0.3s;
 
     		&::before, &::after {
@@ -78,7 +89,8 @@
     		}
     	}
 
-      #{$base_class + '--open'} & {
+      #{$base_class + '--open'} &,
+			#{$base_class + '--error'} &{
         box-shadow: none;
 
         span {
@@ -99,21 +111,102 @@
       		}
         }
       }
+
+			#{$base_class + '--sending'} & {
+      	box-shadow: inherit;
+				background-color: $color-sending;
+				border-color: $color-sending;
+				cursor: wait;
+				animation-name: spin;
+		    animation-duration: 2s;
+				animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+		    animation-iteration-count: infinite;
+
+        span {
+	    		background: transparent;
+					width: 2px;
+					transition: all 0.3s;
+
+					&:before, &:after {
+						font-family: sans-serif;
+	    			background: transparent;
+						left: -1em;
+						line-height: 0em;
+						width: 2em;
+						font-size: 1.7em;
+						color: #fff;
+						text-align: center;
+	    			transition: none;
+				    -webkit-font-smoothing: antialiased;
+	    		}
+
+					&:before {
+						content: '\293a';
+						top: calc(-2px - 0.3em);
+	    			transform: rotate(0);
+	    		}
+
+	    		&:after {
+						content: '\293b';
+						bottom: calc(2px - 0.3em);
+	    			transform: rotate(0);
+	    		}
+        }
+      }
+
+			#{$base_class + '--sent'} & {
+      	box-shadow: inherit;
+				background-color: $color-success;
+				border-color: $color-success;
+				animation-name: tada;
+		    animation-duration: 1s;
+
+        span {
+					background-color: transparent;
+
+					&::before, &::after {
+						left: auto;
+						background-color: #fff;
+	    		}
+
+					&::before {
+						top: 0;
+						transform: rotate(-45deg);
+						right: -3px;
+	    		}
+
+	    		&::after {
+						top: 3px;
+						transform: rotate(45deg);
+						left: -2px;
+						width: 50%;
+	    		}
+        }
+      }
+
+			#{$base_class + '--error'} & {
+      	box-shadow: inherit;
+				background-color: $color-error;
+				border-color: $color-error;
+				animation-name: shake;
+		    animation-duration: 0.75s;
+      }
     }
 
     &form{
       color: $color-text;
     	position: fixed;
-    	width: 90%;
+    	width: 100%;
+			max-height: 100vh;
     	max-width: 400px;
-    	height: 630px;
-    	right: 5%;
-    	bottom: 20px;
+    	right: 0px;
+    	bottom: 0px;
     	border-radius: 4px;
     	padding: 20px;
     	background: #fff;
     	visibility: hidden;
-    	overflow: hidden;
+    	overflow: scroll;
+			-webkit-overflow-scrolling: touch;
     	z-index: 1;
     	/* Force Hardware Acceleration in WebKit */
     	-webkit-backface-visibility: hidden;
@@ -128,6 +221,12 @@
     		visibility: visible;
     		transform: scale(1);
     		transition: transform 0.3s, visibility 0s 0s;
+    	}
+
+			#{$base_class + '--sending'} & {
+    		visibility: hidden;
+    		transform: scale(0);
+    		transition: transform 0.3s, visibility 0s 0.3s;
     	}
     }
 
@@ -149,21 +248,28 @@
   	}
 
     &input {
+			font-size: 16px;
+			font-weight: normal;
       border: 1px solid $color-border;
     	padding: 10px 15px;
     	color: $color-text;
     	width: 100%;
-    	font-size: 15px;
-    }
+			display: block;
+
+			&:valid{
+				border-color: $color-success;
+			}
+		}
 
     &textarea {
-      height: 100px;
+			height: 70px;
     }
 
     &submit {
     	text-transform: uppercase;
     	display: block;
-    	width: 100%;
+    	max-width: calc(100% - 100px);
+			width: 100%;
     	border-radius: 4px;
     	border: 1px solid $color-text;
     	background: $color-text;
@@ -177,6 +283,35 @@
     		background: darken($color-text, 3%);
     	}
     }
+
+		&screenshot-ghost{
+			position: absolute;
+			z-index: 100000000;
+			background: rgba(255,0,0,0.1);
+			top: 0;
+			left: 0;
+			border: 10px solid $color-error;
+			box-sizing: border-box;
+			width: 100%;
+			height: 100%;
+			opacity: 0.5;
+		}
+
+		@media (min-width: 600px) {
+		  &toggler,
+			&form{
+		    bottom: 20px;
+				right: 5%;
+		  }
+
+			&form{
+				width: 90%;
+			}
+
+			&textarea{
+				height: 100px;
+			}
+		}
   }
 
   // Modifiers

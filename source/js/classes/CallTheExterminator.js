@@ -75,11 +75,15 @@ module.exports = class CallTheExterminator {
 			{label:'Page',fn:'URL'},
 			{label:'Envirnoment',fn:'envirnoment'},
 			{label:'Resolution',fn:'resolution'},
+			{label:'Pixel Aspect Ratio',fn:'pixelAspectRatio'},
 			{label:'Scroll Position',fn:'scrollPosition'},
-			{label:'Locale',fn:'locale'},
+			{label:'Download Speed',fn:'bandwidth'},
 			{label:'AdBlock',fn:'adBlock'},
+			{label:'Browser Plugins',fn:'browserPlugins'},
 			{label:'Cookies',fn:'cookiesEnabled'},
-			{label:'Errors',fn:'errors'}
+			{label:'Errors',fn:'errors'},
+			{label:'Locale',fn:'locale'},
+			{label:'Battery Status',fn:'batteryStatus'}
 		];
 
 		// Add our custom logging functions
@@ -96,14 +100,36 @@ module.exports = class CallTheExterminator {
 		// Set up the field map
 		this.fields_map = {};
 
+		// Set up the submit button holder
+		this.button = null;
+
+		// Set the current screenshot to empty
+		this.screenshot = null;
+
+		// Set up a sending flag
+		this.is_sending = false;
+
+		// Fires the rest of the setup once the window loads
+		window.addEventListener('load', () => {
+			this.windowReady();
+		});
+
+	}
+
+	/**
+	 *	All the functions to fire when the window is ready
+	 */
+	windowReady () {
+
+		// Set the top level wrapper element
+		// should keep this to the body
+		this.shell = document.body;
+
 		// Builds the form
 		this.form = this.generateFormElement();
 
 		// Set up the field mapping
 		this.fields = this.processFields(Fields);
-
-		// Set up the submit button holder
-		this.button = null;
 
 		// Set up the toggler
 		this.toggler = this.buildToggler();
@@ -113,9 +139,6 @@ module.exports = class CallTheExterminator {
 
 		// Build the form
 		this.form = this.buildForm();
-
-		// Set the current screenshot to empty
-		this.screenshot = null;
 
 	}
 
@@ -311,14 +334,14 @@ module.exports = class CallTheExterminator {
 	 */
 	togglerEvents (toggler) {
 
-		// Set up the vars
-		let body = document.body;
-
 		// Add toggler events
 		toggler.addEventListener('click', () => {
 
+			// Jump out if we are sending
+			if(this.is_sending) return;
+
 			// Toggle the open class
-			body.classList.toggle(this.base_class + '--open');
+			this.shell.classList.toggle(this.base_class + '--open');
 
 		});
 
@@ -348,15 +371,15 @@ module.exports = class CallTheExterminator {
 	}
 
 	/**
-	 *	Writes the generated html to the body
+	 *	Writes the generated html to the shell
 	 */
 	writeForm () {
 
 		// Add the form to the wrapper
 		this.wrapper.appendChild(this.form);
 
-		// Add the wrapper to the body
-		document.body.appendChild(this.wrapper);
+		// Add the wrapper to the shell
+		this.shell.appendChild(this.wrapper);
 
 	}
 
@@ -374,6 +397,10 @@ module.exports = class CallTheExterminator {
 
 		// Add class to field
 		field_el.classList.add(this.base_class + '__input');
+
+		// Add required to field
+		if(field.required)
+			field_el.setAttribute('required','required');
 
 		// Add text to the label
 		if(field.label && this.label) field_label.innerHTML = field.label;
@@ -494,19 +521,33 @@ module.exports = class CallTheExterminator {
 		// Jump out if we don't want to render a screenshot
 		if(!this.sends_screenshot) cb();
 
-		// Store the body for easy access
-		let body = document.body;
+		// Get the user's scroll position
+		let doc = document.documentElement,
+				pos_x = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0),
+				pos_y = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
 
 		// First, hide the exterminator
-		body.classList.add(this.base_class + '--screenshot');
+		this.shell.classList.add(this.base_class + '--screenshot');
+
+		// Scroll the window to the top
+		window.scrollTo(0, 0);
+
+		// Add the viewport ghost
+		this.addViewportghost(pos_x,pos_y);
 
 		// Now use html2canvas to take a screenshot
-		html2canvas(document.body,{ background: '#fff' })
+		html2canvas(this.shell,{ background: '#fff' })
 		.then(canvas => {
+
+			// remove the viewport ghost
+			this.removeViewportghost();
+
+			// Set the scroll position back to where they were
+			window.scrollTo(pos_x,pos_y);
 
 			// After screenshot has been taken, put
 			// the exterminator back
-			body.classList.remove(this.base_class + '--screenshot');
+			this.shell.classList.remove(this.base_class + '--screenshot');
 
 			// Turn the canvas into an image and
 			// store it in the obj as base64 "image/png"
@@ -519,6 +560,44 @@ module.exports = class CallTheExterminator {
 	}
 
 	/**
+	 *	Builds a ghost so we can see where the user
+	 *	reported the bug
+	 */
+	addViewportghost (x,y) {
+
+		// We haven't already created the ghost
+		if(!this.screenshot_ghost) {
+
+			// Create the ghost and store it in the obj
+			this.screenshot_ghost = document.createElement('div');
+
+			// Give it the class it needs
+			this.screenshot_ghost.classList.add(this.base_class + '__screenshot-ghost');
+
+		}
+
+		// Set its x and y coords
+		this.screenshot_ghost.style.left = x + 'px';
+		this.screenshot_ghost.style.top = y + 'px';
+		this.screenshot_ghost.style.width = (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) + 'px';
+		this.screenshot_ghost.style.height = (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) + 'px';
+
+		// add the ghost to the body
+		this.shell.appendChild(this.screenshot_ghost);
+
+	}
+
+	/**
+	 *	Removes the ghost from the viewport
+	 */
+	removeViewportghost () {
+
+		// removes the ghost from the shell....
+		this.shell.removeChild(this.screenshot_ghost);
+
+	}
+
+	/**
 	 *	Submits the form as a mailto link
 	 */
 	triggerMailto () {
@@ -527,6 +606,7 @@ module.exports = class CallTheExterminator {
 		let win = window.open(
 			//this.form.getAttribute('action')
 			'mailto:'
+				+ this.email
 				+ '?subject=' + encodeURI(this.generateSubjectLine())
 				+ '&body=' + encodeURI(this.generateMessageBody())
 				+	(this.cc.length ? '&cc=' + this.cc.concat`,` : ''),
@@ -547,6 +627,19 @@ module.exports = class CallTheExterminator {
 	}
 
 	/**
+	 *	Sets the sending state of the form
+	 */
+	setSendingState (is_sending = true) {
+
+		// Turn on the sending flag
+		this.is_sending = is_sending;
+
+		// Add a "sending" class to the shell
+		this.shell.classList[is_sending?'add':'remove'](this.base_class + '--sending');
+
+	}
+
+	/**
 	 *	Sets up the events associated with the form
 	 */
 	formEvents () {
@@ -557,6 +650,10 @@ module.exports = class CallTheExterminator {
 			// prevent form from submitting
 			e.preventDefault();
 
+			// Set the sending state of the form
+			this.setSendingState(true);
+
+			// If the form is set to trigger a mailto
 			if(this.is_mailto) {
 
 				// Trigger the mailto
@@ -594,12 +691,15 @@ module.exports = class CallTheExterminator {
 		// Clear the form out
 		this.clearForm();
 
-		// Set the form to success
-		this.wrapper.classList.add(this.base_class + '__wrapper--success');
+		// Remove the sending state
+		this.setSendingState(false);
 
-		// After 10 seconds remove success state
+		// Set the form to success
+		this.shell.classList.add(this.base_class + '--sent');
+
+		// After 5 seconds remove success state
 		setTimeout(() => {
-			this.wrapper.classList.remove(this.base_class + '__wrapper--success');
+			this.shell.classList.remove(this.base_class + '--sent');
 		},5000);
 
 	}
