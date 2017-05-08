@@ -77,7 +77,7 @@ module.exports = class CallTheExterminator {
 			{label:'Resolution',fn:'resolution'},
 			{label:'Pixel Aspect Ratio',fn:'pixelAspectRatio'},
 			{label:'Scroll Position',fn:'scrollPosition'},
-			{label:'Bandwidth',fn:'bandwidth'},
+			{label:'Download Speed',fn:'bandwidth'},
 			{label:'AdBlock',fn:'adBlock'},
 			{label:'Browser Plugins',fn:'browserPlugins'},
 			{label:'Cookies',fn:'cookiesEnabled'},

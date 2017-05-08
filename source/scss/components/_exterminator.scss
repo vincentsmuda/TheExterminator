@@ -127,7 +127,8 @@
 					width: 2px;
 					transition: all 0.3s;
 
-					&::before, &::after {
+					&:before, &:after {
+						font-family: sans-serif;
 	    			background: transparent;
 						left: -1em;
 						line-height: 0em;
@@ -139,13 +140,13 @@
 				    -webkit-font-smoothing: antialiased;
 	    		}
 
-					&::before {
+					&:before {
 						content: '\293a';
 						top: calc(-2px - 0.3em);
 	    			transform: rotate(0);
 	    		}
 
-	    		&::after {
+	    		&:after {
 						content: '\293b';
 						bottom: calc(2px - 0.3em);
 	    			transform: rotate(0);
@@ -253,6 +254,7 @@
     	padding: 10px 15px;
     	color: $color-text;
     	width: 100%;
+			display: block;
 
 			&:valid{
 				border-color: $color-success;
@@ -260,7 +262,7 @@
 		}
 
     &textarea {
-      height: 100px;
+			height: 70px;
     }
 
     &submit {
@@ -304,6 +306,10 @@
 
 			&form{
 				width: 90%;
+			}
+
+			&textarea{
+				height: 100px;
 			}
 		}
   }
