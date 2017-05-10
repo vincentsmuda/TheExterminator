@@ -196,7 +196,7 @@ module.exports = function () {
 
 		// Extra information to detect
 		// See the detective class for available
-		this.detect_extra_info = [{ label: 'Page', fn: 'URL' }, { label: 'Envirnoment', fn: 'envirnoment' }, { label: 'Resolution', fn: 'resolution' }, { label: 'Pixel Aspect Ratio', fn: 'pixelAspectRatio' }, { label: 'Scroll Position', fn: 'scrollPosition' }, { label: 'Download Speed', fn: 'bandwidth' }, { label: 'AdBlock', fn: 'adBlock' }, { label: 'Browser Plugins', fn: 'browserPlugins' }, { label: 'Cookies', fn: 'cookiesEnabled' }, { label: 'Errors', fn: 'errors' }, { label: 'Locale', fn: 'locale' }, { label: 'Battery Status', fn: 'batteryStatus' }];
+		this.detect_extra_info = [{ label: 'Page', fn: 'URL' }, { label: 'Envirnoment', fn: 'envirnoment' }, { label: 'Resolution', fn: 'resolution' }, { label: 'Pixel Aspect Ratio', fn: 'pixelAspectRatio' }, { label: 'Possible Zoom Level (Influenced by pixel aspect ratio)', fn: 'zoomLevel' }, { label: 'Scroll Position', fn: 'scrollPosition' }, { label: 'Download Speed', fn: 'bandwidth' }, { label: 'AdBlock', fn: 'adBlock' }, { label: 'Browser Plugins', fn: 'browserPlugins' }, { label: 'Cookies', fn: 'cookiesEnabled' }, { label: 'Errors', fn: 'errors' }, { label: 'Locale', fn: 'locale' }, { label: 'Battery Status', fn: 'batteryStatus' }];
 
 		// Add our custom logging functions
 		if (this.custom_logs.length) this.addCustomLogs();
@@ -1325,6 +1325,16 @@ module.exports = function () {
     key: 'pixelAspectRatio',
     value: function pixelAspectRatio() {
       return window.devicePixelRatio || 1;
+    }
+
+    /**
+     *  Detects zoom level
+     */
+
+  }, {
+    key: 'zoomLevel',
+    value: function zoomLevel() {
+      return window.devicePixelRatio ? 1 / window.devicePixelRatio : 1;
     }
 
     /**

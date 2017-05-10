@@ -129,6 +129,15 @@ module.exports = class Detective {
     return window.devicePixelRatio || 1;
   }
 
+  /**
+   *  Detects zoom level
+   */
+  zoomLevel () {
+    return window.devicePixelRatio
+      ? 1/window.devicePixelRatio
+      : 1 ;
+  }
+
 	/**
 	 *	Detects how far down the user had scrolled
 	 */
