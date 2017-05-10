@@ -110,9 +110,11 @@ module.exports = class CallTheExterminator {
 		this.is_sending = false;
 
 		// Fires the rest of the setup once the window loads
-		window.addEventListener('load', () => {
-			this.windowReady();
-		});
+		if( !document.body )
+			window.addEventListener('load', () => {
+				this.windowReady();
+			});
+		else this.windowReady();
 
 	}
 

@@ -220,9 +220,9 @@ module.exports = function () {
 		this.is_sending = false;
 
 		// Fires the rest of the setup once the window loads
-		window.addEventListener('load', function () {
+		if (!document.body) window.addEventListener('load', function () {
 			_this.windowReady();
-		});
+		});else this.windowReady();
 	}
 
 	/**
@@ -1424,7 +1424,6 @@ module.exports = function () {
   }, {
     key: 'adBlock',
     value: function adBlock() {
-      var _this2 = this;
 
       // if we already detected the adblock, return it
       if (this.ad_blocked) return this.ad_blocked;
@@ -1439,21 +1438,9 @@ module.exports = function () {
       bait.className = 'adsbox';
 
       // Fires the rest of the setup once the window loads
-      window.addEventListener('load', function () {
-
-        // Add it to the end of the body
-        document.body.appendChild(bait);
-
-        // Check to see if it was removed
-        setTimeout(function () {
-
-          // check to see if it has height
-          if (!bait.offsetHeight) _this2.ad_blocked = 'Enabled';
-
-          // remove the bait
-          bait.remove();
-        }, 100);
-      });
+      if (document.body) window.addEventListener('load', function () {
+        loadAdblockBait(bait);
+      });else loadAdblockBait(bait);
 
       // Set it to disabled
       return 'Disabled';
@@ -1473,6 +1460,29 @@ module.exports = function () {
 
       // return a string
       return enabled ? 'Enabled' : 'Disabled or legacy browser';
+    }
+
+    /**
+     *  Loads the adblock's bait
+     */
+
+  }, {
+    key: 'loadAdblockBait',
+    value: function loadAdblockBait(bait) {
+      var _this2 = this;
+
+      // Add it to the end of the body
+      document.body.appendChild(bait);
+
+      // Check to see if it was removed
+      setTimeout(function () {
+
+        // check to see if it has height
+        if (!bait.offsetHeight) _this2.ad_blocked = 'Enabled';
+
+        // remove the bait
+        bait.remove();
+      }, 100);
     }
 
     /**

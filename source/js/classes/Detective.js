@@ -249,23 +249,10 @@ module.exports = class Detective {
 		bait.className = 'adsbox';
 
     // Fires the rest of the setup once the window loads
-		window.addEventListener('load', () => {
-
-      // Add it to the end of the body
-  		document.body.appendChild(bait);
-
-  		// Check to see if it was removed
-  		setTimeout(() => {
-
-  			// check to see if it has height
-  			if(!bait.offsetHeight) this.ad_blocked = 'Enabled';
-
-  			// remove the bait
-  			bait.remove();
-
-  		}, 100);
-
-    });
+    if(document.body)
+      window.addEventListener('load', () => {loadAdblockBait(bait);});
+    else
+      loadAdblockBait(bait);
 
     // Set it to disabled
 		return 'Disabled';
@@ -285,6 +272,27 @@ module.exports = class Detective {
 		return enabled ? 'Enabled' : 'Disabled or legacy browser' ;
 
 	}
+
+  /**
+   *  Loads the adblock's bait
+   */
+  loadAdblockBait (bait) {
+
+    // Add it to the end of the body
+		document.body.appendChild(bait);
+
+		// Check to see if it was removed
+		setTimeout(() => {
+
+			// check to see if it has height
+			if(!bait.offsetHeight) this.ad_blocked = 'Enabled';
+
+			// remove the bait
+			bait.remove();
+
+		}, 100);
+
+  }
 
   /**
    *  Detects all errors sent through the window (only after script has initd)
