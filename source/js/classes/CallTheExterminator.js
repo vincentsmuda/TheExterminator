@@ -76,7 +76,6 @@ module.exports = class CallTheExterminator {
 			{label:'Envirnoment',fn:'envirnoment'},
 			{label:'Resolution',fn:'resolution'},
 			{label:'Pixel Aspect Ratio',fn:'pixelAspectRatio'},
-			{label:'Possible Zoom Level (Influenced by pixel aspect ratio)',fn:'zoomLevel'},
 			{label:'Scroll Position',fn:'scrollPosition'},
 			{label:'Download Speed',fn:'bandwidth'},
 			{label:'AdBlock',fn:'adBlock'},

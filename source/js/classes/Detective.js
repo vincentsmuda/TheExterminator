@@ -71,10 +71,12 @@ module.exports = class Detective {
   bandwidth () {
 
     // Store the results for local use
-    let results = this.bandwidth_tester.getResults();
+    let results = this.bandwidth_tester.getResults(),
+        mbs = results.speed_mbps || 0,
+        output = !mbs ? `offline` : `${mbs} Mb/s`;
 
     // Now we add it to our return
-    return `${results.speed_mbps} Mb/s`;
+    return output;
 
   }
 
@@ -126,16 +128,12 @@ module.exports = class Detective {
    *  Detects the pixel aspect ratio of the device
    */
   pixelAspectRatio () {
-    return window.devicePixelRatio || 1;
-  }
-
-  /**
-   *  Detects zoom level
-   */
-  zoomLevel () {
-    return window.devicePixelRatio
-      ? 1/window.devicePixelRatio
-      : 1 ;
+    if(!!window.devicePixelRatio) {
+      let zoom = (window.devicePixelRatio*100).toFixed(2),
+          zoom_word = window.devicePixelRatio < 1 ? 'out' : 'in' ;
+      return `${window.devicePixelRatio} (Possibly zoomed ${zoom_word} at ${zoom}%)`
+    }
+    return 1;
   }
 
 	/**
