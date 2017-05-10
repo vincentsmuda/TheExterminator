@@ -1,6 +1,8 @@
 # The Exterminator
 An easy to use QA helper for clients to use when reporting bugs. Still in a pre-alpha state.
 
+![](http://i.imgur.com/QjVwicn.gif)
+
 ## Installation
 First, set the arguments and include the script. Put it high up on your page... before any other script. This will allow the exterminator to catch any js errors coming down the pipe. Since this script is only meant for QA, it should __not be used in production!__. That allows us to break some rendering/js blocking rules and dismiss the fact that it's a heavy file :)
 
@@ -126,6 +128,7 @@ First, you must run `$ npm install` or `$ yarn install`. Then after making modif
 - Create a bookmark shortcut
 - Create a wordpress plugin
 - Create a shopify App
+- Write Contribution guidelines
 
 ## Support
 We are aiming to support IE9+ . If you find a bug any any of the browsers, let us know or make a pull request!
