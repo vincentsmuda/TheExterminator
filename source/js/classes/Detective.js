@@ -250,9 +250,13 @@ module.exports = class Detective {
 
     // Fires the rest of the setup once the window loads
     if(document.body)
-      window.addEventListener('load', () => {loadAdblockBait(bait);});
+      window.addEventListener('load', () => {
+        if(this.loadAdblockBait)
+          this.loadAdblockBait(bait);
+      });
     else
-      loadAdblockBait(bait);
+      if(this.loadAdblockBait)
+        this.loadAdblockBait(bait);
 
     // Set it to disabled
 		return 'Disabled';

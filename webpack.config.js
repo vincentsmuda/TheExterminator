@@ -3,6 +3,7 @@ const path = require('path'),
 
 module.exports = {
   entry: [
+    'classlist-polyfill',
     'babel-polyfill',
     './source/entry.js'
   ],
