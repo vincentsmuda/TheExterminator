@@ -127,5 +127,13 @@ First, you must run `$ npm install` or `$ yarn install`. Then after making modif
 - Create a wordpress plugin
 - Create a shopify App
 
+## Successfully tested on
+- IE 10.0 32-bit on Windows 8 64-bit
+- IE 11.0 32-bit on Windows 10 64-bit
+- Microsoft Edge 14.14393 on Windows 10 64-bit
+- Microsoft Edge 15.15063 on Windows 10 64-bit
+- Chrome 59.0.3071.86 on Windows 10 64-bit
+- Chrome 59.0.3071.115 on OS X 10.12.5 64-bit
+
 ## Support
-We are aiming to support IE9+ . If you find a bug any any of the browsers, let us know or make a pull request!
+We are aiming to support IE10+ . If you find a bug in any of the browsers, let us know or make a pull request!

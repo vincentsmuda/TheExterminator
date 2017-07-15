@@ -9,7 +9,9 @@
 import Detective from './Detective';
 
 // Grab html2canvas for screenshots
+// plus quick fix for IE (assigning to window)
 import html2canvas from 'html2canvas';
+window.html2canvas = html2canvas;
 
 // Grab our set fields
 import Fields from '../settings/fields.js';

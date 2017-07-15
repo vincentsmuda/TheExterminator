@@ -1,9 +1,11 @@
 const path = require('path'),
       LiveReloadPlugin = require('webpack-livereload-plugin');
 
-
 module.exports = {
-  entry: './source/entry.js',
+  entry: [
+    'babel-polyfill',
+    './source/entry.js'
+  ],
   output: {
     filename: 'exterminator.js',
     path: path.resolve(__dirname, 'dist')
