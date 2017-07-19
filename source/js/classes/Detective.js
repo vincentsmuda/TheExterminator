@@ -249,14 +249,15 @@ module.exports = class Detective {
 		bait.className = 'adsbox';
 
     // Fires the rest of the setup once the window loads
-    if(document.body)
-      window.addEventListener('load', () => {
-        if(this.loadAdblockBait)
-          this.loadAdblockBait(bait);
-      });
-    else
+    if(!document.body)
+    window.addEventListener('load', () => {
       if(this.loadAdblockBait)
         this.loadAdblockBait(bait);
+    });
+
+    // If the body has already been rendered
+    else if(this.loadAdblockBait && document.body)
+      this.loadAdblockBait(bait);
 
     // Set it to disabled
 		return 'Disabled';

@@ -3910,7 +3910,10 @@ module.exports = function () {
 			sends_screenshot: false,
 
 			// Custom Logs to send through in report
-			custom_logs: []
+			custom_logs: [],
+
+			// Placeholder for Bitbucket creds
+			bitbutcket: null
 
 		}, args);
 
@@ -4334,6 +4337,34 @@ module.exports = function () {
 		}
 
 		/**
+   * Generates encoded fields for posting
+   */
+
+	}, {
+		key: 'generateEncodedFields',
+		value: function generateEncodedFields() {
+
+			// init the field string
+			var fields_string = '';
+
+			// Loop through all fields
+			for (var i = 0; i < this.fields.length; i++) {
+
+				// Jump out if subject or body fields
+				if (~['body', 'subject'].indexOf(this.fields[i].name)) continue;
+
+				// Add an amp
+				fields_string += fields_string ? '&' : '';
+
+				// Add the value of the new line to the body
+				fields_string += this.fields[i].name + '=' + this.fields[i].el.input.value;
+			}
+
+			// return the built fields string
+			return !fields_string ? '' : '&' + fields_string;
+		}
+
+		/**
    *	Generates the body of the message
    */
 
@@ -4477,7 +4508,7 @@ module.exports = function () {
 				_this4.triggerSuccess();
 
 				// close the window
-				win.close();
+				if (win) win.close();
 			}, 1000);
 		}
 
@@ -4574,7 +4605,7 @@ module.exports = function () {
 
 			// Set up the request
 			var r = new XMLHttpRequest(),
-			    data = 'subject=' + encodeURI(this.generateSubjectLine()) + '&body=' + encodeURI(this.generateMessageBody()) + '&email=' + this.email + (this.cc.length ? '&cc=' + this.cc.concat(_templateObject) : '') + (this.screenshot ? '&screenshot=' + this.screenshot : '');
+			    data = 'subject=' + encodeURI(this.generateSubjectLine()) + '&body=' + encodeURI(this.generateMessageBody()) + '&email=' + this.email + this.generateEncodedFields() + (this.cc.length ? '&cc=' + this.cc.concat(_templateObject) : '') + (this.screenshot ? '&screenshot=' + this.screenshot : '') + (this.bitbucket ? "&bitbucket=" + JSON.stringify(this.bitbucket) : '');
 
 			// Set up the post
 			r.open(this.method, this.action, true);
@@ -4916,9 +4947,12 @@ module.exports = function () {
       bait.className = 'adsbox';
 
       // Fires the rest of the setup once the window loads
-      if (document.body) window.addEventListener('load', function () {
+      if (!document.body) window.addEventListener('load', function () {
         if (_this2.loadAdblockBait) _this2.loadAdblockBait(bait);
-      });else if (this.loadAdblockBait) this.loadAdblockBait(bait);
+      });
+
+      // If the body has already been rendered
+      else if (this.loadAdblockBait && document.body) this.loadAdblockBait(bait);
 
       // Set it to disabled
       return 'Disabled';

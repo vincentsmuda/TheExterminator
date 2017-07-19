@@ -61,7 +61,10 @@ module.exports = class CallTheExterminator {
 			sends_screenshot: false,
 
 			// Custom Logs to send through in report
-			custom_logs: []
+			custom_logs: [],
+
+			// Placeholder for Bitbucket creds
+			bitbutcket: null
 
 		}, args);
 
@@ -480,6 +483,34 @@ module.exports = class CallTheExterminator {
 	}
 
 	/**
+	 * Generates encoded fields for posting
+	 */
+	generateEncodedFields () {
+
+		// init the field string
+		let fields_string = '';
+
+		// Loop through all fields
+		for (var i = 0; i < this.fields.length; i++) {
+
+			// Jump out if subject or body fields
+			if(~['body','subject'].indexOf(this.fields[i].name))
+				continue;
+
+			// Add an amp
+			fields_string += fields_string ? '&' : '' ;
+
+			// Add the value of the new line to the body
+			fields_string += this.fields[i].name + '=' + this.fields[i].el.input.value;
+
+		}
+
+		// return the built fields string
+		return !fields_string ? '' : '&' + fields_string;
+
+	}
+
+	/**
 	 *	Generates the body of the message
 	 */
 	generateMessageBody () {
@@ -624,7 +655,7 @@ module.exports = class CallTheExterminator {
 			this.triggerSuccess();
 
 			// close the window
-			win.close();
+			if(win) win.close();
 
 		}, 1000);
 
@@ -719,8 +750,10 @@ module.exports = class CallTheExterminator {
 				data = 'subject=' + encodeURI(this.generateSubjectLine())
 				+ '&body=' + encodeURI(this.generateMessageBody())
 				+ '&email=' + this.email
+				+ this.generateEncodedFields()
 				+	(this.cc.length ? '&cc=' + this.cc.concat`,` : '')
-				+ (this.screenshot ? '&screenshot=' + this.screenshot : '');
+				+ (this.screenshot ? '&screenshot=' + this.screenshot : '')
+				+ (this.bitbucket ? "&bitbucket=" + JSON.stringify(this.bitbucket) : '');
 
 		// Set up the post
 		r.open(this.method, this.action, true);
