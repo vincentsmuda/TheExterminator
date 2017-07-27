@@ -4385,7 +4385,7 @@ module.exports = function () {
 				body += (!body ? '' : "\r\n\r\n") + this.fields[i].label + ':';
 
 				// Add the value of the new line to the body
-				body += "\r\n" + this.fields[i].el.input.value;
+				body += "\r\n" + this.sanitize(this.fields[i].el.input.value);
 			}
 
 			// Loop through our extra informations
@@ -4605,7 +4605,7 @@ module.exports = function () {
 
 			// Set up the request
 			var r = new XMLHttpRequest(),
-			    data = 'subject=' + encodeURI(this.generateSubjectLine()) + '&body=' + encodeURI(this.generateMessageBody()) + '&email=' + this.email + this.generateEncodedFields() + (this.cc.length ? '&cc=' + this.cc.concat(_templateObject) : '') + (this.screenshot ? '&screenshot=' + this.screenshot : '') + (this.bitbucket ? "&bitbucket=" + JSON.stringify(this.bitbucket) : '');
+			    data = 'subject=' + encodeURI(this.sanitize(this.generateSubjectLine())) + '&body=' + encodeURI(this.generateMessageBody()) + '&email=' + this.email + this.generateEncodedFields() + (this.cc.length ? '&cc=' + this.cc.concat(_templateObject) : '') + (this.screenshot ? '&screenshot=' + this.screenshot : '') + (this.bitbucket ? "&bitbucket=" + JSON.stringify(this.bitbucket) : '');
 
 			// Set up the post
 			r.open(this.method, this.action, true);
@@ -4666,6 +4666,17 @@ module.exports = function () {
 				// Clear the field's value
 				input.value = '';
 			}
+		}
+
+		/**
+   *	Sanatizes strings
+   */
+
+	}, {
+		key: 'sanitize',
+		value: function sanitize(str) {
+			str = str.replace(/[^a-z0-9áéíóúñü \.,_-]/gim, "");
+			return str.trim();
 		}
 	}]);
 

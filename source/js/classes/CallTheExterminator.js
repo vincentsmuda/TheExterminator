@@ -531,7 +531,8 @@ module.exports = class CallTheExterminator {
 				this.fields[i].label + ':';
 
 			// Add the value of the new line to the body
-			body += "\r\n" + this.fields[i].el.input.value;
+			body += "\r\n"
+				+ this.sanitize(this.fields[i].el.input.value);
 
 		}
 
@@ -747,7 +748,7 @@ module.exports = class CallTheExterminator {
 		// Set up the request
 		let r = new
 		 XMLHttpRequest(),
-				data = 'subject=' + encodeURI(this.generateSubjectLine())
+				data = 'subject=' + encodeURI(this.sanitize(this.generateSubjectLine()))
 				+ '&body=' + encodeURI(this.generateMessageBody())
 				+ '&email=' + this.email
 				+ this.generateEncodedFields()
@@ -816,6 +817,14 @@ module.exports = class CallTheExterminator {
 
 		}
 
+	}
+
+	/**
+	 *	Sanatizes strings
+	 */
+	sanitize (str){
+    str = str.replace(/[^a-z0-9áéíóúñü \.,_-]/gim,"");
+    return str.trim();
 	}
 
 }
