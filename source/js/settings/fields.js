@@ -10,6 +10,7 @@ module.exports = [
     label: 'Action Taken',
     name: 'action_taken',
     el_type: 'textarea',
+    max_length: 144,
     placeholder: 'Describe the action you took before encountering the bug',
     required: true
   },
@@ -18,6 +19,7 @@ module.exports = [
     label: 'Result',
     name: 'result',
     el_type: 'textarea',
+    max_length: 144,
     placeholder: 'Describe what happened.',
     required: true
   },
@@ -26,6 +28,7 @@ module.exports = [
     label: 'Expected Result',
     name: 'expected_result',
     el_type: 'textarea',
+    max_length: 144,
     placeholder: 'Describe what should have happened.',
     required: true
   },

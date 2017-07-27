@@ -251,6 +251,9 @@ module.exports = class CallTheExterminator {
 			// Add Filed's params
 			this.addFiledParams(this.fields[i]);
 
+			// Sets the max length on a field if present
+			this.setFieldMaxLength(this.fields[i]);
+
 			// Add the field to the form
 			form.appendChild(field.wrapper);
 
@@ -363,7 +366,7 @@ module.exports = class CallTheExterminator {
 	 */
 	addFiledParams (field) {
 
-		// Set the textarea's placeholder
+		// Set the field's placeholder
 		field.el.input.setAttribute('placeholder', field.placeholder || '');
 
 		// Set the field's name
@@ -374,6 +377,47 @@ module.exports = class CallTheExterminator {
 
 		// Set the field's value
 		field.el.input.value = field.value || '';
+
+	}
+
+	/**
+	 *	Sets a maximum length on a field
+	 */
+	setFieldMaxLength (field) {
+
+		// jump out if no max_length
+		if(!field.max_length) return;
+
+		// Store the input for easy access
+		let input = field.el.input,
+				counter = this.buildElement('span', 'counter'),
+				max_length = field.max_length;
+
+		// Add the counter to the field object
+		field.counter = counter;
+
+		// Set the counter value to 0
+		counter.innerHTML = max_length;
+
+		// Add the counter to the wrapper
+		field.el.wrapper.appendChild(counter);
+
+		// Watch the field for update in values
+		input.addEventListener('input', () => {
+
+			// Store the value for easy access
+			let value = input.value,
+					char_count = max_length - value.length;
+
+			// If we've acheived our max character length
+			// Stop the string from going past max length
+			// else Update the couner
+			if(char_count < 0)
+				input.value = value.substring(0,max_length);
+			else
+				counter.innerHTML = char_count;
+
+		});
 
 	}
 

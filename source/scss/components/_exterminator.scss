@@ -244,8 +244,15 @@
   	}
 
     &field {
-  		margin-bottom: 24px
+  		margin-bottom: 24px;
+			position: relative;
   	}
+
+		&counter{
+			position: absolute;
+			top: 0;
+			right: 0;
+		}
 
     &input {
 			font-size: 16px;
