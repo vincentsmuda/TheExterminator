@@ -532,7 +532,7 @@ module.exports = class CallTheExterminator {
 
 			// Add the value of the new line to the body
 			body += "\r\n"
-				+ this.sanitize(this.fields[i].el.input.valuereplace(/&/g,' amp '));
+				+ this.sanitize(this.fields[i].el.input.value.replace(/&/g,' amp '));
 
 		}
 
