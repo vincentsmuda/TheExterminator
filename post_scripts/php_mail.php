@@ -12,7 +12,7 @@
 
   // Set the headers
   $headers = [
-    'From: The Exterminator <exterminator@vincentsmuda.com>',
+    'From: Exterminator <issues@exterminator.com>',
     'CC: ' . $r['cc']
   ];
 
