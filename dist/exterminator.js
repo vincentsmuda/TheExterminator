@@ -4385,7 +4385,7 @@ module.exports = function () {
 				body += (!body ? '' : "\r\n\r\n") + this.fields[i].label + ':';
 
 				// Add the value of the new line to the body
-				body += "\r\n" + this.replace(/&/g, ' amp ').sanitize(this.fields[i].el.input.value);
+				body += "\r\n" + this.sanitize(this.fields[i].el.input.valuereplace(/&/g, ' amp '));
 			}
 
 			// Loop through our extra informations
