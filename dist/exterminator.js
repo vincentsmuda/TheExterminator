@@ -4675,7 +4675,7 @@ module.exports = function () {
 	}, {
 		key: 'sanitize',
 		value: function sanitize(str) {
-			str = str.replace(/[^a-z0-9áéíóúñü \.,_-]/gim, "");
+			str = str.replace(/[^a-z0-9áéíóúñü \n\.,_-]/gim, "");
 			return str.trim();
 		}
 	}]);

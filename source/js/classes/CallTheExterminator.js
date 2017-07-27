@@ -823,7 +823,7 @@ module.exports = class CallTheExterminator {
 	 *	Sanatizes strings
 	 */
 	sanitize (str){
-    str = str.replace(/[^a-z0-9áéíóúñü \.,_-]/gim,"");
+    str = str.replace(/[^a-z0-9áéíóúñü \n\.,_-]/gim,"");
     return str.trim();
 	}
 
