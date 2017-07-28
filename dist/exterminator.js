@@ -3316,9 +3316,9 @@ if(new $WeakMap().set((Object.freeze || Object)(tmp), 7).get(tmp) != 7){
 "use strict";
 
 
-var _CallTheExterminator = __webpack_require__(118);
+var _Exterminator = __webpack_require__(312);
 
-var _CallTheExterminator2 = _interopRequireDefault(_CallTheExterminator);
+var _Exterminator2 = _interopRequireDefault(_Exterminator);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3332,7 +3332,7 @@ __webpack_require__(309);
 var settings = window.ExterminatorSettings || {};
 
 // init the exterminator
-new _CallTheExterminator2.default(settings);
+new _Exterminator2.default(settings);
 
 /***/ }),
 /* 115 */
@@ -3815,954 +3815,7 @@ module.exports = function () {
 }();
 
 /***/ }),
-/* 118 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     	CallTheExterminator
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     	A lightweight QA reporter that sends through much needed informations.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     */
-
-// Grab Platform.js for browser info
-
-
-// Grab html2canvas for screenshots
-// plus quick fix for IE (assigning to window)
-
-
-var _templateObject = _taggedTemplateLiteral([','], [',']);
-
-var _Detective = __webpack_require__(119);
-
-var _Detective2 = _interopRequireDefault(_Detective);
-
-var _html2canvas = __webpack_require__(304);
-
-var _html2canvas2 = _interopRequireDefault(_html2canvas);
-
-var _fields = __webpack_require__(120);
-
-var _fields2 = _interopRequireDefault(_fields);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-window.html2canvas = _html2canvas2.default;
-
-// Grab our set fields
-
-
-// The class
-module.exports = function () {
-
-	/**
-  *	Construct
-  */
-	function CallTheExterminator(args) {
-		var _this = this;
-
-		_classCallCheck(this, CallTheExterminator);
-
-		// Add arguments to the object
-		_extends(this, {
-
-			// Set the base class of the elements
-			base_class: 'exterminator',
-
-			// Sets the submit button text
-			submit_button_text: 'Report',
-
-			// Set the project name
-			project: 'Project Name',
-
-			// Set the Subject formatting
-			subject_format: '%project% - Bug Report - %date_time%',
-
-			// Sets the form's method
-			action: 'mailto:',
-
-			// Set the method
-			method: 'POST',
-
-			// Set the pm
-			email: 'somepm@someagency.com',
-
-			// Set up ccd emails
-			cc: [],
-
-			// Show labels
-			labels: false,
-
-			// Set the minimum browser (IE)
-			min_browser: 10,
-
-			// Whether to send through a screenshot
-			sends_screenshot: false,
-
-			// Custom Logs to send through in report
-			custom_logs: [],
-
-			// Placeholder for Bitbucket creds
-			bitbutcket: null
-
-		}, args);
-
-		// Instantiate our detective
-		this.detective = new _Detective2.default();
-
-		// Check if the version of browser is supported
-		this.detective.detect('support', { 'version': this.min_browser });
-
-		// Extra information to detect
-		// See the detective class for available
-		this.detect_extra_info = [{ label: 'Page', fn: 'URL' }, { label: 'Envirnoment', fn: 'envirnoment' }, { label: 'Resolution', fn: 'resolution' }, { label: 'Pixel Aspect Ratio', fn: 'pixelAspectRatio' }, { label: 'Scroll Position', fn: 'scrollPosition' }, { label: 'Download Speed', fn: 'bandwidth' }, { label: 'AdBlock', fn: 'adBlock' }, { label: 'Browser Plugins', fn: 'browserPlugins' }, { label: 'Cookies', fn: 'cookiesEnabled' }, { label: 'Errors', fn: 'errors' }, { label: 'Locale', fn: 'locale' }, { label: 'Battery Status', fn: 'batteryStatus' }];
-
-		// Add our custom logging functions
-		if (this.custom_logs.length) this.addCustomLogs();
-
-		// Set the mailto flag
-		this.is_mailto = this.action.indexOf('mailto:') > -1;
-
-		// Set the action up
-		this.action = this.is_mailto ? this.action + this.email : this.action;
-
-		// Set up the field map
-		this.fields_map = {};
-
-		// Set up the submit button holder
-		this.button = null;
-
-		// Set the current screenshot to empty
-		this.screenshot = null;
-
-		// Set up a sending flag
-		this.is_sending = false;
-
-		// Fires the rest of the setup once the window loads
-		if (!document.body) window.addEventListener('load', function () {
-			_this.windowReady();
-		});else this.windowReady();
-	}
-
-	/**
-  *	All the functions to fire when the window is ready
-  */
-
-
-	_createClass(CallTheExterminator, [{
-		key: 'windowReady',
-		value: function windowReady() {
-
-			// Set the top level wrapper element
-			// should keep this to the body
-			this.shell = document.body;
-
-			// Builds the form
-			this.form = this.generateFormElement();
-
-			// Set up the field mapping
-			this.fields = this.processFields(_fields2.default);
-
-			// Set up the toggler
-			this.toggler = this.buildToggler();
-
-			// Set up the wrapper
-			this.wrapper = this.buildWrapper();
-
-			// Build the form
-			this.form = this.buildForm();
-		}
-
-		/**
-   *	Adds custom logging to reporting loop
-   */
-
-	}, {
-		key: 'addCustomLogs',
-		value: function addCustomLogs() {
-
-			// Store the custom rows to loop throug
-			var rows = this.custom_logs,
-			    detect_custom_logs = [];
-
-			// Loop through the rows
-			for (var i = 0, l = rows.length; i < l; i++) {
-
-				// Add the row to the message body generator loop
-				detect_custom_logs[i] = {
-					label: rows[i].label,
-					fn: rows[i].callback.name
-				};
-
-				// Add the function as a callback
-				this.detective[rows[i].callback.name] = rows[i].callback.fn;
-			}
-
-			// Add the custom logs to the extra info
-			this.detect_extra_info = this.detect_extra_info.concat(detect_custom_logs);
-
-			// return the extra info for inspection
-			return this.detect_extra_info;
-		}
-
-		/**
-   *	Applies needed transformations on the set fields
-   */
-
-	}, {
-		key: 'processFields',
-		value: function processFields(fields) {
-
-			// Add subject and body fields
-			fields = fields.concat([{
-				name: 'subject',
-				el_type: 'input',
-				type: 'hidden'
-			}, {
-				name: 'body',
-				el_type: 'input',
-				type: 'hidden'
-			}]);
-
-			// return the fields
-			return fields;
-		}
-
-		/**
-   *	Builds a wrapper that will hold our form
-   */
-
-	}, {
-		key: 'buildWrapper',
-		value: function buildWrapper() {
-
-			// create the wrapper element
-			var wrapper = document.createElement('div');
-
-			// add appropriate classes
-			wrapper.classList.add(this.base_class + '__wrapper');
-
-			// Add the toggler button to the wrapper
-			wrapper.appendChild(this.toggler);
-
-			// return the wrapper
-			return wrapper;
-		}
-
-		/**
-   *	Builds the HTML form
-   */
-
-	}, {
-		key: 'buildForm',
-		value: function buildForm() {
-
-			// Store the form for local use
-			var form = this.form;
-
-			// Loop through the required fields
-			for (var i = 0, l = this.fields.length; i < l; i++) {
-
-				// Make sure the field has a type
-				this.fields[i].el_type = this.fields[i].el_type || 'input';
-
-				// Generate the field element
-				var field = this.buildField(this.fields[i]);
-
-				// Store the newly created field element
-				this.fields[i].el = field;
-
-				// Add the field to a name map
-				this.fields_map[this.fields[i].name] = field;
-
-				// Add Filed's params
-				this.addFieldParams(this.fields[i]);
-
-				// Sets the max length on a field if present
-				this.setFieldMaxLength(this.fields[i]);
-
-				// Add the field to the form
-				form.appendChild(field.wrapper);
-			}
-
-			// Adds the submit button
-			this.button = this.addSubmit();
-
-			// Now write the form to the body
-			this.writeForm();
-
-			// Set up the form events
-			this.formEvents();
-
-			// return the form
-			return form;
-		}
-
-		/**
-   *	Adds a submit button to the form
-   */
-
-	}, {
-		key: 'addSubmit',
-		value: function addSubmit() {
-
-			// Create the button element
-			var button = document.createElement('button');
-
-			// Add the proper class to the button
-			button.classList.add(this.base_class + '__submit');
-
-			// Set the button to submit
-			button.setAttribute('type', 'submit');
-
-			// Add the submit value to button so it can post the form
-			button.value = 'Submit';
-
-			// Add the text to the button
-			button.innerHTML = this.submit_button_text;
-
-			// Add the button to the form
-			this.form.appendChild(button);
-
-			return button;
-		}
-
-		/**
-   *	Adds open/close button
-   */
-
-	}, {
-		key: 'buildToggler',
-		value: function buildToggler() {
-
-			// Create the element
-			var toggler = document.createElement('a'),
-			    span = document.createElement('span'),
-			    span_count = 1;
-
-			// Add a class to the span
-			span.classList.add(this.base_class + '__toggler-span');
-
-			// add some spans for styling
-			for (var i = 1; i <= span_count; i++) {
-
-				// Store the current span
-				var current_span = span.cloneNode(true);
-
-				// Add an identifying class
-				current_span.classList.add(this.base_class + '__toggler-span--' + i);
-
-				// Add the span to the toggler
-				toggler.appendChild(current_span);
-			}
-
-			// Add proper class to the anchor
-			toggler.classList.add(this.base_class + '__toggler');
-
-			// Set up the toggler events
-			this.togglerEvents(toggler);
-
-			// return the anchor
-			return toggler;
-		}
-
-		/**
-   *	Handles all events associated with the toggler
-   *	Mainly the open/close
-   */
-
-	}, {
-		key: 'togglerEvents',
-		value: function togglerEvents(toggler) {
-			var _this2 = this;
-
-			// Add toggler events
-			toggler.addEventListener('click', function () {
-
-				// Jump out if we are sending
-				if (_this2.is_sending) return;
-
-				// Toggle the open class
-				_this2.shell.classList.toggle(_this2.base_class + '--open');
-			});
-		}
-
-		/**
-   *
-   */
-
-		/**
-   *	Adds necessary paramaters to the field
-   */
-
-	}, {
-		key: 'addFieldParams',
-		value: function addFieldParams(field) {
-
-			// Set the field's placeholder
-			field.el.input.setAttribute('placeholder', field.placeholder || '');
-
-			// Set the field's name
-			field.el.input.setAttribute('name', field.name || '');
-
-			// Set the field's type
-			field.el.input.setAttribute('type', field.type || '');
-
-			// Set the maxlength of the field if present
-			if (field.max_length) field.el.input.setAttribute('maxlength', field.max_length);
-
-			// Set the field's value
-			field.el.input.value = field.value || '';
-		}
-
-		/**
-   *	Sets a maximum length on a field
-   */
-
-	}, {
-		key: 'setFieldMaxLength',
-		value: function setFieldMaxLength(field) {
-
-			// jump out if no max_length
-			if (!field.max_length) return;
-
-			// Store the input for easy access
-			var input = field.el.input,
-			    wrapper = field.el.wrapper,
-			    counter = this.buildElement('span', 'counter'),
-			    max_length = field.max_length,
-			    limit_reached = false,
-			    limit_reached_class = this.base_class + '__field--limit_reached';
-
-			// Add the counter to the field object
-			field.counter = counter;
-
-			// Set the counter value to 0
-			counter.innerHTML = max_length;
-
-			// Add the counter to the wrapper
-			wrapper.appendChild(counter);
-
-			// Watch the field for update in values
-			input.addEventListener('input', function () {
-
-				// Store the value for easy access
-				var value = input.value,
-				    char_count = max_length - value.length;
-
-				// If we've acheived our max character length
-				if (char_count <= 0) {
-
-					// Stop the string from going past max length
-					input.value = value.substring(0, max_length);
-
-					// Set the limit reached
-					if (!limit_reached) {
-
-						// Increment the counter
-						counter.innerHTML = '0';
-
-						// Add the limit reached class
-						wrapper.classList.add(limit_reached_class);
-
-						// Set the limit reached switch
-						// so we don't do this every time
-						limit_reached = true;
-					}
-				} else {
-
-					// Increment the counter
-					counter.innerHTML = char_count;
-
-					// if the limit was reached, reset it
-					if (limit_reached) {
-
-						// Add the limit reached class
-						wrapper.classList.remove(limit_reached_class);
-
-						// Unset the limit reached switch
-						// so we don't do this every time
-						limit_reached = false;
-					}
-				}
-			});
-		}
-
-		/**
-   *	Writes the generated html to the shell
-   */
-
-	}, {
-		key: 'writeForm',
-		value: function writeForm() {
-
-			// Add the form to the wrapper
-			this.wrapper.appendChild(this.form);
-
-			// Add the wrapper to the shell
-			this.shell.appendChild(this.wrapper);
-		}
-
-		/**
-   *	Builds a field including it's wrapper element and label
-   */
-
-	}, {
-		key: 'buildField',
-		value: function buildField(field) {
-
-			// Generate field
-			// Wrapper element
-			// and label
-			var field_el = this.buildElement(field.el_type),
-			    field_wrapper = this.buildElement('div', 'field'),
-			    field_label = this.buildElement('label');
-
-			// Add class to field
-			field_el.classList.add(this.base_class + '__input');
-
-			// Add required to field
-			if (field.required) field_el.setAttribute('required', 'required');
-
-			// Add text to the label
-			if (field.label && this.label) field_label.innerHTML = field.label;
-
-			// Add the elements to the wrapper
-			if (field.label && this.label) field_wrapper.appendChild(field_label);
-			field_wrapper.appendChild(field_el);
-
-			// return the wrapper
-			return {
-				input: field_el,
-				wrapper: field_wrapper
-			};
-		}
-
-		/**
-   *	Generates the form's markup (including extra params)
-   */
-
-	}, {
-		key: 'generateFormElement',
-		value: function generateFormElement() {
-
-			// Generate the form element
-			var form = this.buildElement('form');
-
-			// Add extra params here
-			form.setAttribute('action', this.action);
-
-			// Set the method
-			form.setAttribute('method', this.method);
-
-			// Add extra params here
-			form.setAttribute('enctype', 'text/plain');
-
-			// return it
-			return form;
-		}
-
-		/**
-   *	Build Element
-   */
-
-	}, {
-		key: 'buildElement',
-		value: function buildElement() {
-			var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'input';
-			var i_class = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-
-
-			// Store the element
-			var el = document.createElement(type),
-			    el_class = i_class || type;
-
-			// Give the element a class
-			el.classList.add(this.base_class + '__' + el_class);
-
-			// return the built element
-			return el;
-		}
-
-		/**
-   *	Generates the subject line of the email
-   */
-
-	}, {
-		key: 'generateSubjectLine',
-		value: function generateSubjectLine() {
-
-			// Create the subject var
-			var subject = this.subject_format;
-
-			// add the project to the
-			subject = subject.replace('%project%', this.project);
-
-			// Add datetime to the string
-			subject = subject.replace('%date_time%', new Date());
-
-			// return the formatted subject
-			return subject;
-		}
-
-		/**
-   * Generates encoded fields for posting
-   */
-
-	}, {
-		key: 'generateEncodedFields',
-		value: function generateEncodedFields() {
-
-			// init the field string
-			var fields_string = '';
-
-			// Loop through all fields
-			for (var i = 0; i < this.fields.length; i++) {
-
-				// Jump out if subject or body fields
-				if (~['body', 'subject'].indexOf(this.fields[i].name)) continue;
-
-				// Add an amp
-				fields_string += fields_string ? '&' : '';
-
-				// Add the value of the new line to the body
-				fields_string += this.fields[i].name + '=' + this.fields[i].el.input.value;
-			}
-
-			// return the built fields string
-			return !fields_string ? '' : '&' + fields_string;
-		}
-
-		/**
-   *	Generates the body of the message
-   */
-
-	}, {
-		key: 'generateMessageBody',
-		value: function generateMessageBody() {
-
-			// Set up our body
-			var body = '';
-
-			// Loop through all fields
-			for (var i = 0; i < this.fields.length; i++) {
-
-				// Jump out if subject or body fields
-				if (~['body', 'subject'].indexOf(this.fields[i].name)) continue;
-
-				// Add new line to the body
-				body += (!body ? '' : "\r\n\r\n") + this.fields[i].label + ':';
-
-				// Add the value of the new line to the body
-				body += "\r\n" + this.sanitize(this.fields[i].el.input.value.replace(/&/g, ' amp '));
-			}
-
-			// Loop through our extra informations
-			// for dev purposes
-			for (var i = 0; i < this.detect_extra_info.length; i++) {
-				body += (!body ? '' : "\r\n\r\n") + this.detect_extra_info[i].label + ":\r\n" + this.detective.detect(this.detect_extra_info[i].fn).message;
-			}
-
-			// Return the constructed body
-			return body;
-		}
-
-		/**
-   *	Generates a browser screenshot
-   */
-
-	}, {
-		key: 'generateScreenshot',
-		value: function generateScreenshot(cb) {
-			var _this3 = this;
-
-			// Jump out if we don't want to render a screenshot
-			if (!this.sends_screenshot) cb();
-
-			// Get the user's scroll position
-			var doc = document.documentElement,
-			    pos_x = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0),
-			    pos_y = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
-
-			// First, hide the exterminator
-			this.shell.classList.add(this.base_class + '--screenshot');
-
-			// Scroll the window to the top
-			window.scrollTo(0, 0);
-
-			// Add the viewport ghost
-			this.addViewportghost(pos_x, pos_y);
-
-			// Now use html2canvas to take a screenshot
-			(0, _html2canvas2.default)(this.shell, { background: '#fff' }).then(function (canvas) {
-
-				// remove the viewport ghost
-				_this3.removeViewportghost();
-
-				// Set the scroll position back to where they were
-				window.scrollTo(pos_x, pos_y);
-
-				// After screenshot has been taken, put
-				// the exterminator back
-				_this3.shell.classList.remove(_this3.base_class + '--screenshot');
-
-				// Turn the canvas into an image and
-				// store it in the obj as base64 "image/png"
-				_this3.screenshot = canvas.toDataURL();
-
-				// run our callback
-				cb();
-			});
-		}
-
-		/**
-   *	Builds a ghost so we can see where the user
-   *	reported the bug
-   */
-
-	}, {
-		key: 'addViewportghost',
-		value: function addViewportghost(x, y) {
-
-			// We haven't already created the ghost
-			if (!this.screenshot_ghost) {
-
-				// Create the ghost and store it in the obj
-				this.screenshot_ghost = document.createElement('div');
-
-				// Give it the class it needs
-				this.screenshot_ghost.classList.add(this.base_class + '__screenshot-ghost');
-			}
-
-			// Set its x and y coords
-			this.screenshot_ghost.style.left = x + 'px';
-			this.screenshot_ghost.style.top = y + 'px';
-			this.screenshot_ghost.style.width = (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) + 'px';
-			this.screenshot_ghost.style.height = (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) + 'px';
-
-			// add the ghost to the body
-			this.shell.appendChild(this.screenshot_ghost);
-		}
-
-		/**
-   *	Removes the ghost from the viewport
-   */
-
-	}, {
-		key: 'removeViewportghost',
-		value: function removeViewportghost() {
-
-			// removes the ghost from the shell....
-			this.shell.removeChild(this.screenshot_ghost);
-		}
-
-		/**
-   *	Submits the form as a mailto link
-   */
-
-	}, {
-		key: 'triggerMailto',
-		value: function triggerMailto() {
-			var _this4 = this;
-
-			// Send the form via email mailto link
-			var win = window.open(
-			//this.form.getAttribute('action')
-			'mailto:' + this.email + '?subject=' + encodeURI(this.generateSubjectLine()) + '&body=' + encodeURI(this.generateMessageBody()) + (this.cc.length ? '&cc=' + this.cc.concat(_templateObject) : ''), '_blank');
-
-			// Set close after 1 second
-			setTimeout(function () {
-
-				// Set the successful state
-				_this4.triggerSuccess();
-
-				// close the window
-				if (win) win.close();
-			}, 1000);
-		}
-
-		/**
-   *	Sets the sending state of the form
-   */
-
-	}, {
-		key: 'setSendingState',
-		value: function setSendingState() {
-			var is_sending = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-
-
-			// Turn on the sending flag
-			this.is_sending = is_sending;
-
-			// Add a "sending" class to the shell
-			this.shell.classList[is_sending ? 'add' : 'remove'](this.base_class + '--sending');
-		}
-
-		/**
-   *	Sets up the events associated with the form
-   */
-
-	}, {
-		key: 'formEvents',
-		value: function formEvents() {
-			var _this5 = this;
-
-			// Set up a form submission callback
-			this.form.addEventListener('submit', function (e) {
-
-				// prevent form from submitting
-				e.preventDefault();
-
-				// Set the sending state of the form
-				_this5.setSendingState(true);
-
-				// If the form is set to trigger a mailto
-				if (_this5.is_mailto) {
-
-					// Trigger the mailto
-					_this5.triggerMailto();
-				} else {
-
-					// Generate a screenshot
-					_this5.generateScreenshot(function () {
-
-						// do ajax request
-						_this5.triggerAjax(function (successful) {
-
-							// If it fails, fallback to mailto
-							if (!successful) _this5.triggerMailto();
-
-							// Trigger the success state
-							else _this5.triggerSuccess();
-						});
-					});
-				}
-			});
-		}
-
-		/**
-   *	This is what happens when the message is sent
-   */
-
-	}, {
-		key: 'triggerSuccess',
-		value: function triggerSuccess() {
-			var _this6 = this;
-
-			// Clear the form out
-			this.clearForm();
-
-			// Remove the sending state
-			this.setSendingState(false);
-
-			// Set the form to success
-			this.shell.classList.add(this.base_class + '--sent');
-
-			// After 5 seconds remove success state
-			setTimeout(function () {
-				_this6.shell.classList.remove(_this6.base_class + '--sent');
-			}, 5000);
-		}
-
-		/**
-   *	Makes an ajax request to an endpoint
-   */
-
-	}, {
-		key: 'triggerAjax',
-		value: function triggerAjax(cb) {
-
-			// Set up the request
-			var r = new XMLHttpRequest(),
-			    data = 'subject=' + encodeURI(this.sanitize(this.generateSubjectLine())) + '&body=' + encodeURI(this.generateMessageBody()) + '&email=' + this.email + this.generateEncodedFields() + (this.cc.length ? '&cc=' + this.cc.concat(_templateObject) : '') + (this.screenshot ? '&screenshot=' + this.screenshot : '') + (this.bitbucket ? "&bitbucket=" + JSON.stringify(this.bitbucket) : '');
-
-			// Set up the post
-			r.open(this.method, this.action, true);
-
-			// Set up the content type
-			r.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-
-			// Do a check
-			r.onreadystatechange = function () {
-
-				// if is ready?? lolz
-				if (this.readyState === 4) {
-
-					// if response was successful
-					if (this.status >= 200 && this.status < 400) {
-
-						// Get the response
-						var resp = JSON.parse(this.responseText);
-
-						// return the status of the request
-						cb(resp.status);
-					} else {
-
-						// return false to the callback
-						cb(false);
-					}
-				}
-			};
-
-			// Send the request
-			r.send(data);
-		}
-
-		/**
-   *	Clears out the form
-   */
-
-	}, {
-		key: 'clearForm',
-		value: function clearForm() {
-
-			// Store the fields for easy access
-			var fields = this.fields;
-
-			// Loop through the fields
-			for (var i = 0; i < fields.length; i++) {
-
-				// Store the field in the block scope
-				var field = this.fields[i],
-				    input = field.el.input;
-
-				// Skip if is hidden
-				if (field.type && field.type == 'hidden') continue;
-
-				// Store the value in case we need to retreive it
-				field.previous_value = input.value;
-
-				// Clear the field's value
-				input.value = '';
-			}
-		}
-
-		/**
-   *	Sanatizes strings
-   */
-
-	}, {
-		key: 'sanitize',
-		value: function sanitize(str) {
-			str = str.replace(/[^a-z0-9áéíóúñü\.\s,_-]/gim, "");
-			return str.trim();
-		}
-	}]);
-
-	return CallTheExterminator;
-}();
-
-/***/ }),
+/* 118 */,
 /* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9267,7 +8320,7 @@ exports = module.exports = __webpack_require__(303)(undefined);
 
 
 // module
-exports.push([module.i, "/**\n *  Base class of the component\n *  You can change this to anything but make sure\n *  to change it in the JS class as well!\n *\n *  @type {String} CSS Class\n */\n/**\n *  Gutter\n *\n *  @type {Measurement} The gutter base size\n */\n/**\n *  Font Size\n *  Keep this px and not relative since the contexts that the\n *  script could be in may vary along with their ems/rems/...\n *\n *  @type {px}\n */\n/**\n *  Color variables\n *  Modify these to theme the tracker\n *\n *  @type {hex}\n */\n@font-face {\n  font-family: system;\n  font-style: normal;\n  font-weight: 300;\n  src: local(\".SFNSText-Light\"), local(\".HelveticaNeueDeskInterface-Light\"), local(\".LucidaGrandeUI\"), local(\"Ubuntu Light\"), local(\"Segoe UI Light\"), local(\"Roboto-Light\"), local(\"DroidSans\"), local(\"Tahoma\"); }\n\n@keyframes spin {\n  0% {\n    transform: rotate(0deg); }\n  100% {\n    transform: rotate(-1080deg); } }\n\n@keyframes tada {\n  from {\n    transform: scale3d(1, 1, 1); }\n  10%, 20% {\n    transform: scale3d(0.7, 0.7, 0.7) rotate3d(0, 0, 1, -3deg); }\n  30%, 50%, 70%, 90% {\n    transform: scale3d(1.3, 1.3, 1.3) rotate3d(0, 0, 1, 3deg); }\n  40%, 60%, 80% {\n    transform: scale3d(1.3, 1.3, 1.3) rotate3d(0, 0, 1, -3deg); }\n  to {\n    transform: scale3d(1, 1, 1); } }\n\n@keyframes shake {\n  from, to {\n    transform: translate3d(0, 0, 0); }\n  10%, 30%, 50%, 70%, 90% {\n    transform: translate3d(-10px, 0, 0); }\n  20%, 40%, 60%, 80% {\n    transform: translate3d(10px, 0, 0); } }\n\n/**\n *\tHendles the screenshot state\n */\n.exterminator--screenshot {\n  overflow: hidden;\n  height: auto; }\n\n/**\n *  Reset for our classes\n */\n.exterminator,\n[class^=\".exterminator__\"],\n[class*=\" .exterminator__\"] {\n  margin: 0;\n  padding: 0;\n  vertical-align: baseline;\n  display: block;\n  -webkit-font-smoothing: antialiased !important;\n  transition: all .2s linear 0s;\n  font-family: \"system\";\n  box-sizing: border-box; }\n\n/**\n *  The Exterminator Styles\n *  See variables to adjust certain items\n */\n.exterminator__wrapper {\n  position: relative;\n  z-index: 10000; }\n\n.exterminator__toggler {\n  position: fixed;\n  box-sizing: border-box;\n  bottom: 0px;\n  right: 0;\n  width: 44px;\n  height: 44px;\n  border-radius: 4px;\n  border: 1px solid #33465c;\n  background: #33465c;\n  /* image replacement */\n  overflow: hidden;\n  text-indent: 100%;\n  white-space: nowrap;\n  z-index: 2;\n  font-weight: 400; }\n  .exterminator__toggler span {\n    /* the span element is used to create the menu icon */\n    position: absolute;\n    display: block;\n    width: 20px;\n    height: 2px;\n    background: #fff;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    transition: background 0.3s; }\n    .exterminator__toggler span::before, .exterminator__toggler span::after {\n      content: '';\n      position: absolute;\n      left: 0;\n      background: inherit;\n      width: 100%;\n      height: 100%;\n      /* Force Hardware Acceleration in WebKit */\n      transform: translateZ(0);\n      backface-visibility: hidden;\n      transition: transform 0.3s, background 0s; }\n    .exterminator__toggler span::before {\n      top: -6px;\n      transform: rotate(0); }\n    .exterminator__toggler span::after {\n      bottom: -6px;\n      transform: rotate(0); }\n  .exterminator--open .exterminator__toggler,\n  .exterminator--error .exterminator__toggler {\n    box-shadow: none; }\n    .exterminator--open .exterminator__toggler span,\n    .exterminator--error .exterminator__toggler span {\n      background: rgba(232, 74, 100, 0); }\n      .exterminator--open .exterminator__toggler span::before, .exterminator--open .exterminator__toggler span::after,\n      .exterminator--error .exterminator__toggler span::before,\n      .exterminator--error .exterminator__toggler span::after {\n        background: #fff; }\n      .exterminator--open .exterminator__toggler span::before,\n      .exterminator--error .exterminator__toggler span::before {\n        top: 0;\n        transform: rotate(135deg); }\n      .exterminator--open .exterminator__toggler span::after,\n      .exterminator--error .exterminator__toggler span::after {\n        bottom: 0;\n        transform: rotate(225deg); }\n  .exterminator--sending .exterminator__toggler {\n    box-shadow: inherit;\n    background-color: #FFCC00;\n    border-color: #FFCC00;\n    cursor: wait;\n    animation-name: spin;\n    animation-duration: 2s;\n    animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);\n    animation-iteration-count: infinite; }\n    .exterminator--sending .exterminator__toggler span {\n      background: transparent;\n      width: 2px;\n      transition: all 0.3s; }\n      .exterminator--sending .exterminator__toggler span:before, .exterminator--sending .exterminator__toggler span:after {\n        font-family: sans-serif;\n        background: transparent;\n        left: -1em;\n        line-height: 0em;\n        width: 2em;\n        font-size: 1.7em;\n        color: #fff;\n        text-align: center;\n        transition: none;\n        -webkit-font-smoothing: antialiased; }\n      .exterminator--sending .exterminator__toggler span:before {\n        content: '\\293A';\n        top: calc(-2px - 0.3em);\n        transform: rotate(0); }\n      .exterminator--sending .exterminator__toggler span:after {\n        content: '\\293B';\n        bottom: calc(2px - 0.3em);\n        transform: rotate(0); }\n  .exterminator--sent .exterminator__toggler {\n    box-shadow: inherit;\n    background-color: #0f0;\n    border-color: #0f0;\n    animation-name: tada;\n    animation-duration: 1s; }\n    .exterminator--sent .exterminator__toggler span {\n      background-color: transparent; }\n      .exterminator--sent .exterminator__toggler span::before, .exterminator--sent .exterminator__toggler span::after {\n        left: auto;\n        background-color: #fff; }\n      .exterminator--sent .exterminator__toggler span::before {\n        top: 0;\n        transform: rotate(-45deg);\n        right: -3px; }\n      .exterminator--sent .exterminator__toggler span::after {\n        top: 3px;\n        transform: rotate(45deg);\n        left: -2px;\n        width: 50%; }\n  .exterminator--error .exterminator__toggler {\n    box-shadow: inherit;\n    background-color: #e84a64;\n    border-color: #e84a64;\n    animation-name: shake;\n    animation-duration: 0.75s; }\n\n.exterminator__form {\n  color: #33465c;\n  position: fixed;\n  width: 100%;\n  max-height: 100vh;\n  max-width: 400px;\n  right: 0px;\n  bottom: 0px;\n  border-radius: 4px;\n  padding: 20px;\n  background: #fff;\n  visibility: hidden;\n  overflow: scroll;\n  -webkit-overflow-scrolling: touch;\n  z-index: 1;\n  /* Force Hardware Acceleration in WebKit */\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  transform: scale(0);\n  transform-origin: 100% 100%;\n  transition: transform 0.3s, visibility 0s 0.3s;\n  border: 1px solid #33465c;\n  box-shadow: 0 64px 64px 0 rgba(135, 152, 163, 0.1), 0 32px 32px 0 rgba(135, 152, 163, 0.1), 0 16px 16px 0 rgba(135, 152, 163, 0.1), 0 8px 8px 0 rgba(135, 152, 163, 0.1), 0 4px 4px 0 rgba(135, 152, 163, 0.1), 0 2px 2px 0 rgba(135, 152, 163, 0.1); }\n  .exterminator--open .exterminator__form {\n    visibility: visible;\n    transform: scale(1);\n    transition: transform 0.3s, visibility 0s 0s; }\n  .exterminator--sending .exterminator__form {\n    visibility: hidden;\n    transform: scale(0);\n    transition: transform 0.3s, visibility 0s 0.3s; }\n\n.exterminator__title {\n  color: #33465c;\n  font-size: 24px;\n  font-weight: 600;\n  margin-bottom: 20px;\n  display: block; }\n\n.exterminator__label {\n  color: #33465c;\n  margin-bottom: 5px; }\n\n.exterminator__field {\n  margin-bottom: 24px;\n  position: relative; }\n\n.exterminator__counter {\n  position: absolute;\n  top: 0;\n  right: 0; }\n  .exterminator__field--limit_reached .exterminator__counter {\n    color: #e84a64; }\n\n.exterminator__input {\n  text-indent: 0px;\n  font-size: 16px;\n  font-weight: normal;\n  border: 1px solid #eee;\n  padding: 10px 15px;\n  color: #33465c;\n  width: 100%;\n  display: block; }\n  .exterminator__input:valid {\n    border-color: #0f0; }\n\n.exterminator__textarea {\n  height: 70px; }\n\n.exterminator__submit {\n  text-transform: uppercase;\n  display: block;\n  max-width: calc(100% - 100px);\n  width: 100%;\n  border-radius: 4px;\n  border: 1px solid #33465c;\n  background: #33465c;\n  padding: 10px;\n  font-weight: 600;\n  letter-spacing: 0.3px;\n  color: #fff;\n  cursor: pointer;\n  line-height: 1em; }\n  .exterminator__submit:hover {\n    background: #2d3e52; }\n\n.exterminator__screenshot-ghost {\n  position: absolute;\n  z-index: 100000000;\n  background: rgba(255, 0, 0, 0.1);\n  top: 0;\n  left: 0;\n  border: 10px solid #e84a64;\n  box-sizing: border-box;\n  width: 100%;\n  height: 100%;\n  opacity: 0.5; }\n\n@media (min-width: 600px) {\n  .exterminator__toggler, .exterminator__form {\n    bottom: 20px;\n    right: 5%; }\n  .exterminator__form {\n    width: 90%; }\n  .exterminator__textarea {\n    height: 100px; } }\n", ""]);
+exports.push([module.i, "/**\n *  Base class of the component\n *  You can change this to anything but make sure\n *  to change it in the JS class as well!\n *\n *  @type {String} CSS Class\n */\n/**\n *  Gutter\n *\n *  @type {Measurement} The gutter base size\n */\n/**\n *  Font Size\n *  Keep this px and not relative since the contexts that the\n *  script could be in may vary along with their ems/rems/...\n *\n *  @type {px}\n */\n/**\n *  Color variables\n *  Modify these to theme the tracker\n *\n *  @type {hex}\n */\n@font-face {\n  font-family: system;\n  font-style: normal;\n  font-weight: 300;\n  src: local(\".SFNSText-Light\"), local(\".HelveticaNeueDeskInterface-Light\"), local(\".LucidaGrandeUI\"), local(\"Ubuntu Light\"), local(\"Segoe UI Light\"), local(\"Roboto-Light\"), local(\"DroidSans\"), local(\"Tahoma\"); }\n\n@keyframes spin {\n  0% {\n    transform: rotate(0deg); }\n  100% {\n    transform: rotate(-1080deg); } }\n\n@keyframes tada {\n  from {\n    transform: scale3d(1, 1, 1); }\n  10%, 20% {\n    transform: scale3d(0.7, 0.7, 0.7) rotate3d(0, 0, 1, -3deg); }\n  30%, 50%, 70%, 90% {\n    transform: scale3d(1.3, 1.3, 1.3) rotate3d(0, 0, 1, 3deg); }\n  40%, 60%, 80% {\n    transform: scale3d(1.3, 1.3, 1.3) rotate3d(0, 0, 1, -3deg); }\n  to {\n    transform: scale3d(1, 1, 1); } }\n\n@keyframes shake {\n  from, to {\n    transform: translate3d(0, 0, 0); }\n  10%, 30%, 50%, 70%, 90% {\n    transform: translate3d(-10px, 0, 0); }\n  20%, 40%, 60%, 80% {\n    transform: translate3d(10px, 0, 0); } }\n\n/**\n *\tHendles the screenshot state\n */\n.exterminator--screenshot {\n  overflow: hidden;\n  height: auto; }\n\n/**\n *  Reset for our classes\n */\n.exterminator,\n[class^=\".exterminator__\"],\n[class*=\" .exterminator__\"] {\n  margin: 0;\n  padding: 0;\n  vertical-align: baseline;\n  display: block;\n  -webkit-font-smoothing: antialiased !important;\n  transition: all .2s linear 0s;\n  font-family: \"system\";\n  box-sizing: border-box; }\n\n/**\n *  The Exterminator Styles\n *  See variables to adjust certain items\n */\n.exterminator__wrapper {\n  position: relative;\n  z-index: 10000; }\n\n.exterminator__toggler {\n  position: fixed;\n  box-sizing: border-box;\n  bottom: 0px;\n  right: 0;\n  width: 44px;\n  height: 44px;\n  border-radius: 4px;\n  border: 1px solid #33465c;\n  background: #33465c;\n  /* image replacement */\n  overflow: hidden;\n  text-indent: 100%;\n  white-space: nowrap;\n  z-index: 2;\n  font-weight: 400; }\n  .exterminator__toggler span {\n    /* the span element is used to create the menu icon */\n    position: absolute;\n    display: block;\n    width: 20px;\n    height: 2px;\n    background: #fff;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    transition: background 0.3s; }\n    .exterminator__toggler span::before, .exterminator__toggler span::after {\n      content: '';\n      position: absolute;\n      left: 0;\n      background: inherit;\n      width: 100%;\n      height: 100%;\n      /* Force Hardware Acceleration in WebKit */\n      transform: translateZ(0);\n      backface-visibility: hidden;\n      transition: transform 0.3s, background 0s; }\n    .exterminator__toggler span::before {\n      top: -6px;\n      transform: rotate(0); }\n    .exterminator__toggler span::after {\n      bottom: -6px;\n      transform: rotate(0); }\n  .exterminator--open .exterminator__toggler,\n  .exterminator--error .exterminator__toggler {\n    box-shadow: none; }\n    .exterminator--open .exterminator__toggler span,\n    .exterminator--error .exterminator__toggler span {\n      background: rgba(232, 74, 100, 0); }\n      .exterminator--open .exterminator__toggler span::before, .exterminator--open .exterminator__toggler span::after,\n      .exterminator--error .exterminator__toggler span::before,\n      .exterminator--error .exterminator__toggler span::after {\n        background: #fff; }\n      .exterminator--open .exterminator__toggler span::before,\n      .exterminator--error .exterminator__toggler span::before {\n        top: 0;\n        transform: rotate(135deg); }\n      .exterminator--open .exterminator__toggler span::after,\n      .exterminator--error .exterminator__toggler span::after {\n        bottom: 0;\n        transform: rotate(225deg); }\n  .exterminator--sending .exterminator__toggler {\n    box-shadow: inherit;\n    background-color: #FFCC00;\n    border-color: #FFCC00;\n    cursor: wait;\n    animation-name: spin;\n    animation-duration: 2s;\n    animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);\n    animation-iteration-count: infinite; }\n    .exterminator--sending .exterminator__toggler span {\n      background: transparent;\n      width: 2px;\n      transition: all 0.3s; }\n      .exterminator--sending .exterminator__toggler span:before, .exterminator--sending .exterminator__toggler span:after {\n        font-family: sans-serif;\n        background: transparent;\n        left: -1em;\n        line-height: 0em;\n        width: 2em;\n        font-size: 1.7em;\n        color: #fff;\n        text-align: center;\n        transition: none;\n        -webkit-font-smoothing: antialiased; }\n      .exterminator--sending .exterminator__toggler span:before {\n        content: '\\293A';\n        top: calc(-2px - 0.3em);\n        transform: rotate(0); }\n      .exterminator--sending .exterminator__toggler span:after {\n        content: '\\293B';\n        bottom: calc(2px - 0.3em);\n        transform: rotate(0); }\n  .exterminator--sent .exterminator__toggler {\n    box-shadow: inherit;\n    background-color: #4BB543;\n    border-color: #4BB543;\n    animation-name: tada;\n    animation-duration: 1s; }\n    .exterminator--sent .exterminator__toggler span {\n      background-color: transparent; }\n      .exterminator--sent .exterminator__toggler span::before, .exterminator--sent .exterminator__toggler span::after {\n        left: auto;\n        background-color: #fff; }\n      .exterminator--sent .exterminator__toggler span::before {\n        top: 0;\n        transform: rotate(-45deg);\n        right: -3px; }\n      .exterminator--sent .exterminator__toggler span::after {\n        top: 3px;\n        transform: rotate(45deg);\n        left: -2px;\n        width: 50%; }\n  .exterminator--error .exterminator__toggler {\n    box-shadow: inherit;\n    background-color: #e84a64;\n    border-color: #e84a64;\n    animation-name: shake;\n    animation-duration: 0.75s; }\n\n.exterminator__form {\n  color: #33465c;\n  position: fixed;\n  width: 100%;\n  max-height: 100vh;\n  max-width: 400px;\n  right: 0px;\n  bottom: 0px;\n  border-radius: 4px;\n  padding: 20px;\n  background: #fff;\n  visibility: hidden;\n  overflow: scroll;\n  -webkit-overflow-scrolling: touch;\n  z-index: 1;\n  /* Force Hardware Acceleration in WebKit */\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  transform: scale(0);\n  transform-origin: 100% 100%;\n  transition: transform 0.3s, visibility 0s 0.3s;\n  border: 1px solid #33465c;\n  box-shadow: 0 64px 64px 0 rgba(135, 152, 163, 0.1), 0 32px 32px 0 rgba(135, 152, 163, 0.1), 0 16px 16px 0 rgba(135, 152, 163, 0.1), 0 8px 8px 0 rgba(135, 152, 163, 0.1), 0 4px 4px 0 rgba(135, 152, 163, 0.1), 0 2px 2px 0 rgba(135, 152, 163, 0.1); }\n  .exterminator--open .exterminator__form {\n    visibility: visible;\n    transform: scale(1);\n    transition: transform 0.3s, visibility 0s 0s; }\n  .exterminator--sending .exterminator__form {\n    visibility: hidden;\n    transform: scale(0);\n    transition: transform 0.3s, visibility 0s 0.3s; }\n\n.exterminator__title {\n  color: #33465c;\n  font-size: 24px;\n  font-weight: 600;\n  margin-bottom: 20px;\n  display: block; }\n\n.exterminator__label {\n  color: #33465c;\n  margin-bottom: 5px; }\n\n.exterminator__field {\n  margin-bottom: 24px;\n  position: relative; }\n\n.exterminator__counter {\n  position: absolute;\n  top: 0;\n  right: 0; }\n  .exterminator__field--limit_reached .exterminator__counter {\n    color: #e84a64; }\n\n.exterminator__input {\n  text-indent: 0px;\n  font-size: 16px;\n  font-weight: normal;\n  border: 1px solid #eee;\n  padding: 10px 15px;\n  color: #33465c;\n  width: 100%;\n  display: block; }\n  .exterminator__input:valid {\n    border-color: #4BB543; }\n\n.exterminator__textarea {\n  height: 70px; }\n\n.exterminator__submit {\n  text-transform: uppercase;\n  display: block;\n  max-width: calc(100% - 100px);\n  width: 100%;\n  border-radius: 4px;\n  border: 1px solid #33465c;\n  background: #33465c;\n  padding: 15px;\n  font-weight: 600;\n  letter-spacing: 0.3px;\n  color: #fff;\n  cursor: pointer;\n  line-height: 1em; }\n  .exterminator__submit:hover {\n    background: #2d3e52; }\n\n.exterminator__screenshot-ghost {\n  position: absolute;\n  z-index: 100000000;\n  background: rgba(255, 0, 0, 0.1);\n  top: 0;\n  left: 0;\n  border: 10px solid #e84a64;\n  box-sizing: border-box;\n  width: 100%;\n  height: 100%;\n  opacity: 0.5; }\n\n@media (min-width: 600px) {\n  .exterminator__toggler, .exterminator__form {\n    bottom: 20px;\n    right: 5%; }\n  .exterminator__form {\n    width: 90%; }\n  .exterminator__textarea {\n    height: 100px; } }\n", ""]);
 
 // exports
 
@@ -15326,6 +14379,967 @@ __webpack_require__(116);
 __webpack_require__(115);
 module.exports = __webpack_require__(114);
 
+
+/***/ }),
+/* 312 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     	CallTheExterminator
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     	A lightweight QA reporter that sends through much needed informations.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     */
+
+// Grab Platform.js for browser info
+
+
+// Grab html2canvas for screenshots
+// plus quick fix for IE (assigning to window)
+
+
+var _templateObject = _taggedTemplateLiteral([','], [',']);
+
+var _Detective = __webpack_require__(119);
+
+var _Detective2 = _interopRequireDefault(_Detective);
+
+var _html2canvas = __webpack_require__(304);
+
+var _html2canvas2 = _interopRequireDefault(_html2canvas);
+
+var _fields = __webpack_require__(120);
+
+var _fields2 = _interopRequireDefault(_fields);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+window.html2canvas = _html2canvas2.default;
+
+// Grab our set fields
+
+
+// The class
+module.exports = function () {
+
+	/**
+  *	Construct
+  */
+	function CallTheExterminator(args) {
+		var _this = this;
+
+		_classCallCheck(this, CallTheExterminator);
+
+		// Add arguments to the object
+		_extends(this, {
+
+			// Set the base class of the elements
+			base_class: 'exterminator',
+
+			// Sets the submit button text
+			submit_button_text: 'Report',
+
+			// Set the project name
+			project: 'Project Name',
+
+			// Set the Subject formatting
+			subject_format: '%project% - Bug Report - %date_time%',
+
+			// Sets the form's method
+			action: 'mailto:',
+
+			// Set the method
+			method: 'POST',
+
+			// Set the pm
+			email: 'somepm@someagency.com',
+
+			// Set up ccd emails
+			cc: [],
+
+			// Show labels
+			labels: false,
+
+			// Set the minimum browser (IE)
+			min_browser: 10,
+
+			// Whether to send through a screenshot
+			sends_screenshot: false,
+
+			// Custom Logs to send through in report
+			custom_logs: [],
+
+			// Placeholder for Bitbucket creds
+			bitbutcket: null
+
+		}, args);
+
+		// Instantiate our detective
+		this.detective = new _Detective2.default();
+
+		// Check if the version of browser is supported
+		this.detective.detect('support', { 'version': this.min_browser });
+
+		// Extra information to detect
+		// See the detective class for available
+		this.detect_extra_info = [{ label: 'Page', fn: 'URL' }, { label: 'Envirnoment', fn: 'envirnoment' }, { label: 'Resolution', fn: 'resolution' }, { label: 'Pixel Aspect Ratio', fn: 'pixelAspectRatio' }, { label: 'Scroll Position', fn: 'scrollPosition' }, { label: 'Download Speed', fn: 'bandwidth' }, { label: 'AdBlock', fn: 'adBlock' }, { label: 'Browser Plugins', fn: 'browserPlugins' }, { label: 'Cookies', fn: 'cookiesEnabled' }, { label: 'Errors', fn: 'errors' }, { label: 'Locale', fn: 'locale' }, { label: 'Battery Status', fn: 'batteryStatus' }];
+
+		// Add our custom logging functions
+		if (this.custom_logs.length) this.addCustomLogs();
+
+		// Set the mailto flag
+		this.is_mailto = this.action.indexOf('mailto:') > -1;
+
+		// Set the action up
+		this.action = this.is_mailto ? this.action + this.email : this.action;
+
+		// Set up the field map
+		this.fields_map = {};
+
+		// Set up the submit button holder
+		this.button = null;
+
+		// Set the current screenshot to empty
+		this.screenshot = null;
+
+		// Set up a sending flag
+		this.is_sending = false;
+
+		// Set the limit reached class
+		this.limit_reached_class = this.base_class + '__field--limit_reached';
+
+		// Fires the rest of the setup once the window loads
+		if (!document.body) window.addEventListener('load', function () {
+			_this.windowReady();
+		});else this.windowReady();
+	}
+
+	/**
+  *	All the functions to fire when the window is ready
+  */
+
+
+	_createClass(CallTheExterminator, [{
+		key: 'windowReady',
+		value: function windowReady() {
+
+			// Set the top level wrapper element
+			// should keep this to the body
+			this.shell = document.body;
+
+			// Builds the form
+			this.form = this.generateFormElement();
+
+			// Set up the field mapping
+			this.fields = this.processFields(_fields2.default);
+
+			// Set up the toggler
+			this.toggler = this.buildToggler();
+
+			// Set up the wrapper
+			this.wrapper = this.buildWrapper();
+
+			// Build the form
+			this.form = this.buildForm();
+		}
+
+		/**
+   *	Adds custom logging to reporting loop
+   */
+
+	}, {
+		key: 'addCustomLogs',
+		value: function addCustomLogs() {
+
+			// Store the custom rows to loop throug
+			var rows = this.custom_logs,
+			    detect_custom_logs = [];
+
+			// Loop through the rows
+			for (var i = 0, l = rows.length; i < l; i++) {
+
+				// Add the row to the message body generator loop
+				detect_custom_logs[i] = {
+					label: rows[i].label,
+					fn: rows[i].callback.name
+				};
+
+				// Add the function as a callback
+				this.detective[rows[i].callback.name] = rows[i].callback.fn;
+			}
+
+			// Add the custom logs to the extra info
+			this.detect_extra_info = this.detect_extra_info.concat(detect_custom_logs);
+
+			// return the extra info for inspection
+			return this.detect_extra_info;
+		}
+
+		/**
+   *	Applies needed transformations on the set fields
+   */
+
+	}, {
+		key: 'processFields',
+		value: function processFields(fields) {
+
+			// Add subject and body fields
+			fields = fields.concat([{
+				name: 'subject',
+				el_type: 'input',
+				type: 'hidden'
+			}, {
+				name: 'body',
+				el_type: 'input',
+				type: 'hidden'
+			}]);
+
+			// return the fields
+			return fields;
+		}
+
+		/**
+   *	Builds a wrapper that will hold our form
+   */
+
+	}, {
+		key: 'buildWrapper',
+		value: function buildWrapper() {
+
+			// create the wrapper element
+			var wrapper = document.createElement('div');
+
+			// add appropriate classes
+			wrapper.classList.add(this.base_class + '__wrapper');
+
+			// Add the toggler button to the wrapper
+			wrapper.appendChild(this.toggler);
+
+			// return the wrapper
+			return wrapper;
+		}
+
+		/**
+   *	Builds the HTML form
+   */
+
+	}, {
+		key: 'buildForm',
+		value: function buildForm() {
+
+			// Store the form for local use
+			var form = this.form;
+
+			// Loop through the required fields
+			for (var i = 0, l = this.fields.length; i < l; i++) {
+
+				// Make sure the field has a type
+				this.fields[i].el_type = this.fields[i].el_type || 'input';
+
+				// Generate the field element
+				var field = this.buildField(this.fields[i]);
+
+				// Store the newly created field element
+				this.fields[i].el = field;
+
+				// Add the field to a name map
+				this.fields_map[this.fields[i].name] = field;
+
+				// Add Filed's params
+				this.addFieldParams(this.fields[i]);
+
+				// Sets the max length on a field if present
+				this.setFieldMaxLength(this.fields[i]);
+
+				// Add the field to the form
+				form.appendChild(field.wrapper);
+			}
+
+			// Adds the submit button
+			this.button = this.addSubmit();
+
+			// Now write the form to the body
+			this.writeForm();
+
+			// Set up the form events
+			this.formEvents();
+
+			// return the form
+			return form;
+		}
+
+		/**
+   *	Adds a submit button to the form
+   */
+
+	}, {
+		key: 'addSubmit',
+		value: function addSubmit() {
+
+			// Create the button element
+			var button = document.createElement('button');
+
+			// Add the proper class to the button
+			button.classList.add(this.base_class + '__submit');
+
+			// Set the button to submit
+			button.setAttribute('type', 'submit');
+
+			// Add the submit value to button so it can post the form
+			button.value = 'Submit';
+
+			// Add the text to the button
+			button.innerHTML = this.submit_button_text;
+
+			// Add the button to the form
+			this.form.appendChild(button);
+
+			return button;
+		}
+
+		/**
+   *	Adds open/close button
+   */
+
+	}, {
+		key: 'buildToggler',
+		value: function buildToggler() {
+
+			// Create the element
+			var toggler = document.createElement('a'),
+			    span = document.createElement('span'),
+			    span_count = 1;
+
+			// Add a class to the span
+			span.classList.add(this.base_class + '__toggler-span');
+
+			// add some spans for styling
+			for (var i = 1; i <= span_count; i++) {
+
+				// Store the current span
+				var current_span = span.cloneNode(true);
+
+				// Add an identifying class
+				current_span.classList.add(this.base_class + '__toggler-span--' + i);
+
+				// Add the span to the toggler
+				toggler.appendChild(current_span);
+			}
+
+			// Add proper class to the anchor
+			toggler.classList.add(this.base_class + '__toggler');
+
+			// Set up the toggler events
+			this.togglerEvents(toggler);
+
+			// return the anchor
+			return toggler;
+		}
+
+		/**
+   *	Handles all events associated with the toggler
+   *	Mainly the open/close
+   */
+
+	}, {
+		key: 'togglerEvents',
+		value: function togglerEvents(toggler) {
+			var _this2 = this;
+
+			// Add toggler events
+			toggler.addEventListener('click', function () {
+
+				// Jump out if we are sending
+				if (_this2.is_sending) return;
+
+				// Toggle the open class
+				_this2.shell.classList.toggle(_this2.base_class + '--open');
+			});
+		}
+
+		/**
+   *
+   */
+
+		/**
+   *	Adds necessary paramaters to the field
+   */
+
+	}, {
+		key: 'addFieldParams',
+		value: function addFieldParams(field) {
+
+			// Set the field's placeholder
+			field.el.input.setAttribute('placeholder', field.placeholder || '');
+
+			// Set the field's name
+			field.el.input.setAttribute('name', field.name || '');
+
+			// Set the field's type
+			field.el.input.setAttribute('type', field.type || '');
+
+			// Set the maxlength of the field if present
+			if (field.max_length) field.el.input.setAttribute('maxlength', field.max_length);
+
+			// Set the field's value
+			field.el.input.value = field.value || '';
+		}
+
+		/**
+   *	Sets a maximum length on a field
+   */
+
+	}, {
+		key: 'setFieldMaxLength',
+		value: function setFieldMaxLength(field) {
+			var _this3 = this;
+
+			// jump out if no max_length
+			if (!field.max_length) return;
+
+			// Store the input for easy access
+			var input = field.el.input,
+			    wrapper = field.el.wrapper,
+			    counter = this.buildElement('span', 'counter'),
+			    max_length = field.max_length,
+			    limit_reached = false;
+
+			// Add the counter to the field object
+			field.counter = counter;
+
+			// Set the counter value to 0
+			counter.innerHTML = max_length;
+
+			// Add the counter to the wrapper
+			wrapper.appendChild(counter);
+
+			// Watch the field for update in values
+			input.addEventListener('input', function () {
+
+				// Store the value for easy access
+				var value = input.value,
+				    char_count = max_length - value.length;
+
+				// If we've acheived our max character length
+				if (char_count <= 0) {
+
+					// Stop the string from going past max length
+					input.value = value.substring(0, max_length);
+
+					// Set the limit reached
+					if (!limit_reached) {
+
+						// Increment the counter
+						counter.innerHTML = '0';
+
+						// Add the limit reached class
+						wrapper.classList.add(_this3.limit_reached_class);
+
+						// Set the limit reached switch
+						// so we don't do this every time
+						limit_reached = true;
+					}
+				} else {
+
+					// Increment the counter
+					counter.innerHTML = char_count;
+
+					// if the limit was reached, reset it
+					if (limit_reached) {
+
+						// Add the limit reached class
+						wrapper.classList.remove(_this3.limit_reached_class);
+
+						// Unset the limit reached switch
+						// so we don't do this every time
+						limit_reached = false;
+					}
+				}
+			});
+		}
+
+		/**
+   *	Writes the generated html to the shell
+   */
+
+	}, {
+		key: 'writeForm',
+		value: function writeForm() {
+
+			// Add the form to the wrapper
+			this.wrapper.appendChild(this.form);
+
+			// Add the wrapper to the shell
+			this.shell.appendChild(this.wrapper);
+		}
+
+		/**
+   *	Builds a field including it's wrapper element and label
+   */
+
+	}, {
+		key: 'buildField',
+		value: function buildField(field) {
+
+			// Generate field
+			// Wrapper element
+			// and label
+			var field_el = this.buildElement(field.el_type),
+			    field_wrapper = this.buildElement('div', 'field'),
+			    field_label = this.buildElement('label');
+
+			// Add class to field
+			field_el.classList.add(this.base_class + '__input');
+
+			// Add required to field
+			if (field.required) field_el.setAttribute('required', 'required');
+
+			// Add text to the label
+			if (field.label && this.label) field_label.innerHTML = field.label;
+
+			// Add the elements to the wrapper
+			if (field.label && this.label) field_wrapper.appendChild(field_label);
+			field_wrapper.appendChild(field_el);
+
+			// return the wrapper
+			return {
+				input: field_el,
+				wrapper: field_wrapper
+			};
+		}
+
+		/**
+   *	Generates the form's markup (including extra params)
+   */
+
+	}, {
+		key: 'generateFormElement',
+		value: function generateFormElement() {
+
+			// Generate the form element
+			var form = this.buildElement('form');
+
+			// Add extra params here
+			form.setAttribute('action', this.action);
+
+			// Set the method
+			form.setAttribute('method', this.method);
+
+			// Add extra params here
+			form.setAttribute('enctype', 'text/plain');
+
+			// return it
+			return form;
+		}
+
+		/**
+   *	Build Element
+   */
+
+	}, {
+		key: 'buildElement',
+		value: function buildElement() {
+			var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'input';
+			var i_class = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+
+
+			// Store the element
+			var el = document.createElement(type),
+			    el_class = i_class || type;
+
+			// Give the element a class
+			el.classList.add(this.base_class + '__' + el_class);
+
+			// return the built element
+			return el;
+		}
+
+		/**
+   *	Generates the subject line of the email
+   */
+
+	}, {
+		key: 'generateSubjectLine',
+		value: function generateSubjectLine() {
+
+			// Create the subject var
+			var subject = this.subject_format;
+
+			// add the project to the
+			subject = subject.replace('%project%', this.project);
+
+			// Add datetime to the string
+			subject = subject.replace('%date_time%', new Date());
+
+			// return the formatted subject
+			return subject;
+		}
+
+		/**
+   * Generates encoded fields for posting
+   */
+
+	}, {
+		key: 'generateEncodedFields',
+		value: function generateEncodedFields() {
+
+			// init the field string
+			var fields_string = '';
+
+			// Loop through all fields
+			for (var i = 0; i < this.fields.length; i++) {
+
+				// Jump out if subject or body fields
+				if (~['body', 'subject'].indexOf(this.fields[i].name)) continue;
+
+				// Add an amp
+				fields_string += fields_string ? '&' : '';
+
+				// Add the value of the new line to the body
+				fields_string += this.fields[i].name + '=' + this.fields[i].el.input.value;
+			}
+
+			// return the built fields string
+			return !fields_string ? '' : '&' + fields_string;
+		}
+
+		/**
+   *	Generates the body of the message
+   */
+
+	}, {
+		key: 'generateMessageBody',
+		value: function generateMessageBody() {
+
+			// Set up our body
+			var body = '';
+
+			// Loop through all fields
+			for (var i = 0; i < this.fields.length; i++) {
+
+				// Jump out if subject or body fields
+				if (~['body', 'subject'].indexOf(this.fields[i].name)) continue;
+
+				// Add new line to the body
+				body += (!body ? '' : "\r\n\r\n") + this.fields[i].label + ':';
+
+				// Add the value of the new line to the body
+				body += "\r\n" + this.sanitize(this.fields[i].el.input.value.replace(/&/g, ' amp '));
+			}
+
+			// Loop through our extra informations
+			// for dev purposes
+			for (var i = 0; i < this.detect_extra_info.length; i++) {
+				body += (!body ? '' : "\r\n\r\n") + this.detect_extra_info[i].label + ":\r\n" + this.detective.detect(this.detect_extra_info[i].fn).message;
+			}
+
+			// Return the constructed body
+			return body;
+		}
+
+		/**
+   *	Generates a browser screenshot
+   */
+
+	}, {
+		key: 'generateScreenshot',
+		value: function generateScreenshot(cb) {
+			var _this4 = this;
+
+			// Jump out if we don't want to render a screenshot
+			if (!this.sends_screenshot) cb();
+
+			// Get the user's scroll position
+			var doc = document.documentElement,
+			    pos_x = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0),
+			    pos_y = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
+
+			// First, hide the exterminator
+			this.shell.classList.add(this.base_class + '--screenshot');
+
+			// Scroll the window to the top
+			window.scrollTo(0, 0);
+
+			// Add the viewport ghost
+			this.addViewportghost(pos_x, pos_y);
+
+			// Now use html2canvas to take a screenshot
+			(0, _html2canvas2.default)(this.shell, { background: '#fff' }).then(function (canvas) {
+
+				// remove the viewport ghost
+				_this4.removeViewportghost();
+
+				// Set the scroll position back to where they were
+				window.scrollTo(pos_x, pos_y);
+
+				// After screenshot has been taken, put
+				// the exterminator back
+				_this4.shell.classList.remove(_this4.base_class + '--screenshot');
+
+				// Turn the canvas into an image and
+				// store it in the obj as base64 "image/png"
+				_this4.screenshot = canvas.toDataURL();
+
+				// run our callback
+				cb();
+			});
+		}
+
+		/**
+   *	Builds a ghost so we can see where the user
+   *	reported the bug
+   */
+
+	}, {
+		key: 'addViewportghost',
+		value: function addViewportghost(x, y) {
+
+			// We haven't already created the ghost
+			if (!this.screenshot_ghost) {
+
+				// Create the ghost and store it in the obj
+				this.screenshot_ghost = document.createElement('div');
+
+				// Give it the class it needs
+				this.screenshot_ghost.classList.add(this.base_class + '__screenshot-ghost');
+			}
+
+			// Set its x and y coords
+			this.screenshot_ghost.style.left = x + 'px';
+			this.screenshot_ghost.style.top = y + 'px';
+			this.screenshot_ghost.style.width = (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) + 'px';
+			this.screenshot_ghost.style.height = (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) + 'px';
+
+			// add the ghost to the body
+			this.shell.appendChild(this.screenshot_ghost);
+		}
+
+		/**
+   *	Removes the ghost from the viewport
+   */
+
+	}, {
+		key: 'removeViewportghost',
+		value: function removeViewportghost() {
+
+			// removes the ghost from the shell....
+			this.shell.removeChild(this.screenshot_ghost);
+		}
+
+		/**
+   *	Submits the form as a mailto link
+   */
+
+	}, {
+		key: 'triggerMailto',
+		value: function triggerMailto() {
+			var _this5 = this;
+
+			// Send the form via email mailto link
+			var win = window.open(
+			//this.form.getAttribute('action')
+			'mailto:' + this.email + '?subject=' + encodeURI(this.generateSubjectLine()) + '&body=' + encodeURI(this.generateMessageBody()) + (this.cc.length ? '&cc=' + this.cc.concat(_templateObject) : ''), '_blank');
+
+			// Set close after 1 second
+			setTimeout(function () {
+
+				// Set the successful state
+				_this5.triggerSuccess();
+
+				// close the window
+				if (win) win.close();
+			}, 1000);
+		}
+
+		/**
+   *	Sets the sending state of the form
+   */
+
+	}, {
+		key: 'setSendingState',
+		value: function setSendingState() {
+			var is_sending = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
+
+			// Turn on the sending flag
+			this.is_sending = is_sending;
+
+			// Add a "sending" class to the shell
+			this.shell.classList[is_sending ? 'add' : 'remove'](this.base_class + '--sending');
+		}
+
+		/**
+   *	Sets up the events associated with the form
+   */
+
+	}, {
+		key: 'formEvents',
+		value: function formEvents() {
+			var _this6 = this;
+
+			// Set up a form submission callback
+			this.form.addEventListener('submit', function (e) {
+
+				// prevent form from submitting
+				e.preventDefault();
+
+				// Set the sending state of the form
+				_this6.setSendingState(true);
+
+				// If the form is set to trigger a mailto
+				if (_this6.is_mailto) {
+
+					// Trigger the mailto
+					_this6.triggerMailto();
+				} else {
+
+					// Generate a screenshot
+					_this6.generateScreenshot(function () {
+
+						// do ajax request
+						_this6.triggerAjax(function (successful) {
+
+							// If it fails, fallback to mailto
+							if (!successful) _this6.triggerMailto();
+
+							// Trigger the success state
+							else _this6.triggerSuccess();
+						});
+					});
+				}
+			});
+		}
+
+		/**
+   *	This is what happens when the message is sent
+   */
+
+	}, {
+		key: 'triggerSuccess',
+		value: function triggerSuccess() {
+			var _this7 = this;
+
+			// Clear the form out
+			this.clearForm();
+
+			// Remove the sending state
+			this.setSendingState(false);
+
+			// Set the form to success
+			this.shell.classList.add(this.base_class + '--sent');
+
+			// After 3 seconds remove success state
+			setTimeout(function () {
+				_this7.shell.classList.remove(_this7.base_class + '--sent');
+			}, 3000);
+		}
+
+		/**
+   *	Makes an ajax request to an endpoint
+   */
+
+	}, {
+		key: 'triggerAjax',
+		value: function triggerAjax(cb) {
+
+			// Set up the request
+			var r = new XMLHttpRequest(),
+			    data = 'subject=' + encodeURI(this.sanitize(this.generateSubjectLine())) + '&body=' + encodeURI(this.generateMessageBody()) + '&email=' + this.email + this.generateEncodedFields() + (this.cc.length ? '&cc=' + this.cc.concat(_templateObject) : '') + (this.screenshot ? '&screenshot=' + this.screenshot : '') + (this.bitbucket ? "&bitbucket=" + JSON.stringify(this.bitbucket) : '');
+
+			// Set up the post
+			r.open(this.method, this.action, true);
+
+			// Set up the content type
+			r.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+
+			// Do a check
+			r.onreadystatechange = function () {
+
+				// if is ready?? lolz
+				if (this.readyState === 4) {
+
+					// if response was successful
+					if (this.status >= 200 && this.status < 400) {
+
+						// Get the response
+						var resp = JSON.parse(this.responseText);
+
+						// return the status of the request
+						cb(resp.status);
+					} else {
+
+						// return false to the callback
+						cb(false);
+					}
+				}
+			};
+
+			// Send the request
+			r.send(data);
+		}
+
+		/**
+   *	Clears out the form
+   */
+
+	}, {
+		key: 'clearForm',
+		value: function clearForm() {
+
+			// Store the fields for easy access
+			var fields = this.fields;
+
+			// Loop through the fields
+			for (var i = 0; i < fields.length; i++) {
+
+				// Store the field in the block scope
+				var field = this.fields[i],
+				    input = field.el.input;
+
+				// Skip if is hidden
+				if (field.type && field.type == 'hidden') continue;
+
+				// Store the value in case we need to retreive it
+				field.previous_value = input.value;
+
+				// if the character counter is present
+				if (field.counter) {
+
+					// reset the counter
+					field.counter.innerHTML = field.max_length;
+
+					// take off the limit reached class
+					field.el.wrapper.classList.remove(this.limit_reached_class);
+				}
+
+				// Clear the field's value
+				input.value = '';
+			}
+		}
+
+		/**
+   *	Sanatizes strings
+   */
+
+	}, {
+		key: 'sanitize',
+		value: function sanitize(str) {
+			str = str.replace(/[^a-z0-9áéíóúñü\.\s,_-]/gim, "");
+			return str.trim();
+		}
+	}]);
+
+	return CallTheExterminator;
+}();
 
 /***/ })
 /******/ ]);

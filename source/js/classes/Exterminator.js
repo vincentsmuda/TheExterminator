@@ -114,6 +114,9 @@ module.exports = class CallTheExterminator {
 		// Set up a sending flag
 		this.is_sending = false;
 
+		// Set the limit reached class
+		this.limit_reached_class = this.base_class + '__field--limit_reached'
+
 		// Fires the rest of the setup once the window loads
 		if( !document.body )
 			window.addEventListener('load', () => {
@@ -397,8 +400,7 @@ module.exports = class CallTheExterminator {
 				wrapper = field.el.wrapper,
 				counter = this.buildElement('span', 'counter'),
 				max_length = field.max_length,
-				limit_reached = false,
-				limit_reached_class = this.base_class + '__field--limit_reached';
+				limit_reached = false;
 
 		// Add the counter to the field object
 		field.counter = counter;
@@ -429,7 +431,7 @@ module.exports = class CallTheExterminator {
 					counter.innerHTML = '0';
 
 					// Add the limit reached class
-					wrapper.classList.add(limit_reached_class);
+					wrapper.classList.add(this.limit_reached_class);
 
 					// Set the limit reached switch
 					// so we don't do this every time
@@ -446,7 +448,7 @@ module.exports = class CallTheExterminator {
 				if(limit_reached) {
 
 					// Add the limit reached class
-					wrapper.classList.remove(limit_reached_class);
+					wrapper.classList.remove(this.limit_reached_class);
 
 					// Unset the limit reached switch
 					// so we don't do this every time
@@ -816,10 +818,10 @@ module.exports = class CallTheExterminator {
 		// Set the form to success
 		this.shell.classList.add(this.base_class + '--sent');
 
-		// After 5 seconds remove success state
+		// After 3 seconds remove success state
 		setTimeout(() => {
 			this.shell.classList.remove(this.base_class + '--sent');
-		},5000);
+		},3000);
 
 	}
 
@@ -894,6 +896,17 @@ module.exports = class CallTheExterminator {
 
 			// Store the value in case we need to retreive it
 			field.previous_value = input.value;
+
+			// if the character counter is present
+			if(field.counter) {
+
+				// reset the counter
+				field.counter.innerHTML = field.max_length;
+
+				// take off the limit reached class
+				field.el.wrapper.classList.remove(this.limit_reached_class);
+
+			}
 
 			// Clear the field's value
 			input.value = '';
