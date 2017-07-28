@@ -390,8 +390,11 @@ module.exports = class CallTheExterminator {
 
 		// Store the input for easy access
 		let input = field.el.input,
+				wrapper = field.el.wrapper,
 				counter = this.buildElement('span', 'counter'),
-				max_length = field.max_length;
+				max_length = field.max_length,
+				limit_reached = false,
+				limit_reached_class = this.base_class + '__field--limit_reached';
 
 		// Add the counter to the field object
 		field.counter = counter;
@@ -400,7 +403,7 @@ module.exports = class CallTheExterminator {
 		counter.innerHTML = max_length;
 
 		// Add the counter to the wrapper
-		field.el.wrapper.appendChild(counter);
+		wrapper.appendChild(counter);
 
 		// Watch the field for update in values
 		input.addEventListener('input', () => {
@@ -410,12 +413,41 @@ module.exports = class CallTheExterminator {
 					char_count = max_length - value.length;
 
 			// If we've acheived our max character length
-			// Stop the string from going past max length
-			// else Update the couner
-			if(char_count < 0)
+			if(char_count < 0){
+
+				// Stop the string from going past max length
 				input.value = value.substring(0,max_length);
-			else
+
+				// Set the limit reached
+				if(!limit_reached) {
+
+					// Add the limit reached class
+					wrapper.classList.add(limit_reached_class);
+
+					// Set the limit reached switch
+					// so we don't do this every time
+					limit_reached = true;
+
+				}
+
+			}else{
+
+				// Increment the counter
 				counter.innerHTML = char_count;
+
+				// if the limit was reached, reset it
+				if(limit_reached) {
+
+					// Add the limit reached class
+					wrapper.classList.remove(limit_reached_class);
+
+					// Unset the limit reached switch
+					// so we don't do this every time
+					limit_reached = true;
+
+				}
+
+			}
 
 		});
 

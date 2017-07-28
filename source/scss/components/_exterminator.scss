@@ -252,6 +252,10 @@
 			position: absolute;
 			top: 0;
 			right: 0;
+
+			#{$base_class + '__field--limit_reached'} & {
+				color: $color-error;
+			}
 		}
 
     &input {
