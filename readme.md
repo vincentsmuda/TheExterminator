@@ -126,9 +126,8 @@ First, you must run `$ npm install` or `$ yarn install`. Then after making modif
 - Allow user to click on problem element
 - Create a quick link that mimics QA user's browser variables  
 - Create a bookmark shortcut
-- Create a wordpress plugin
-- Create a shopify App
-- Write Contribution guidelines
+- Create a WordPress plugin
+- Create a Shopify App
 
 ## Successfully tested on
 - IE 10.0 32-bit on Windows 8 64-bit
