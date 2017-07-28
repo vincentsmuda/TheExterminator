@@ -12,7 +12,7 @@
 
   // Set the headers
   $headers = [
-    'From: Exterminator <issues@exterminator.com>',
+    'From: Exterminator <noreply@exterminator.com>',
     'CC: ' . $r['cc']
   ];
 
@@ -50,7 +50,7 @@
     $issue = new BitbucketIssue($bitbucket_info);
 
     // Add content to the issue
-    $issue_return = $issue->addIssueTitle("{$r['action_taken']} | {$r['subject']}")
+    $issue_return = $issue->addIssueTitle("{$r['result']} | {$r['subject']}")
       ->addIssueContent($r['body'])
       ->sendIssue();
 

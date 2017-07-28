@@ -413,13 +413,16 @@ module.exports = class CallTheExterminator {
 					char_count = max_length - value.length;
 
 			// If we've acheived our max character length
-			if(char_count < 0){
+			if(char_count <= 0){
 
 				// Stop the string from going past max length
 				input.value = value.substring(0,max_length);
 
 				// Set the limit reached
 				if(!limit_reached) {
+
+					// Increment the counter
+					counter.innerHTML = '0';
 
 					// Add the limit reached class
 					wrapper.classList.add(limit_reached_class);
