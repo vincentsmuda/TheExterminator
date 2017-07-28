@@ -290,7 +290,7 @@
     	letter-spacing: 0.3px;
     	color: #fff;
     	cursor: pointer;
-			padding: 0;
+			line-height: 1em;
 
     	&:hover {
     		background: darken($color-text, 3%);
