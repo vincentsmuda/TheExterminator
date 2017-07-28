@@ -4286,7 +4286,7 @@ module.exports = function () {
 
 						// Unset the limit reached switch
 						// so we don't do this every time
-						limit_reached = true;
+						limit_reached = false;
 					}
 				}
 			});
