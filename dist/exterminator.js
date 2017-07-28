@@ -4086,7 +4086,7 @@ module.exports = function () {
 				this.fields_map[this.fields[i].name] = field;
 
 				// Add Filed's params
-				this.addFiledParams(this.fields[i]);
+				this.addFieldParams(this.fields[i]);
 
 				// Sets the max length on a field if present
 				this.setFieldMaxLength(this.fields[i]);
@@ -4206,8 +4206,8 @@ module.exports = function () {
    */
 
 	}, {
-		key: 'addFiledParams',
-		value: function addFiledParams(field) {
+		key: 'addFieldParams',
+		value: function addFieldParams(field) {
 
 			// Set the field's placeholder
 			field.el.input.setAttribute('placeholder', field.placeholder || '');
@@ -4217,6 +4217,9 @@ module.exports = function () {
 
 			// Set the field's type
 			field.el.input.setAttribute('type', field.type || '');
+
+			// Set the maxlength of the field if present
+			if (field.max_length) field.el.input.setAttribute('maxlength', field.max_length);
 
 			// Set the field's value
 			field.el.input.value = field.value || '';
