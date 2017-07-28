@@ -2,10 +2,10 @@
 require('./scss/style.scss');
 
 // Grab the exterminator class
-import CallTheExterminator from './js/classes/CallTheExterminator';
+import Exterminator from './js/classes/Exterminator';
 
 // Set the settings
 let settings = window.ExterminatorSettings || {};
 
 // init the exterminator
-new CallTheExterminator(settings);
+new Exterminator(settings);

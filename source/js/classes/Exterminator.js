@@ -816,10 +816,10 @@ module.exports = class CallTheExterminator {
 		// Set the form to success
 		this.shell.classList.add(this.base_class + '--sent');
 
-		// After 5 seconds remove success state
+		// After 3 seconds remove success state
 		setTimeout(() => {
 			this.shell.classList.remove(this.base_class + '--sent');
-		},5000);
+		},3000);
 
 	}
 
