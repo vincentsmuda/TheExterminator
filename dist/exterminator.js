@@ -15056,7 +15056,7 @@ module.exports = function () {
 			var _this4 = this;
 
 			// Jump out if we don't want to render a screenshot
-			if (!this.sends_screenshot) cb();
+			if (!this.sends_screenshot) return cb();
 
 			// Get the user's scroll position
 			var doc = document.documentElement,

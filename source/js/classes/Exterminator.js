@@ -640,7 +640,7 @@ module.exports = class CallTheExterminator {
 	generateScreenshot (cb) {
 
 		// Jump out if we don't want to render a screenshot
-		if(!this.sends_screenshot) cb();
+		if(!this.sends_screenshot) return cb();
 
 		// Get the user's scroll position
 		let doc = document.documentElement,
