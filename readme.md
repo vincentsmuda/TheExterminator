@@ -4,7 +4,7 @@ An easy to use QA helper for clients to use when reporting bugs. Still in a pre-
 ![](http://i.imgur.com/QjVwicn.gif)
 
 ## Installation
-First, set the arguments and include the script. Put it high up on your page... before any other script. This will allow the exterminator to catch any js errors coming down the pipe. Since this script is only meant for QA, it should __not be used in production!__. That allows us to break some rendering/js blocking rules and dismiss the fact that it's a heavy file :)
+First, set the arguments and include the script. Put it high up on your page... before any other script. This will allow the exterminator to catch any JavaScript errors coming down the pipe. Since this script is only meant for QA, it should __not be used in production!__. That allows us to break some rendering/js blocking rules and dismiss the fact that it's a heavy file :)
 
 ```html
 <script type="text/javascript">
@@ -108,7 +108,11 @@ Finally, we'll add two params within the callback object with the keys of __name
 ```
 
 ## Installation for modifications
-First, you must run `$ npm install` or `$ yarn install`. Then after making modifications, run `$ webpack` to build the dist file (ES5 compatible) for use in all browsers. Make sure you have webpack installed globally. (`$ sudo npm install webpack -g`)
+First, you must run `npm install` or `yarn install`. Then after making modifications, run `webpack` to build the dist file (ES5 compatible) for use in all browsers. Make sure you have WebPack installed globally. (`sudo npm install webpack -g`)
+
+## Contributions
+
+Please read our [Contribution guideline](https://github.com/thefreshvince/TheExterminator/blob/master/CONTRIBUTING.md).
 
 ## Todos
 
