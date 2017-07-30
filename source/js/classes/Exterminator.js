@@ -78,6 +78,7 @@ module.exports = class CallTheExterminator {
 		// See the detective class for available
 		this.detect_extra_info = [
 			{label:'Page',fn:'URL'},
+			{label:'Last Page',fn:'previousURL'},
 			{label:'Envirnoment',fn:'envirnoment'},
 			{label:'Resolution',fn:'resolution'},
 			{label:'Pixel Aspect Ratio',fn:'pixelAspectRatio'},

@@ -16,6 +16,9 @@ module.exports = class Detective {
     // Set up the battery status
     this.battery_message = this.batteryStatus();
 
+    // Set up the last page logic
+		this.setPreviousURL();
+
     // Set up the erros string
     // And set the max errors to store
     this.error = this.detect('errors', {count: 10}).message;
@@ -102,6 +105,19 @@ module.exports = class Detective {
 			|| navigator.language
 			|| navigator.languages[0];
 	}
+
+  /**
+   *  Detect the previous URL
+   */
+  previousURL () {
+
+    // Get the referrer url (is empty if none)
+    let previous_url = localStorage.ext_prev_page || document.referrer;
+
+    // Return the previous url
+    return previous_url ? previous_url : 'No previous page.' ;
+
+  }
 
 	/**
 	 *	Detect the browser's current resolution
@@ -296,6 +312,29 @@ module.exports = class Detective {
 			bait.remove();
 
 		}, 100);
+
+  }
+
+  /**
+   *  Sets the previous url
+   */
+  setPreviousURL () {
+
+    // Store the storage vars for ease of use
+    let current = localStorage.ext_current_page,
+        previous = localStorage.ext_prev_page;
+
+    // Just for now so i can see
+    console.log(current);
+    console.log(previous);
+
+    // Set the last page as long as it's not the same url
+    localStorage.ext_prev_page = current == location.href
+      ? previous || document.referrer
+      : current || document.referrer ;
+
+    // Put the current page as the existing url
+		localStorage.ext_current_page = location.href;
 
   }
 

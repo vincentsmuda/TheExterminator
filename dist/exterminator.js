@@ -3853,6 +3853,9 @@ module.exports = function () {
     // Set up the battery status
     this.battery_message = this.batteryStatus();
 
+    // Set up the last page logic
+    this.setPreviousURL();
+
     // Set up the erros string
     // And set the max errors to store
     this.error = this.detect('errors', { count: 10 }).message;
@@ -3945,6 +3948,21 @@ module.exports = function () {
     key: 'locale',
     value: function locale() {
       return navigator.browserLanguage || navigator.language || navigator.languages[0];
+    }
+
+    /**
+     *  Detect the previous URL
+     */
+
+  }, {
+    key: 'previousURL',
+    value: function previousURL() {
+
+      // Get the referrer url (is empty if none)
+      var previous_url = localStorage.ext_prev_page || document.referrer;
+
+      // Return the previous url
+      return previous_url ? previous_url : 'No previous page.';
     }
 
     /**
@@ -4138,6 +4156,29 @@ module.exports = function () {
         // remove the bait
         bait.remove();
       }, 100);
+    }
+
+    /**
+     *  Sets the previous url
+     */
+
+  }, {
+    key: 'setPreviousURL',
+    value: function setPreviousURL() {
+
+      // Store the storage vars for ease of use
+      var current = localStorage.ext_current_page,
+          previous = localStorage.ext_prev_page;
+
+      // Just for now so i can see
+      console.log(current);
+      console.log(previous);
+
+      // Set the last page as long as it's not the same url
+      localStorage.ext_prev_page = current == location.href ? previous || document.referrer : current || document.referrer;
+
+      // Put the current page as the existing url
+      localStorage.ext_current_page = location.href;
     }
 
     /**
@@ -14491,7 +14532,7 @@ module.exports = function () {
 
 		// Extra information to detect
 		// See the detective class for available
-		this.detect_extra_info = [{ label: 'Page', fn: 'URL' }, { label: 'Envirnoment', fn: 'envirnoment' }, { label: 'Resolution', fn: 'resolution' }, { label: 'Pixel Aspect Ratio', fn: 'pixelAspectRatio' }, { label: 'Scroll Position', fn: 'scrollPosition' }, { label: 'Download Speed', fn: 'bandwidth' }, { label: 'AdBlock', fn: 'adBlock' }, { label: 'Browser Plugins', fn: 'browserPlugins' }, { label: 'Cookies', fn: 'cookiesEnabled' }, { label: 'Errors', fn: 'errors' }, { label: 'Locale', fn: 'locale' }, { label: 'Battery Status', fn: 'batteryStatus' }];
+		this.detect_extra_info = [{ label: 'Page', fn: 'URL' }, { label: 'Last Page', fn: 'previousURL' }, { label: 'Envirnoment', fn: 'envirnoment' }, { label: 'Resolution', fn: 'resolution' }, { label: 'Pixel Aspect Ratio', fn: 'pixelAspectRatio' }, { label: 'Scroll Position', fn: 'scrollPosition' }, { label: 'Download Speed', fn: 'bandwidth' }, { label: 'AdBlock', fn: 'adBlock' }, { label: 'Browser Plugins', fn: 'browserPlugins' }, { label: 'Cookies', fn: 'cookiesEnabled' }, { label: 'Errors', fn: 'errors' }, { label: 'Locale', fn: 'locale' }, { label: 'Battery Status', fn: 'batteryStatus' }];
 
 		// Add our custom logging functions
 		if (this.custom_logs.length) this.addCustomLogs();
