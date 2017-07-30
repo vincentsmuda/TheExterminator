@@ -14551,6 +14551,9 @@ module.exports = function () {
 		// Set up a sending flag
 		this.is_sending = false;
 
+		// Set the last clicked element to null
+		this.last_clicked = null;
+
 		// Set the limit reached class
 		this.limit_reached_class = this.base_class + '__field--limit_reached';
 
@@ -14588,8 +14591,8 @@ module.exports = function () {
 			// Build the form
 			this.form = this.buildForm();
 
-			// Set up clickspots listener
-			this.clickSpots();
+			// Set up click listener
+			this.clickListener();
 		}
 
 		/**
@@ -14598,8 +14601,8 @@ module.exports = function () {
    */
 
 	}, {
-		key: 'clickSpots',
-		value: function clickSpots() {
+		key: 'clickListener',
+		value: function clickListener() {
 			var _this2 = this;
 
 			// Add a listener on the window for all clicks
@@ -14608,19 +14611,61 @@ module.exports = function () {
 				// Check to see if we are clicking on the exterminator
 				if (_this2.wrapper.contains(e.target)) return;
 
-				// Else let's create an element
-				var spot = document.createElement('span');
+				// Add the clickspot to the DOM
+				_this2.addClickSpot(e.pageX, e.pageY);
 
-				// Set the spot's class
-				spot.classList.add(_this2.base_class + '__clickspot');
+				// Set the last clicked element
+				_this2.setLastClicked(e.target);
+			});
+		}
+
+		/**
+   *	Sets the last clicked target and points to it
+   */
+
+	}, {
+		key: 'setLastClicked',
+		value: function setLastClicked(target) {
+
+			// Build our last clicked el
+			if (!this.last_clicked_element) this.last_clicked_element = this.buildElement('span', 'last_clicked');
+
+			// grab the vars of the last clicked
+			var width = target.offsetWidth,
+			    height = target.offsetHeight,
+			    position = this.getElementPosition(target);
+
+			// Style the element
+			this.last_clicked_element.style.width = width + 'px';
+			this.last_clicked_element.style.height = height + 'px';
+			this.last_clicked_element.style.left = position.left + 'px';
+			this.last_clicked_element.style.top = position.top + 'px';
+
+			// Set the last clicked element
+			this.last_clicked = target;
+		}
+
+		/**
+   *	Adds a clickspot to the body and positions it
+   */
+
+	}, {
+		key: 'addClickSpot',
+		value: function addClickSpot(x, y) {
+
+			// If this instance is going to take a screenshot
+			if (this.sends_screenshot) {
+
+				// Else let's create an element
+				var spot = this.buildElement('span', 'clickspot');
 
 				// Set it's position
-				spot.style.top = e.pageY + 'px';
-				spot.style.left = e.pageX + 'px';
+				spot.style.left = x + 'px';
+				spot.style.top = y + 'px';
 
 				// Add it to the body
 				document.body.appendChild(spot);
-			});
+			}
 		}
 
 		/**
@@ -15404,8 +15449,23 @@ module.exports = function () {
 	}, {
 		key: 'sanitize',
 		value: function sanitize(str) {
-			str = str.replace(/[^a-z0-9áéíóúñü\.\s,_-]/gim, "");
+			str = str.replace(/[^a-z0-9áéíóúñü\.\/\s,_-]/gim, "");
 			return str.trim();
+		}
+
+		/**
+   *	Gets the element's position relative to the page
+   */
+
+	}, {
+		key: 'getElementPosition',
+		value: function getElementPosition(el) {
+
+			// Get the rect
+			var rec = document.getElementById(el).getBoundingClientRect();
+
+			// return the calculated positioning
+			return { top: rec.top + window.scrollY, left: rec.left + window.scrollX };
 		}
 	}]);
 
