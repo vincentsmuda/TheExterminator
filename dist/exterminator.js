@@ -14587,6 +14587,42 @@ module.exports = function () {
 
 			// Build the form
 			this.form = this.buildForm();
+
+			// Set up clickspots listener
+			this.clickSpots();
+		}
+
+		/**
+   *	Adds listener for clickspots.
+   *	Clicked areas that will appear when the screenshot is taken
+   */
+
+	}, {
+		key: 'clickSpots',
+		value: function clickSpots() {
+			var _this2 = this;
+
+			// Add a listener on the window for all clicks
+			window.addEventListener('click', function (e) {
+
+				// Check to see if we are clicking on the exterminator
+				if (_this2.wrapper.contains(e.target)) return;
+
+				// Else let's create an element
+				var spot = document.createElement('div');
+
+				// Set the spot's class
+				spot.classList.add(_this2.base_class + '__clickspot');
+
+				// Set it's position
+				spot.style = {
+					top: e.pageY,
+					left: e.pageX
+				};
+
+				// Add it to the body
+				document.body.appendChild(spot);
+			});
 		}
 
 		/**
@@ -14790,16 +14826,16 @@ module.exports = function () {
 	}, {
 		key: 'togglerEvents',
 		value: function togglerEvents(toggler) {
-			var _this2 = this;
+			var _this3 = this;
 
 			// Add toggler events
 			toggler.addEventListener('click', function () {
 
 				// Jump out if we are sending
-				if (_this2.is_sending) return;
+				if (_this3.is_sending) return;
 
 				// Toggle the open class
-				_this2.shell.classList.toggle(_this2.base_class + '--open');
+				_this3.shell.classList.toggle(_this3.base_class + '--open');
 			});
 		}
 
@@ -14838,7 +14874,7 @@ module.exports = function () {
 	}, {
 		key: 'setFieldMaxLength',
 		value: function setFieldMaxLength(field) {
-			var _this3 = this;
+			var _this4 = this;
 
 			// jump out if no max_length
 			if (!field.max_length) return;
@@ -14879,7 +14915,7 @@ module.exports = function () {
 						counter.innerHTML = '0';
 
 						// Add the limit reached class
-						wrapper.classList.add(_this3.limit_reached_class);
+						wrapper.classList.add(_this4.limit_reached_class);
 
 						// Set the limit reached switch
 						// so we don't do this every time
@@ -14894,7 +14930,7 @@ module.exports = function () {
 					if (limit_reached) {
 
 						// Add the limit reached class
-						wrapper.classList.remove(_this3.limit_reached_class);
+						wrapper.classList.remove(_this4.limit_reached_class);
 
 						// Unset the limit reached switch
 						// so we don't do this every time
@@ -15090,7 +15126,7 @@ module.exports = function () {
 	}, {
 		key: 'generateScreenshot',
 		value: function generateScreenshot(cb) {
-			var _this4 = this;
+			var _this5 = this;
 
 			// Jump out if we don't want to render a screenshot
 			if (!this.sends_screenshot) return cb();
@@ -15113,18 +15149,18 @@ module.exports = function () {
 			(0, _html2canvas2.default)(this.shell, { background: '#fff' }).then(function (canvas) {
 
 				// remove the viewport ghost
-				_this4.removeViewportghost();
+				_this5.removeViewportghost();
 
 				// Set the scroll position back to where they were
 				window.scrollTo(pos_x, pos_y);
 
 				// After screenshot has been taken, put
 				// the exterminator back
-				_this4.shell.classList.remove(_this4.base_class + '--screenshot');
+				_this5.shell.classList.remove(_this5.base_class + '--screenshot');
 
 				// Turn the canvas into an image and
 				// store it in the obj as base64 "image/png"
-				_this4.screenshot = canvas.toDataURL();
+				_this5.screenshot = canvas.toDataURL();
 
 				// run our callback
 				cb();
@@ -15179,7 +15215,7 @@ module.exports = function () {
 	}, {
 		key: 'triggerMailto',
 		value: function triggerMailto() {
-			var _this5 = this;
+			var _this6 = this;
 
 			// Send the form via email mailto link
 			var win = window.open(
@@ -15190,7 +15226,7 @@ module.exports = function () {
 			setTimeout(function () {
 
 				// Set the successful state
-				_this5.triggerSuccess();
+				_this6.triggerSuccess();
 
 				// close the window
 				if (win) win.close();
@@ -15221,7 +15257,7 @@ module.exports = function () {
 	}, {
 		key: 'formEvents',
 		value: function formEvents() {
-			var _this6 = this;
+			var _this7 = this;
 
 			// Set up a form submission callback
 			this.form.addEventListener('submit', function (e) {
@@ -15230,26 +15266,26 @@ module.exports = function () {
 				e.preventDefault();
 
 				// Set the sending state of the form
-				_this6.setSendingState(true);
+				_this7.setSendingState(true);
 
 				// If the form is set to trigger a mailto
-				if (_this6.is_mailto) {
+				if (_this7.is_mailto) {
 
 					// Trigger the mailto
-					_this6.triggerMailto();
+					_this7.triggerMailto();
 				} else {
 
 					// Generate a screenshot
-					_this6.generateScreenshot(function () {
+					_this7.generateScreenshot(function () {
 
 						// do ajax request
-						_this6.triggerAjax(function (successful) {
+						_this7.triggerAjax(function (successful) {
 
 							// If it fails, fallback to mailto
-							if (!successful) _this6.triggerMailto();
+							if (!successful) _this7.triggerMailto();
 
 							// Trigger the success state
-							else _this6.triggerSuccess();
+							else _this7.triggerSuccess();
 						});
 					});
 				}
@@ -15263,7 +15299,7 @@ module.exports = function () {
 	}, {
 		key: 'triggerSuccess',
 		value: function triggerSuccess() {
-			var _this7 = this;
+			var _this8 = this;
 
 			// Clear the form out
 			this.clearForm();
@@ -15276,7 +15312,7 @@ module.exports = function () {
 
 			// After 3 seconds remove success state
 			setTimeout(function () {
-				_this7.shell.classList.remove(_this7.base_class + '--sent');
+				_this8.shell.classList.remove(_this8.base_class + '--sent');
 			}, 3000);
 		}
 
