@@ -14516,7 +14516,33 @@ module.exports = function () {
 			custom_logs: [],
 
 			// Placeholder for Bitbucket creds
-			bitbutcket: null
+			bitbutcket: null,
+
+			// Handles the formatting of the body
+			body_format: {
+
+				// Set the type
+				type: 'basic',
+
+				// Sets the formatting of the body of submission
+				html: {
+					header: '<thead><tr><td>Row A</td><td>Row B</td></tr></thead>',
+					wrapper: '<table>%HEADER%<tbody>%BODY%</tbody></table>',
+					row: '<tr>%ROW%</tr>',
+					label: '<td>%LABEL%</td>',
+					value: '<td>%VALUE%</td>'
+				},
+
+				// Sets the formatting of the body for emails
+				basic: {
+					header: '',
+					wrapper: '%BODY%',
+					row: '%ROW%\r\n',
+					label: '%LABEL%\r\n',
+					value: '%VALUE%\r\n'
+				}
+
+			}
 
 		}, args);
 
@@ -14638,6 +14664,8 @@ module.exports = function () {
 	}, {
 		key: 'renderLastClicked',
 		value: function renderLastClicked() {
+
+			if (!this.last_clicked) return false;
 
 			// grab the vars of the last clicked
 			var width = this.last_clicked.offsetWidth,
@@ -15165,7 +15193,10 @@ module.exports = function () {
 		value: function generateMessageBody() {
 
 			// Set up our body
-			var body = '';
+			var body = '',
+			    label = '',
+			    value = '',
+			    row = '';
 
 			// Loop through all fields
 			for (var i = 0; i < this.fields.length; i++) {
@@ -15174,20 +15205,43 @@ module.exports = function () {
 				if (~['body', 'subject'].indexOf(this.fields[i].name)) continue;
 
 				// Add new line to the body
-				body += (!body ? '' : "\r\n\r\n") + this.fields[i].label + ':';
+				label = this.fields[i].label;
 
 				// Add the value of the new line to the body
-				body += "\r\n" + this.sanitize(this.fields[i].el.input.value.replace(/&/g, ' amp '));
+				value = this.sanitize(this.fields[i].el.input.value.replace(/&/g, ' amp '));
+
+				// Add the fields to the body
+				body += this.formatRow(label, value);
 			}
 
 			// Loop through our extra informations
 			// for dev purposes
 			for (var i = 0; i < this.detect_extra_info.length; i++) {
-				body += (!body ? '' : "\r\n\r\n") + this.detect_extra_info[i].label + ":\r\n" + this.detective.detect(this.detect_extra_info[i].fn).message;
+
+				// Set the label
+				label = this.detect_extra_info[i].label;
+
+				// Set the value
+				value = this.detective.detect(this.detect_extra_info[i].fn).message;
+
+				// Add it to the body
+				body += this.formatRow(label, value);
 			}
 
 			// Return the constructed body
-			return body;
+			return this.getBodyFormat().wrapper.replace('%HEADER%', this.getBodyFormat().header).replace('%BODY%', body);
+		}
+
+		/**
+   *	Formats the row (table or not)
+   */
+
+	}, {
+		key: 'formatRow',
+		value: function formatRow(label, value) {
+
+			// Return the formatted row
+			return this.getBodyFormat().row.replace('%ROW%', this.getBodyFormat().label.replace('%LABEL%', label) + this.getBodyFormat().value.replace('%VALUE%', value));
 		}
 
 		/**
@@ -15291,10 +15345,17 @@ module.exports = function () {
 		value: function triggerMailto() {
 			var _this6 = this;
 
+			// Set the basic format and store the previous value
+			this.body_format.previous = this.body_format.type;
+			this.body_format.type = 'basic';
+
 			// Send the form via email mailto link
 			var win = window.open(
 			//this.form.getAttribute('action')
 			'mailto:' + this.email + '?subject=' + encodeURI(this.generateSubjectLine()) + '&body=' + encodeURI(this.generateMessageBody()) + (this.cc.length ? '&cc=' + this.cc.concat(_templateObject) : ''), '_blank');
+
+			// Set the body formatting back to what it was
+			this.body_format.type = this.body_format.previous;
 
 			// Set close after 1 second
 			setTimeout(function () {
@@ -15497,6 +15558,18 @@ module.exports = function () {
 
 			// return the calculated positioning
 			return { top: rec.top + window.scrollY, left: rec.left + window.scrollX };
+		}
+
+		/**
+   *	Gets the format for the body to insert into
+   */
+
+	}, {
+		key: 'getBodyFormat',
+		value: function getBodyFormat() {
+
+			// return the format
+			return this.body_format[this.body_format.type];
 		}
 	}]);
 
