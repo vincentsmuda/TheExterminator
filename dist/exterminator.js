@@ -4170,10 +4170,6 @@ module.exports = function () {
       var current = localStorage.ext_current_page,
           previous = localStorage.ext_prev_page;
 
-      // Just for now so i can see
-      console.log(current);
-      console.log(previous);
-
       // Set the last page as long as it's not the same url
       localStorage.ext_prev_page = current == location.href ? previous || document.referrer : current || document.referrer;
 
