@@ -310,6 +310,23 @@
 			opacity: 0.5;
 		}
 
+		&clickspot{
+			position: absolute;
+			display: none;
+			top: 0;
+			left: 0;
+			width: 20px;
+			height: 20px;
+			border-radius: 50%;
+			transform: translate(-50%,-50%);
+			background: $color-error;
+			opacity: 0.2;
+
+			#{$base_class + '--screenshot'} & {
+				display: block;
+			}
+		}
+
 		@media (min-width: 600px) {
 		  &toggler,
 			&form{
