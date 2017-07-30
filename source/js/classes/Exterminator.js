@@ -151,6 +151,38 @@ module.exports = class CallTheExterminator {
 		// Build the form
 		this.form = this.buildForm();
 
+		// Set up clickspots listener
+		this.clickSpots();
+
+	}
+
+	/**
+	 *	Adds listener for clickspots.
+	 *	Clicked areas that will appear when the screenshot is taken
+	 */
+	clickSpots () {
+
+		// Add a listener on the window for all clicks
+		window.addEventListener('click', (e) => {
+
+			// Check to see if we are clicking on the exterminator
+			if(this.wrapper.contains(e.target)) return;
+
+			// Else let's create an element
+			let spot = document.createElement('span');
+
+			// Set the spot's class
+			spot.classList.add(this.base_class + '__clickspot');
+
+			// Set it's position
+			spot.style.top = `${e.pageY}px`;
+			spot.style.left = `${e.pageX}px`;
+
+			// Add it to the body
+			document.body.appendChild(spot);
+
+		});
+
 	}
 
 	/**
