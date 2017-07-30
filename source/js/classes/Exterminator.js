@@ -169,7 +169,7 @@ module.exports = class CallTheExterminator {
 			if(this.wrapper.contains(e.target)) return;
 
 			// Else let's create an element
-			let spot = document.createElement('div');
+			let spot = document.createElement('span');
 
 			// Set the spot's class
 			spot.classList.add(this.base_class + '__clickspot');
