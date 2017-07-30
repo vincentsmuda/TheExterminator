@@ -186,24 +186,48 @@ module.exports = class CallTheExterminator {
 	 */
 	setLastClicked (target) {
 
-		// Build our last clicked el
-		if(!this.last_clicked_element)
-			this.last_clicked_element =
-				this.buildElement('span', 'last_clicked');
-
-		// grab the vars of the last clicked
-		let width = target.offsetWidth,
-				height = target.offsetHeight,
-				position = this.getElementPosition(target);
-
-		// Style the element
-		this.last_clicked_element.style.width = `${width}px`;
-		this.last_clicked_element.style.height = `${height}px`;
-		this.last_clicked_element.style.left = `${position.left}px`;
-		this.last_clicked_element.style.top = `${position.top}px`;
-
 		// Set the last clicked element
 		this.last_clicked = target;
+
+	}
+
+	/**
+	 *	Renders the last clicked element
+	 */
+	renderLastClicked () {
+
+		// grab the vars of the last clicked
+		let width = this.last_clicked.offsetWidth,
+				height = this.last_clicked.offsetHeight,
+				position = this.getElementPosition(this.last_clicked),
+				element = this.buildLastClickedElement();
+
+		// Style the element
+		element.style.width = `${width}px`;
+		element.style.height = `${height}px`;
+		element.style.left = `${position.left}px`;
+		element.style.top = `${position.top}px`;
+
+	}
+
+	/**
+	 *	Builds the last clicked element
+	 */
+	buildLastClickedElement () {
+
+		// return the element if we have already built it
+		if(this.last_clicked_element)
+			return this.last_clicked_element;
+
+		// Create the element
+		this.last_clicked_element =
+			this.buildElement('span', 'last_clicked');
+
+		// Add the element to the body
+		document.body.appendChild(this.last_clicked_element);
+
+		// return the element
+		return this.last_clicked_element;
 
 	}
 
@@ -733,6 +757,9 @@ module.exports = class CallTheExterminator {
 		// Add the viewport ghost
 		this.addViewportghost(pos_x,pos_y);
 
+		// Render the last clicked
+		this.renderLastClicked();
+
 		// Now use html2canvas to take a screenshot
 		html2canvas(this.shell,{ background: '#fff' })
 		.then(canvas => {
@@ -1006,7 +1033,7 @@ module.exports = class CallTheExterminator {
 	getElementPosition (el) {
 
 		// Get the rect
-		let rec = document.getElementById(el).getBoundingClientRect();
+		let rec = el.getBoundingClientRect();
 
 		// return the calculated positioning
   	return {top: rec.top + window.scrollY, left: rec.left + window.scrollX};
