@@ -175,10 +175,8 @@ module.exports = class CallTheExterminator {
 			spot.classList.add(this.base_class + '__clickspot');
 
 			// Set it's position
-			spot.style = {
-				top: e.pageY,
-				left: e.pageX
-			};
+			spot.style.top = `${e.pageY}px`;
+			spot.style.left = `${e.pageX}px`;
 
 			// Add it to the body
 			document.body.appendChild(spot);
