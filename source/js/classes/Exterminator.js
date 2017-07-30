@@ -115,6 +115,9 @@ module.exports = class CallTheExterminator {
 		// Set up a sending flag
 		this.is_sending = false;
 
+		// Set the last clicked element to null
+		this.last_clicked = null;
+
 		// Set the limit reached class
 		this.limit_reached_class = this.base_class + '__field--limit_reached'
 
@@ -151,8 +154,8 @@ module.exports = class CallTheExterminator {
 		// Build the form
 		this.form = this.buildForm();
 
-		// Set up clickspots listener
-		this.clickSpots();
+		// Set up click listener
+		this.clickListener();
 
 	}
 
@@ -160,7 +163,7 @@ module.exports = class CallTheExterminator {
 	 *	Adds listener for clickspots.
 	 *	Clicked areas that will appear when the screenshot is taken
 	 */
-	clickSpots () {
+	clickListener () {
 
 		// Add a listener on the window for all clicks
 		window.addEventListener('click', (e) => {
@@ -168,20 +171,85 @@ module.exports = class CallTheExterminator {
 			// Check to see if we are clicking on the exterminator
 			if(this.wrapper.contains(e.target)) return;
 
-			// Else let's create an element
-			let spot = document.createElement('span');
+			// Add the clickspot to the DOM
+			this.addClickSpot(e.pageX,e.pageY);
 
-			// Set the spot's class
-			spot.classList.add(this.base_class + '__clickspot');
+			// Set the last clicked element
+			this.setLastClicked(e.target);
+
+		});
+
+	}
+
+	/**
+	 *	Sets the last clicked target and points to it
+	 */
+	setLastClicked (target) {
+
+		// Set the last clicked element
+		this.last_clicked = target;
+
+	}
+
+	/**
+	 *	Renders the last clicked element
+	 */
+	renderLastClicked () {
+
+		// grab the vars of the last clicked
+		let width = this.last_clicked.offsetWidth,
+				height = this.last_clicked.offsetHeight,
+				position = this.getElementPosition(this.last_clicked),
+				element = this.buildLastClickedElement();
+
+		// Style the element
+		element.style.width = `${width}px`;
+		element.style.height = `${height}px`;
+		element.style.left = `${position.left}px`;
+		element.style.top = `${position.top}px`;
+
+	}
+
+	/**
+	 *	Builds the last clicked element
+	 */
+	buildLastClickedElement () {
+
+		// return the element if we have already built it
+		if(this.last_clicked_element)
+			return this.last_clicked_element;
+
+		// Create the element
+		this.last_clicked_element =
+			this.buildElement('span', 'last_clicked');
+
+		// Add the element to the body
+		document.body.appendChild(this.last_clicked_element);
+
+		// return the element
+		return this.last_clicked_element;
+
+	}
+
+	/**
+	 *	Adds a clickspot to the body and positions it
+	 */
+	addClickSpot (x,y) {
+
+		// If this instance is going to take a screenshot
+		if(this.sends_screenshot) {
+
+			// Else let's create an element
+			let spot = this.buildElement('span', 'clickspot');
 
 			// Set it's position
-			spot.style.top = `${e.pageY}px`;
-			spot.style.left = `${e.pageX}px`;
+			spot.style.left = `${x}px`;
+			spot.style.top = `${y}px`;
 
 			// Add it to the body
 			document.body.appendChild(spot);
 
-		});
+		}
 
 	}
 
@@ -689,6 +757,9 @@ module.exports = class CallTheExterminator {
 		// Add the viewport ghost
 		this.addViewportghost(pos_x,pos_y);
 
+		// Render the last clicked
+		this.renderLastClicked();
+
 		// Now use html2canvas to take a screenshot
 		html2canvas(this.shell,{ background: '#fff' })
 		.then(canvas => {
@@ -951,9 +1022,22 @@ module.exports = class CallTheExterminator {
 	/**
 	 *	Sanatizes strings
 	 */
-	sanitize (str){
-    str = str.replace(/[^a-z0-9áéíóúñü\.\s,_-]/gim,"");
+	sanitize (str) {
+    str = str.replace(/[^a-z0-9áéíóúñü\.\/\s,_-]/gim,"");
     return str.trim();
+	}
+
+	/**
+	 *	Gets the element's position relative to the page
+	 */
+	getElementPosition (el) {
+
+		// Get the rect
+		let rec = el.getBoundingClientRect();
+
+		// return the calculated positioning
+  	return {top: rec.top + window.scrollY, left: rec.left + window.scrollX};
+
 	}
 
 }
