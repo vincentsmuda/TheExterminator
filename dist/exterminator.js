@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 311);
+/******/ 	return __webpack_require__(__webpack_require__.s = 314);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -409,7 +409,7 @@ var ctx      = __webpack_require__(25)
   , IObject  = __webpack_require__(46)
   , toObject = __webpack_require__(9)
   , toLength = __webpack_require__(8)
-  , asc      = __webpack_require__(123);
+  , asc      = __webpack_require__(126);
 module.exports = function(TYPE, $create){
   var IS_MAP        = TYPE == 1
     , IS_FILTER     = TYPE == 2
@@ -3316,14 +3316,14 @@ if(new $WeakMap().set((Object.freeze || Object)(tmp), 7).get(tmp) != 7){
 "use strict";
 
 
-var _Exterminator = __webpack_require__(312);
+var _Exterminator = __webpack_require__(119);
 
 var _Exterminator2 = _interopRequireDefault(_Exterminator);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Grab our scss
-__webpack_require__(309);
+__webpack_require__(312);
 
 // Grab the exterminator class
 
@@ -3341,11 +3341,11 @@ new _Exterminator2.default(settings);
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global) {
 
-__webpack_require__(301);
+__webpack_require__(304);
 
-__webpack_require__(306);
+__webpack_require__(309);
 
-__webpack_require__(121);
+__webpack_require__(124);
 
 if (global._babelPolyfill) {
   throw new Error("only one instance of babel-polyfill is allowed");
@@ -3815,8 +3815,7 @@ module.exports = function () {
 }();
 
 /***/ }),
-/* 118 */,
-/* 119 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3828,7 +3827,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 // Grab the bandwidth tester
 
 
-var _platform = __webpack_require__(305);
+var _platform = __webpack_require__(308);
 
 var _platform2 = _interopRequireDefault(_platform);
 
@@ -4217,7 +4216,1415 @@ module.exports = function () {
 }();
 
 /***/ }),
+/* 119 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     	Exterminator
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     	A lightweight QA reporter that sends through much needed informations.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     */
+
+// Get the variables
+
+
+// Grab Detective helper class
+
+
+// Grab html2canvas for screenshots
+// plus quick fix for IE (assigning to window)
+
+
+var _templateObject = _taggedTemplateLiteral([','], [',']);
+
+var _variables = __webpack_require__(121);
+
+var _variables2 = _interopRequireDefault(_variables);
+
+var _Detective = __webpack_require__(118);
+
+var _Detective2 = _interopRequireDefault(_Detective);
+
+var _html2canvas = __webpack_require__(307);
+
+var _html2canvas2 = _interopRequireDefault(_html2canvas);
+
+var _fields = __webpack_require__(122);
+
+var _fields2 = _interopRequireDefault(_fields);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+window.html2canvas = _html2canvas2.default;
+
+// Grab our set fields
+
+
+// The class
+module.exports = function () {
+
+	/**
+  *	Construct
+  */
+	function Exterminator(args) {
+		var _this = this;
+
+		_classCallCheck(this, Exterminator);
+
+		// Add arguments to the object
+		_extends(this, {
+
+			// Set the base class of the elements
+			base_class: _variables2.default.get('base_class'),
+
+			// Sets the submit button text
+			submit_button_text: 'Report',
+
+			// Set the project name
+			project: 'Project Name',
+
+			// Set the Subject formatting
+			subject_format: '%project% - Bug Report - %date_time%',
+
+			// Sets the form's method
+			action: 'mailto:',
+
+			// Set the method
+			method: 'POST',
+
+			// Set the pm
+			email: 'somepm@someagency.com',
+
+			// Set up ccd emails
+			cc: [],
+
+			// Show labels
+			labels: false,
+
+			// Set the minimum browser (IE)
+			min_browser: 10,
+
+			// Whether to send through a screenshot
+			sends_screenshot: false,
+
+			// Custom Logs to send through in report
+			custom_logs: [],
+
+			// Placeholder for Bitbucket creds
+			bitbutcket: null,
+
+			// Handles the formatting of the body
+			body_format: {
+
+				// Set the type
+				type: 'basic',
+
+				// Sets the formatting of the body of submission
+				html: {
+					header: '<thead><tr><td>Row A</td><td>Row B</td></tr></thead>',
+					wrapper: '<table>%HEADER%<tbody>%BODY%</tbody></table>',
+					row: '<tr>%ROW%</tr>',
+					label: '<td>%LABEL%</td>',
+					value: '<td>%VALUE%</td>'
+				},
+
+				// Sets the formatting of the body for emails
+				basic: {
+					header: '',
+					wrapper: '%BODY%',
+					row: '%ROW%\r\n',
+					label: '%LABEL%\r\n',
+					value: '%VALUE%\r\n'
+				}
+
+			}
+
+		}, args);
+
+		// Instantiate our detective
+		this.detective = new _Detective2.default();
+
+		// Check if the version of browser is supported
+		this.detective.detect('support', { 'version': this.min_browser });
+
+		// Extra information to detect
+		// See the detective class for available
+		this.detect_extra_info = [{ label: 'Page', fn: 'URL' }, { label: 'Last Page', fn: 'previousURL' }, { label: 'Envirnoment', fn: 'envirnoment' }, { label: 'Resolution', fn: 'resolution' }, { label: 'Pixel Aspect Ratio', fn: 'pixelAspectRatio' }, { label: 'Scroll Position', fn: 'scrollPosition' }, { label: 'Download Speed', fn: 'bandwidth' }, { label: 'AdBlock', fn: 'adBlock' }, { label: 'Browser Plugins', fn: 'browserPlugins' }, { label: 'Cookies', fn: 'cookiesEnabled' }, { label: 'Errors', fn: 'errors' }, { label: 'Locale', fn: 'locale' }, { label: 'Battery Status', fn: 'batteryStatus' }];
+
+		// Add our custom logging functions
+		if (this.custom_logs.length) this.addCustomLogs();
+
+		// Set the mailto flag
+		this.is_mailto = this.action.indexOf('mailto:') > -1;
+
+		// Set the action up
+		this.action = this.is_mailto ? this.action + this.email : this.action;
+
+		// Set up the field map
+		this.fields_map = {};
+
+		// Set up the submit button holder
+		this.button = null;
+
+		// Set the current screenshot to empty
+		this.screenshot = null;
+
+		// Set up a sending flag
+		this.is_sending = false;
+
+		// Set the last clicked element to null
+		this.last_clicked = null;
+
+		// Set the limit reached class
+		this.limit_reached_class = this.base_class + '__field--limit_reached';
+
+		// Fires the rest of the setup once the window loads
+		if (!document.body) window.addEventListener('load', function () {
+			_this.windowReady();
+		});else this.windowReady();
+	}
+
+	/**
+  *	All the functions to fire when the window is ready
+  */
+
+
+	_createClass(Exterminator, [{
+		key: 'windowReady',
+		value: function windowReady() {
+
+			// Set the top level wrapper element
+			// should keep this to the body
+			this.shell = document.body;
+
+			// Builds the form
+			this.form = this.generateFormElement();
+
+			// Set up the field mapping
+			this.fields = this.processFields(_fields2.default);
+
+			// Set up the toggler
+			this.toggler = this.buildToggler();
+
+			// Set up the wrapper
+			this.wrapper = this.buildWrapper();
+
+			// Build the form
+			this.form = this.buildForm();
+
+			// Set up click listener
+			this.clickListener();
+		}
+
+		/**
+   *	Adds listener for clickspots.
+   *	Clicked areas that will appear when the screenshot is taken
+   */
+
+	}, {
+		key: 'clickListener',
+		value: function clickListener() {
+			var _this2 = this;
+
+			// Add a listener on the window for all clicks
+			window.addEventListener('click', function (e) {
+
+				// Check to see if we are clicking on the exterminator
+				if (_this2.wrapper.contains(e.target)) return;
+
+				// Add the clickspot to the DOM
+				_this2.addClickSpot(e.pageX, e.pageY);
+
+				// Set the last clicked element
+				_this2.setLastClicked(e.target);
+			});
+		}
+
+		/**
+   *	Sets the last clicked target and points to it
+   */
+
+	}, {
+		key: 'setLastClicked',
+		value: function setLastClicked(target) {
+
+			// Set the last clicked element
+			this.last_clicked = target;
+		}
+
+		/**
+   *	Renders the last clicked element
+   */
+
+	}, {
+		key: 'renderLastClicked',
+		value: function renderLastClicked() {
+
+			if (!this.last_clicked) return false;
+
+			// grab the vars of the last clicked
+			var width = this.last_clicked.offsetWidth,
+			    height = this.last_clicked.offsetHeight,
+			    position = this.getElementPosition(this.last_clicked),
+			    element = this.buildLastClickedElement();
+
+			// Style the element
+			element.style.width = width + 'px';
+			element.style.height = height + 'px';
+			element.style.left = position.left + 'px';
+			element.style.top = position.top + 'px';
+		}
+
+		/**
+   *	Builds the last clicked element
+   */
+
+	}, {
+		key: 'buildLastClickedElement',
+		value: function buildLastClickedElement() {
+
+			// return the element if we have already built it
+			if (this.last_clicked_element) return this.last_clicked_element;
+
+			// Create the element
+			this.last_clicked_element = this.buildElement('span', 'last_clicked');
+
+			// Add the element to the body
+			document.body.appendChild(this.last_clicked_element);
+
+			// return the element
+			return this.last_clicked_element;
+		}
+
+		/**
+   *	Adds a clickspot to the body and positions it
+   */
+
+	}, {
+		key: 'addClickSpot',
+		value: function addClickSpot(x, y) {
+
+			// If this instance is going to take a screenshot
+			if (this.sends_screenshot) {
+
+				// Else let's create an element
+				var spot = this.buildElement('span', 'clickspot');
+
+				// Set it's position
+				spot.style.left = x + 'px';
+				spot.style.top = y + 'px';
+
+				// Add it to the body
+				document.body.appendChild(spot);
+			}
+		}
+
+		/**
+   *	Adds custom logging to reporting loop
+   */
+
+	}, {
+		key: 'addCustomLogs',
+		value: function addCustomLogs() {
+
+			// Store the custom rows to loop throug
+			var rows = this.custom_logs,
+			    detect_custom_logs = [];
+
+			// Loop through the rows
+			for (var i = 0, l = rows.length; i < l; i++) {
+
+				// Add the row to the message body generator loop
+				detect_custom_logs[i] = {
+					label: rows[i].label,
+					fn: rows[i].callback.name
+				};
+
+				// Add the function as a callback
+				this.detective[rows[i].callback.name] = rows[i].callback.fn;
+			}
+
+			// Add the custom logs to the extra info
+			this.detect_extra_info = this.detect_extra_info.concat(detect_custom_logs);
+
+			// return the extra info for inspection
+			return this.detect_extra_info;
+		}
+
+		/**
+   *	Applies needed transformations on the set fields
+   */
+
+	}, {
+		key: 'processFields',
+		value: function processFields(fields) {
+
+			// Add subject and body fields
+			fields = fields.concat([{
+				name: 'subject',
+				el_type: 'input',
+				type: 'hidden'
+			}, {
+				name: 'body',
+				el_type: 'input',
+				type: 'hidden'
+			}]);
+
+			// return the fields
+			return fields;
+		}
+
+		/**
+   *	Builds a wrapper that will hold our form
+   */
+
+	}, {
+		key: 'buildWrapper',
+		value: function buildWrapper() {
+
+			// create the wrapper element
+			var wrapper = document.createElement('div');
+
+			// add appropriate classes
+			wrapper.classList.add(this.base_class + '__wrapper');
+
+			// Add the toggler button to the wrapper
+			wrapper.appendChild(this.toggler);
+
+			// return the wrapper
+			return wrapper;
+		}
+
+		/**
+   *	Builds the HTML form
+   */
+
+	}, {
+		key: 'buildForm',
+		value: function buildForm() {
+
+			// Store the form for local use
+			var form = this.form;
+
+			// Loop through the required fields
+			for (var i = 0, l = this.fields.length; i < l; i++) {
+
+				// Make sure the field has a type
+				this.fields[i].el_type = this.fields[i].el_type || 'input';
+
+				// Generate the field element
+				var field = this.buildField(this.fields[i]);
+
+				// Store the newly created field element
+				this.fields[i].el = field;
+
+				// Add the field to a name map
+				this.fields_map[this.fields[i].name] = field;
+
+				// Add Filed's params
+				this.addFieldParams(this.fields[i]);
+
+				// Sets the max length on a field if present
+				this.setFieldMaxLength(this.fields[i]);
+
+				// Add the field to the form
+				form.appendChild(field.wrapper);
+			}
+
+			// Adds the submit button
+			this.button = this.addSubmit();
+
+			// Now write the form to the body
+			this.writeForm();
+
+			// Set up the form events
+			this.formEvents();
+
+			// return the form
+			return form;
+		}
+
+		/**
+   *	Adds a submit button to the form
+   */
+
+	}, {
+		key: 'addSubmit',
+		value: function addSubmit() {
+
+			// Create the button element
+			var button = document.createElement('button');
+
+			// Add the proper class to the button
+			button.classList.add(this.base_class + '__submit');
+
+			// Set the button to submit
+			button.setAttribute('type', 'submit');
+
+			// Add the submit value to button so it can post the form
+			button.value = 'Submit';
+
+			// Add the text to the button
+			button.innerHTML = this.submit_button_text;
+
+			// Add the button to the form
+			this.form.appendChild(button);
+
+			return button;
+		}
+
+		/**
+   *	Adds open/close button
+   */
+
+	}, {
+		key: 'buildToggler',
+		value: function buildToggler() {
+
+			// Create the element
+			var toggler = document.createElement('a'),
+			    span = document.createElement('span'),
+			    span_count = 1;
+
+			// Add a class to the span
+			span.classList.add(this.base_class + '__toggler-span');
+
+			// add some spans for styling
+			for (var i = 1; i <= span_count; i++) {
+
+				// Store the current span
+				var current_span = span.cloneNode(true);
+
+				// Add an identifying class
+				current_span.classList.add(this.base_class + '__toggler-span--' + i);
+
+				// Add the span to the toggler
+				toggler.appendChild(current_span);
+			}
+
+			// Add proper class to the anchor
+			toggler.classList.add(this.base_class + '__toggler');
+
+			// Set up the toggler events
+			this.togglerEvents(toggler);
+
+			// return the anchor
+			return toggler;
+		}
+
+		/**
+   *	Handles all events associated with the toggler
+   *	Mainly the open/close
+   */
+
+	}, {
+		key: 'togglerEvents',
+		value: function togglerEvents(toggler) {
+			var _this3 = this;
+
+			// Add toggler events
+			toggler.addEventListener('click', function () {
+
+				// Jump out if we are sending
+				if (_this3.is_sending) return;
+
+				// Toggle the open class
+				_this3.shell.classList.toggle(_this3.base_class + '--open');
+			});
+		}
+
+		/**
+   *
+   */
+
+		/**
+   *	Adds necessary paramaters to the field
+   */
+
+	}, {
+		key: 'addFieldParams',
+		value: function addFieldParams(field) {
+
+			// Set the field's placeholder
+			field.el.input.setAttribute('placeholder', field.placeholder || '');
+
+			// Set the field's name
+			field.el.input.setAttribute('name', field.name || '');
+
+			// Set the field's type
+			field.el.input.setAttribute('type', field.type || '');
+
+			// Set the maxlength of the field if present
+			if (field.max_length) field.el.input.setAttribute('maxlength', field.max_length);
+
+			// Set the field's value
+			field.el.input.value = field.value || '';
+		}
+
+		/**
+   *	Sets a maximum length on a field
+   */
+
+	}, {
+		key: 'setFieldMaxLength',
+		value: function setFieldMaxLength(field) {
+			var _this4 = this;
+
+			// jump out if no max_length
+			if (!field.max_length) return;
+
+			// Store the input for easy access
+			var input = field.el.input,
+			    wrapper = field.el.wrapper,
+			    counter = this.buildElement('span', 'counter'),
+			    max_length = field.max_length,
+			    limit_reached = false;
+
+			// Add the counter to the field object
+			field.counter = counter;
+
+			// Set the counter value to 0
+			counter.innerHTML = max_length;
+
+			// Add the counter to the wrapper
+			wrapper.appendChild(counter);
+
+			// Watch the field for update in values
+			input.addEventListener('input', function () {
+
+				// Store the value for easy access
+				var value = input.value,
+				    char_count = max_length - value.length;
+
+				// If we've acheived our max character length
+				if (char_count <= 0) {
+
+					// Stop the string from going past max length
+					input.value = value.substring(0, max_length);
+
+					// Set the limit reached
+					if (!limit_reached) {
+
+						// Increment the counter
+						counter.innerHTML = '0';
+
+						// Add the limit reached class
+						wrapper.classList.add(_this4.limit_reached_class);
+
+						// Set the limit reached switch
+						// so we don't do this every time
+						limit_reached = true;
+					}
+				} else {
+
+					// Increment the counter
+					counter.innerHTML = char_count;
+
+					// if the limit was reached, reset it
+					if (limit_reached) {
+
+						// Add the limit reached class
+						wrapper.classList.remove(_this4.limit_reached_class);
+
+						// Unset the limit reached switch
+						// so we don't do this every time
+						limit_reached = false;
+					}
+				}
+			});
+		}
+
+		/**
+   *	Writes the generated html to the shell
+   */
+
+	}, {
+		key: 'writeForm',
+		value: function writeForm() {
+
+			// Add the form to the wrapper
+			this.wrapper.appendChild(this.form);
+
+			// Add the wrapper to the shell
+			this.shell.appendChild(this.wrapper);
+		}
+
+		/**
+   *	Builds a field including it's wrapper element and label
+   */
+
+	}, {
+		key: 'buildField',
+		value: function buildField(field) {
+
+			// Generate field
+			// Wrapper element
+			// and label
+			var field_el = this.buildElement(field.el_type),
+			    field_wrapper = this.buildElement('div', 'field'),
+			    field_label = this.buildElement('label');
+
+			// Add class to field
+			field_el.classList.add(this.base_class + '__input');
+
+			// Add required to field
+			if (field.required) field_el.setAttribute('required', 'required');
+
+			// Add text to the label
+			if (field.label && this.label) field_label.innerHTML = field.label;
+
+			// Add the elements to the wrapper
+			if (field.label && this.label) field_wrapper.appendChild(field_label);
+			field_wrapper.appendChild(field_el);
+
+			// return the wrapper
+			return {
+				input: field_el,
+				wrapper: field_wrapper
+			};
+		}
+
+		/**
+   *	Generates the form's markup (including extra params)
+   */
+
+	}, {
+		key: 'generateFormElement',
+		value: function generateFormElement() {
+
+			// Generate the form element
+			var form = this.buildElement('form');
+
+			// Add extra params here
+			form.setAttribute('action', this.action);
+
+			// Set the method
+			form.setAttribute('method', this.method);
+
+			// Add extra params here
+			form.setAttribute('enctype', 'text/plain');
+
+			// return it
+			return form;
+		}
+
+		/**
+   *	Build Element
+   */
+
+	}, {
+		key: 'buildElement',
+		value: function buildElement() {
+			var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'input';
+			var i_class = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+
+
+			// Store the element
+			var el = document.createElement(type),
+			    el_class = i_class || type;
+
+			// Give the element a class
+			el.classList.add(this.base_class + '__' + el_class);
+
+			// return the built element
+			return el;
+		}
+
+		/**
+   *	Generates the subject line of the email
+   */
+
+	}, {
+		key: 'generateSubjectLine',
+		value: function generateSubjectLine() {
+
+			// Create the subject var
+			var subject = this.subject_format;
+
+			// add the project to the
+			subject = subject.replace('%project%', this.project);
+
+			// Add datetime to the string
+			subject = subject.replace('%date_time%', new Date());
+
+			// return the formatted subject
+			return subject;
+		}
+
+		/**
+   * Generates encoded fields for posting
+   */
+
+	}, {
+		key: 'generateEncodedFields',
+		value: function generateEncodedFields() {
+
+			// init the field string
+			var fields_string = '';
+
+			// Loop through all fields
+			for (var i = 0; i < this.fields.length; i++) {
+
+				// Jump out if subject or body fields
+				if (~['body', 'subject'].indexOf(this.fields[i].name)) continue;
+
+				// Add an amp
+				fields_string += fields_string ? '&' : '';
+
+				// Add the value of the new line to the body
+				fields_string += this.fields[i].name + '=' + this.fields[i].el.input.value;
+			}
+
+			// return the built fields string
+			return !fields_string ? '' : '&' + fields_string;
+		}
+
+		/**
+   *	Generates the body of the message
+   */
+
+	}, {
+		key: 'generateMessageBody',
+		value: function generateMessageBody() {
+
+			// Set up our body
+			var body = '',
+			    label = '',
+			    value = '',
+			    row = '';
+
+			// Loop through all fields
+			for (var i = 0; i < this.fields.length; i++) {
+
+				// Jump out if subject or body fields
+				if (~['body', 'subject'].indexOf(this.fields[i].name)) continue;
+
+				// Add new line to the body
+				label = this.fields[i].label;
+
+				// Add the value of the new line to the body
+				value = this.sanitize(this.fields[i].el.input.value.replace(/&/g, ' amp '));
+
+				// Add the fields to the body
+				body += this.formatRow(label, value);
+			}
+
+			// Loop through our extra informations
+			// for dev purposes
+			for (var i = 0; i < this.detect_extra_info.length; i++) {
+
+				// Set the label
+				label = this.detect_extra_info[i].label;
+
+				// Set the value
+				value = this.detective.detect(this.detect_extra_info[i].fn).message;
+
+				// Add it to the body
+				body += this.formatRow(label, value);
+			}
+
+			// Return the constructed body
+			return this.getBodyFormat().wrapper.replace('%HEADER%', this.getBodyFormat().header).replace('%BODY%', body);
+		}
+
+		/**
+   *	Formats the row (table or not)
+   */
+
+	}, {
+		key: 'formatRow',
+		value: function formatRow(label, value) {
+
+			// Return the formatted row
+			return this.getBodyFormat().row.replace('%ROW%', this.getBodyFormat().label.replace('%LABEL%', label) + this.getBodyFormat().value.replace('%VALUE%', value));
+		}
+
+		/**
+   *	Generates a browser screenshot
+   */
+
+	}, {
+		key: 'generateScreenshot',
+		value: function generateScreenshot(cb) {
+			var _this5 = this;
+
+			// Jump out if we don't want to render a screenshot
+			if (!this.sends_screenshot) return cb();
+
+			// Get the user's scroll position
+			var doc = document.documentElement,
+			    pos_x = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0),
+			    pos_y = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
+
+			// First, hide the exterminator
+			this.shell.classList.add(this.base_class + '--screenshot');
+
+			// Scroll the window to the top
+			window.scrollTo(0, 0);
+
+			// Add the viewport ghost
+			this.addViewportghost(pos_x, pos_y);
+
+			// Render the last clicked
+			this.renderLastClicked();
+
+			// Now use html2canvas to take a screenshot
+			(0, _html2canvas2.default)(this.shell, { background: '#fff' }).then(function (canvas) {
+
+				// remove the viewport ghost
+				_this5.removeViewportghost();
+
+				// Set the scroll position back to where they were
+				window.scrollTo(pos_x, pos_y);
+
+				// After screenshot has been taken, put
+				// the exterminator back
+				_this5.shell.classList.remove(_this5.base_class + '--screenshot');
+
+				// Turn the canvas into an image and
+				// store it in the obj as base64 "image/png"
+				_this5.screenshot = canvas.toDataURL();
+
+				// run our callback
+				cb();
+			});
+		}
+
+		/**
+   *	Builds a ghost so we can see where the user
+   *	reported the bug
+   */
+
+	}, {
+		key: 'addViewportghost',
+		value: function addViewportghost(x, y) {
+
+			// We haven't already created the ghost
+			if (!this.screenshot_ghost) {
+
+				// Create the ghost and store it in the obj
+				this.screenshot_ghost = document.createElement('div');
+
+				// Give it the class it needs
+				this.screenshot_ghost.classList.add(this.base_class + '__screenshot-ghost');
+			}
+
+			// Set its x and y coords
+			this.screenshot_ghost.style.left = x + 'px';
+			this.screenshot_ghost.style.top = y + 'px';
+			this.screenshot_ghost.style.width = (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) + 'px';
+			this.screenshot_ghost.style.height = (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) + 'px';
+
+			// add the ghost to the body
+			this.shell.appendChild(this.screenshot_ghost);
+		}
+
+		/**
+   *	Removes the ghost from the viewport
+   */
+
+	}, {
+		key: 'removeViewportghost',
+		value: function removeViewportghost() {
+
+			// removes the ghost from the shell....
+			this.shell.removeChild(this.screenshot_ghost);
+		}
+
+		/**
+   *	Submits the form as a mailto link
+   */
+
+	}, {
+		key: 'triggerMailto',
+		value: function triggerMailto() {
+			var _this6 = this;
+
+			// Set the basic format and store the previous value
+			this.body_format.previous = this.body_format.type;
+			this.body_format.type = 'basic';
+
+			// Send the form via email mailto link
+			var win = window.open(
+			//this.form.getAttribute('action')
+			'mailto:' + this.email + '?subject=' + encodeURI(this.generateSubjectLine()) + '&body=' + encodeURI(this.generateMessageBody()) + (this.cc.length ? '&cc=' + this.cc.concat(_templateObject) : ''), '_blank');
+
+			// Set the body formatting back to what it was
+			this.body_format.type = this.body_format.previous;
+
+			// Set close after 1 second
+			setTimeout(function () {
+
+				// Set the successful state
+				_this6.triggerSuccess();
+
+				// close the window
+				if (win) win.close();
+			}, 1000);
+		}
+
+		/**
+   *	Sets the sending state of the form
+   */
+
+	}, {
+		key: 'setSendingState',
+		value: function setSendingState() {
+			var is_sending = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
+
+			// Turn on the sending flag
+			this.is_sending = is_sending;
+
+			// Add a "sending" class to the shell
+			this.shell.classList[is_sending ? 'add' : 'remove'](this.base_class + '--sending');
+		}
+
+		/**
+   *	Sets up the events associated with the form
+   */
+
+	}, {
+		key: 'formEvents',
+		value: function formEvents() {
+			var _this7 = this;
+
+			// Set up a form submission callback
+			this.form.addEventListener('submit', function (e) {
+
+				// prevent form from submitting
+				e.preventDefault();
+
+				// Set the sending state of the form
+				_this7.setSendingState(true);
+
+				// If the form is set to trigger a mailto
+				if (_this7.is_mailto) {
+
+					// Trigger the mailto
+					_this7.triggerMailto();
+				} else {
+
+					// Generate a screenshot
+					_this7.generateScreenshot(function () {
+
+						// do ajax request
+						_this7.triggerAjax(function (successful) {
+
+							// If it fails, fallback to mailto
+							if (!successful) _this7.triggerMailto();
+
+							// Trigger the success state
+							else _this7.triggerSuccess();
+						});
+					});
+				}
+			});
+		}
+
+		/**
+   *	This is what happens when the message is sent
+   */
+
+	}, {
+		key: 'triggerSuccess',
+		value: function triggerSuccess() {
+			var _this8 = this;
+
+			// Clear the form out
+			this.clearForm();
+
+			// Remove the sending state
+			this.setSendingState(false);
+
+			// Set the form to success
+			this.shell.classList.add(this.base_class + '--sent');
+
+			// After 3 seconds remove success state
+			setTimeout(function () {
+				_this8.shell.classList.remove(_this8.base_class + '--sent');
+			}, 3000);
+		}
+
+		/**
+   *	Makes an ajax request to an endpoint
+   */
+
+	}, {
+		key: 'triggerAjax',
+		value: function triggerAjax(cb) {
+
+			// Set up the request
+			var r = new XMLHttpRequest(),
+			    data = 'subject=' + encodeURI(this.sanitize(this.generateSubjectLine())) + '&body=' + encodeURI(this.generateMessageBody()) + '&email=' + this.email + this.generateEncodedFields() + (this.cc.length ? '&cc=' + this.cc.concat(_templateObject) : '') + (this.screenshot ? '&screenshot=' + this.screenshot : '') + (this.bitbucket ? "&bitbucket=" + JSON.stringify(this.bitbucket) : '');
+
+			// Set up the post
+			r.open(this.method, this.action, true);
+
+			// Set up the content type
+			r.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+
+			// Do a check
+			r.onreadystatechange = function () {
+
+				// if is ready?? lolz
+				if (this.readyState === 4) {
+
+					// if response was successful
+					if (this.status >= 200 && this.status < 400) {
+
+						// Get the response
+						var resp = JSON.parse(this.responseText);
+
+						// return the status of the request
+						cb(resp.status);
+					} else {
+
+						// return false to the callback
+						cb(false);
+					}
+				}
+			};
+
+			// Send the request
+			r.send(data);
+		}
+
+		/**
+   *	Clears out the form
+   */
+
+	}, {
+		key: 'clearForm',
+		value: function clearForm() {
+
+			// Store the fields for easy access
+			var fields = this.fields;
+
+			// Loop through the fields
+			for (var i = 0; i < fields.length; i++) {
+
+				// Store the field in the block scope
+				var field = this.fields[i],
+				    input = field.el.input;
+
+				// Skip if is hidden
+				if (field.type && field.type == 'hidden') continue;
+
+				// Store the value in case we need to retreive it
+				field.previous_value = input.value;
+
+				// if the character counter is present
+				if (field.counter) {
+
+					// reset the counter
+					field.counter.innerHTML = field.max_length;
+
+					// take off the limit reached class
+					field.el.wrapper.classList.remove(this.limit_reached_class);
+				}
+
+				// Clear the field's value
+				input.value = '';
+			}
+		}
+
+		/**
+   *	Sanatizes strings
+   */
+
+	}, {
+		key: 'sanitize',
+		value: function sanitize(str) {
+			str = str.replace(/[^a-z0-9áéíóúñü\.\/\s,_-]/gim, "");
+			return str.trim();
+		}
+
+		/**
+   *	Gets the element's position relative to the page
+   */
+
+	}, {
+		key: 'getElementPosition',
+		value: function getElementPosition(el) {
+
+			// Get the rect
+			var rec = el.getBoundingClientRect();
+
+			// return the calculated positioning
+			return { top: rec.top + window.scrollY, left: rec.left + window.scrollX };
+		}
+
+		/**
+   *	Gets the format for the body to insert into
+   */
+
+	}, {
+		key: 'getBodyFormat',
+		value: function getBodyFormat() {
+
+			// return the format
+			return this.body_format[this.body_format.type];
+		}
+	}]);
+
+	return Exterminator;
+}();
+
+/***/ }),
 /* 120 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ *  This class is in charge of building our
+ *  variables which are used for both scss
+ *  and js
+ */
+
+module.exports = function () {
+
+  /**
+   *  Constructs the vars class
+   *  @type {Object} args The arguments for the class
+   */
+  function Variables() {
+    var args = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    _classCallCheck(this, Variables);
+
+    /**
+     *  Sets the base settings of the object so that
+     *  we can control suffixes and scss specific
+     *  values
+     */
+    this.is_scss = !!args.is_scss;
+
+    /**
+     *  Store the variables for processing later
+     */
+    this.source_variables = args.variables;
+
+    /**
+     *  Porcess the variables on construct
+     */
+    this.processVariables();
+  }
+
+  /**
+   *  Build our variables object
+   */
+
+
+  _createClass(Variables, [{
+    key: 'processVariables',
+    value: function processVariables() {
+
+      /**
+       *  Loop through the vars in the args and apply them
+       *  to the class
+       */
+      if (this.source_variables) {
+        for (var i = 0, l = this.source_variables.length; i < l; i++) {
+
+          // Set the current variable
+          var variable = this.source_variables[i],
+              value = _typeof(variable.value) == 'object' ? variable.value : [variable.value];
+
+          // Add the variable to the instance
+          this.addVariable(variable.name, variable.type ? this[variable.type].apply(this, _toConsumableArray(value)) : variable.value);
+        }
+      }
+    }
+
+    /**
+     *  Adds a modifier to a string
+     *
+     *  @type {String} string The string to add
+     */
+
+  }, {
+    key: 'modifier',
+    value: function modifier() {
+      var string = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'px';
+
+      return this.is_scss ? string : '';
+    }
+
+    /**
+     *  Adds a modifier to a string
+     *
+     *  @type {String} color The hex of the color
+     */
+
+  }, {
+    key: 'color',
+    value: function color() {
+      var _color = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '000000';
+
+      return this.modifier('#') + _color;
+    }
+
+    /**
+     *  Calculates the gutter
+     *
+     *  @type {Integer} multiplier What to multiply the gutter by
+     */
+
+  }, {
+    key: 'gutter',
+    value: function gutter() {
+      var multiplier = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+
+      // Set the gutterbase
+      if (!this.base_gutter) this.base_gutter = multiplier;
+
+      // return the calculated gutter
+      return this.base_gutter * multiplier + this.modifier('px');
+    }
+
+    /**
+     *  Returns a size in pixels
+     *
+     *  @type {Integer} number the number in pixels
+     */
+
+  }, {
+    key: 'px',
+    value: function px() {
+      var number = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+
+      return number + this.modifier('px');
+    }
+
+    /**
+     *  Adds css darken values
+     *
+     *  @type {String}  color  The color to darken
+     *  @type {Integer} amount The amount in percent to darken the color
+     */
+
+  }, {
+    key: 'colorDarken',
+    value: function colorDarken() {
+      var color = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+      var amount = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '10';
+
+
+      // Set tge color to darken
+      var value = this.variables[color] ? this.variables[color] : color;
+
+      // darken the color
+      return 'darken(' + value + ', ' + amount + '%)';
+    }
+
+    /**
+     *  Builds a class name
+     *  @type {String} name The name of the class
+     */
+
+  }, {
+    key: 'className',
+    value: function className() {
+      var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+      return this.modifier('\'.') + name + this.modifier('\'');
+    }
+
+    /**
+     *  Adds a variable to the class
+     *
+     *  @type {String} name  The name of the variable
+     *  @type {String} value What the variable will be set to
+     */
+
+  }, {
+    key: 'addVariable',
+    value: function addVariable() {
+      var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+      var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+
+
+      // init the variables obj
+      if (!this.variables) this.variables = {};
+
+      // Check to see if the value is a name
+      var variable_value = this.variables[value] ? this.variables[value] : value;
+
+      // Add the variable to the variables obj
+      this.variables[name] = variable_value;
+    }
+
+    /**
+     *  Returns the constructed variables
+     */
+
+  }, {
+    key: 'get',
+    value: function get() {
+      var args = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { index: '', is_scss: null };
+
+
+      // Set the index
+      var index = typeof args == 'string' ? args : args.index || null;
+
+      // process the variables if is_scss is set
+      if (args.is_scss !== null) {
+
+        // set is scss to the new value
+        this.is_scss = args.is_scss;
+
+        // process the variables again
+        this.processVariables();
+      }
+
+      // return our desired variable/s
+      return index ? this.variables[index] : this.variables;
+    }
+  }]);
+
+  return Variables;
+}();
+
+/***/ }),
+/* 121 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// Import our Variables class
+var Variables = __webpack_require__(120),
+    variables = __webpack_require__(123).vars;
+
+// Export the variables
+module.exports = new Variables({
+  variables: variables
+});
+
+/***/ }),
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4253,14 +5660,54 @@ module.exports = [{
 }];
 
 /***/ }),
-/* 121 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(130);
+"use strict";
+
+
+/**
+ *  This file syncronizes JS ans SCSS variables so that
+ *  some classes, gutters, colors, sizes, and any other
+ *  type of visual style can be standardized throughout
+ */
+
+module.exports = { vars: [
+
+  /**
+   *  Base class of the component
+   *  You can change this to anything but make sure
+   *  to change it in the JS class as well!
+   */
+  { name: 'base_class', type: 'className', value: 'exterminator' },
+
+  /**
+   *  Gutter
+   */
+  { name: 'gutter', type: 'gutter', value: 20 }, { name: 'gutter-medium', type: 'gutter', value: 1.5 }, { name: 'gutter-large', type: 'gutter', value: 2 },
+
+  /**
+   *  Font Size
+   *  Keep this px and not relative since the contexts that the
+   *  script could be in may vary along with their ems/rems/...
+   */
+  { name: 'font-size', type: 'px', value: 18 },
+
+  /**
+   *  Color variables
+   *  Modify these to theme the tracker
+   */
+  { name: 'color-size', type: 'color', value: '000000' }, { name: 'color-red', type: 'color', value: 'e84a64' }, { name: 'color-error', value: 'color-red' }, { name: 'color-success', type: 'color', value: '4BB543' }, { name: 'color-warning', type: 'color', value: 'FFCC00' }, { name: 'color-blue-grey', type: 'color', value: '384D66' }, { name: 'color-text', type: 'colorDarken', value: ['color-blue-grey', 3] }, { name: 'color-border', type: 'color', value: 'eeeeee' }, { name: 'color-background', type: 'color', value: 'ffffff' }, { name: 'color-sending', value: 'color-warning' }] };
+
+/***/ }),
+/* 124 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(133);
 module.exports = __webpack_require__(24).RegExp.escape;
 
 /***/ }),
-/* 122 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(4)
@@ -4281,18 +5728,18 @@ module.exports = function(original){
 };
 
 /***/ }),
-/* 123 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 9.4.2.3 ArraySpeciesCreate(originalArray, length)
-var speciesConstructor = __webpack_require__(122);
+var speciesConstructor = __webpack_require__(125);
 
 module.exports = function(original, length){
   return new (speciesConstructor(original))(length);
 };
 
 /***/ }),
-/* 124 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4307,7 +5754,7 @@ module.exports = function(hint){
 };
 
 /***/ }),
-/* 125 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // all enumerable object keys, includes symbols
@@ -4327,7 +5774,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 126 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var getKeys   = __webpack_require__(35)
@@ -4342,12 +5789,12 @@ module.exports = function(object, el){
 };
 
 /***/ }),
-/* 127 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var path      = __webpack_require__(128)
+var path      = __webpack_require__(131)
   , invoke    = __webpack_require__(52)
   , aFunction = __webpack_require__(11);
 module.exports = function(/* ...pargs */){
@@ -4371,13 +5818,13 @@ module.exports = function(/* ...pargs */){
 };
 
 /***/ }),
-/* 128 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(2);
 
 /***/ }),
-/* 129 */
+/* 132 */
 /***/ (function(module, exports) {
 
 module.exports = function(regExp, replace){
@@ -4390,18 +5837,18 @@ module.exports = function(regExp, replace){
 };
 
 /***/ }),
-/* 130 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/benjamingr/RexExp.escape
 var $export = __webpack_require__(0)
-  , $re     = __webpack_require__(129)(/[\\^$*+?.()|[\]{}]/g, '\\$&');
+  , $re     = __webpack_require__(132)(/[\\^$*+?.()|[\]{}]/g, '\\$&');
 
 $export($export.S, 'RegExp', {escape: function escape(it){ return $re(it); }});
 
 
 /***/ }),
-/* 131 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 22.1.3.3 Array.prototype.copyWithin(target, start, end = this.length)
@@ -4412,7 +5859,7 @@ $export($export.P, 'Array', {copyWithin: __webpack_require__(87)});
 __webpack_require__(40)('copyWithin');
 
 /***/ }),
-/* 132 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4428,7 +5875,7 @@ $export($export.P + $export.F * !__webpack_require__(20)([].every, true), 'Array
 });
 
 /***/ }),
-/* 133 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 22.1.3.6 Array.prototype.fill(value, start = 0, end = this.length)
@@ -4439,7 +5886,7 @@ $export($export.P, 'Array', {fill: __webpack_require__(60)});
 __webpack_require__(40)('fill');
 
 /***/ }),
-/* 134 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4455,7 +5902,7 @@ $export($export.P + $export.F * !__webpack_require__(20)([].filter, true), 'Arra
 });
 
 /***/ }),
-/* 135 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4475,7 +5922,7 @@ $export($export.P + $export.F * forced, 'Array', {
 __webpack_require__(40)(KEY);
 
 /***/ }),
-/* 136 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4495,7 +5942,7 @@ $export($export.P + $export.F * forced, 'Array', {
 __webpack_require__(40)(KEY);
 
 /***/ }),
-/* 137 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4512,7 +5959,7 @@ $export($export.P + $export.F * !STRICT, 'Array', {
 });
 
 /***/ }),
-/* 138 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4556,7 +6003,7 @@ $export($export.S + $export.F * !__webpack_require__(54)(function(iter){ Array.f
 
 
 /***/ }),
-/* 139 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4577,7 +6024,7 @@ $export($export.P + $export.F * (NEGATIVE_ZERO || !__webpack_require__(20)($nati
 });
 
 /***/ }),
-/* 140 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 22.1.2.2 / 15.4.3.2 Array.isArray(arg)
@@ -4586,7 +6033,7 @@ var $export = __webpack_require__(0);
 $export($export.S, 'Array', {isArray: __webpack_require__(68)});
 
 /***/ }),
-/* 141 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4604,7 +6051,7 @@ $export($export.P + $export.F * (__webpack_require__(46) != Object || !__webpack
 });
 
 /***/ }),
-/* 142 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4632,7 +6079,7 @@ $export($export.P + $export.F * (NEGATIVE_ZERO || !__webpack_require__(20)($nati
 });
 
 /***/ }),
-/* 143 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4648,7 +6095,7 @@ $export($export.P + $export.F * !__webpack_require__(20)([].map, true), 'Array',
 });
 
 /***/ }),
-/* 144 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4673,7 +6120,7 @@ $export($export.S + $export.F * __webpack_require__(3)(function(){
 });
 
 /***/ }),
-/* 145 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4689,7 +6136,7 @@ $export($export.P + $export.F * !__webpack_require__(20)([].reduceRight, true), 
 });
 
 /***/ }),
-/* 146 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4705,7 +6152,7 @@ $export($export.P + $export.F * !__webpack_require__(20)([].reduce, true), 'Arra
 });
 
 /***/ }),
-/* 147 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4739,7 +6186,7 @@ $export($export.P + $export.F * __webpack_require__(3)(function(){
 });
 
 /***/ }),
-/* 148 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4755,7 +6202,7 @@ $export($export.P + $export.F * !__webpack_require__(20)([].some, true), 'Array'
 });
 
 /***/ }),
-/* 149 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4784,13 +6231,13 @@ $export($export.P + $export.F * (fails(function(){
 });
 
 /***/ }),
-/* 150 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(37)('Array');
 
 /***/ }),
-/* 151 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.3.3.1 / 15.9.4.4 Date.now()
@@ -4799,7 +6246,7 @@ var $export = __webpack_require__(0);
 $export($export.S, 'Date', {now: function(){ return new Date().getTime(); }});
 
 /***/ }),
-/* 152 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4833,7 +6280,7 @@ $export($export.P + $export.F * (fails(function(){
 });
 
 /***/ }),
-/* 153 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4853,16 +6300,16 @@ $export($export.P + $export.F * __webpack_require__(3)(function(){
 });
 
 /***/ }),
-/* 154 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var TO_PRIMITIVE = __webpack_require__(5)('toPrimitive')
   , proto        = Date.prototype;
 
-if(!(TO_PRIMITIVE in proto))__webpack_require__(12)(proto, TO_PRIMITIVE, __webpack_require__(124));
+if(!(TO_PRIMITIVE in proto))__webpack_require__(12)(proto, TO_PRIMITIVE, __webpack_require__(127));
 
 /***/ }),
-/* 155 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var DateProto    = Date.prototype
@@ -4878,7 +6325,7 @@ if(new Date(NaN) + '' != INVALID_DATE){
 }
 
 /***/ }),
-/* 156 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.2.3.2 / 15.3.4.5 Function.prototype.bind(thisArg, args...)
@@ -4887,7 +6334,7 @@ var $export = __webpack_require__(0);
 $export($export.P, 'Function', {bind: __webpack_require__(90)});
 
 /***/ }),
-/* 157 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4906,7 +6353,7 @@ if(!(HAS_INSTANCE in FunctionProto))__webpack_require__(7).f(FunctionProto, HAS_
 }});
 
 /***/ }),
-/* 158 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var dP         = __webpack_require__(7).f
@@ -4936,7 +6383,7 @@ NAME in FProto || __webpack_require__(6) && dP(FProto, NAME, {
 });
 
 /***/ }),
-/* 159 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.3 Math.acosh(x)
@@ -4959,7 +6406,7 @@ $export($export.S + $export.F * !($acosh
 });
 
 /***/ }),
-/* 160 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.5 Math.asinh(x)
@@ -4974,7 +6421,7 @@ function asinh(x){
 $export($export.S + $export.F * !($asinh && 1 / $asinh(0) > 0), 'Math', {asinh: asinh});
 
 /***/ }),
-/* 161 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.7 Math.atanh(x)
@@ -4989,7 +6436,7 @@ $export($export.S + $export.F * !($atanh && 1 / $atanh(-0) < 0), 'Math', {
 });
 
 /***/ }),
-/* 162 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.9 Math.cbrt(x)
@@ -5003,7 +6450,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 163 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.11 Math.clz32(x)
@@ -5016,7 +6463,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 164 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.12 Math.cosh(x)
@@ -5030,7 +6477,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 165 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.14 Math.expm1(x)
@@ -5040,7 +6487,7 @@ var $export = __webpack_require__(0)
 $export($export.S + $export.F * ($expm1 != Math.expm1), 'Math', {expm1: $expm1});
 
 /***/ }),
-/* 166 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.16 Math.fround(x)
@@ -5071,7 +6518,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 167 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.17 Math.hypot([value1[, value2[, … ]]])
@@ -5101,7 +6548,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 168 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.18 Math.imul(x, y)
@@ -5123,7 +6570,7 @@ $export($export.S + $export.F * __webpack_require__(3)(function(){
 });
 
 /***/ }),
-/* 169 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.21 Math.log10(x)
@@ -5136,7 +6583,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 170 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.20 Math.log1p(x)
@@ -5145,7 +6592,7 @@ var $export = __webpack_require__(0);
 $export($export.S, 'Math', {log1p: __webpack_require__(98)});
 
 /***/ }),
-/* 171 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.22 Math.log2(x)
@@ -5158,7 +6605,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 172 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.28 Math.sign(x)
@@ -5167,7 +6614,7 @@ var $export = __webpack_require__(0);
 $export($export.S, 'Math', {sign: __webpack_require__(72)});
 
 /***/ }),
-/* 173 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.30 Math.sinh(x)
@@ -5187,7 +6634,7 @@ $export($export.S + $export.F * __webpack_require__(3)(function(){
 });
 
 /***/ }),
-/* 174 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.33 Math.tanh(x)
@@ -5204,7 +6651,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 175 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.2.2.34 Math.trunc(x)
@@ -5217,7 +6664,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 176 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5292,7 +6739,7 @@ if(!$Number(' 0o1') || !$Number('0b1') || $Number('+0x1')){
 }
 
 /***/ }),
-/* 177 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.1.2.1 Number.EPSILON
@@ -5301,7 +6748,7 @@ var $export = __webpack_require__(0);
 $export($export.S, 'Number', {EPSILON: Math.pow(2, -52)});
 
 /***/ }),
-/* 178 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.1.2.2 Number.isFinite(number)
@@ -5315,7 +6762,7 @@ $export($export.S, 'Number', {
 });
 
 /***/ }),
-/* 179 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.1.2.3 Number.isInteger(number)
@@ -5324,7 +6771,7 @@ var $export = __webpack_require__(0);
 $export($export.S, 'Number', {isInteger: __webpack_require__(95)});
 
 /***/ }),
-/* 180 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.1.2.4 Number.isNaN(number)
@@ -5337,7 +6784,7 @@ $export($export.S, 'Number', {
 });
 
 /***/ }),
-/* 181 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.1.2.5 Number.isSafeInteger(number)
@@ -5352,7 +6799,7 @@ $export($export.S, 'Number', {
 });
 
 /***/ }),
-/* 182 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.1.2.6 Number.MAX_SAFE_INTEGER
@@ -5361,7 +6808,7 @@ var $export = __webpack_require__(0);
 $export($export.S, 'Number', {MAX_SAFE_INTEGER: 0x1fffffffffffff});
 
 /***/ }),
-/* 183 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 20.1.2.10 Number.MIN_SAFE_INTEGER
@@ -5370,7 +6817,7 @@ var $export = __webpack_require__(0);
 $export($export.S, 'Number', {MIN_SAFE_INTEGER: -0x1fffffffffffff});
 
 /***/ }),
-/* 184 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export     = __webpack_require__(0)
@@ -5379,7 +6826,7 @@ var $export     = __webpack_require__(0)
 $export($export.S + $export.F * (Number.parseFloat != $parseFloat), 'Number', {parseFloat: $parseFloat});
 
 /***/ }),
-/* 185 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export   = __webpack_require__(0)
@@ -5388,7 +6835,7 @@ var $export   = __webpack_require__(0)
 $export($export.S + $export.F * (Number.parseInt != $parseInt), 'Number', {parseInt: $parseInt});
 
 /***/ }),
-/* 186 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5507,7 +6954,7 @@ $export($export.P + $export.F * (!!$toFixed && (
 });
 
 /***/ }),
-/* 187 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5531,7 +6978,7 @@ $export($export.P + $export.F * ($fails(function(){
 });
 
 /***/ }),
-/* 188 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.3.1 Object.assign(target, source)
@@ -5540,7 +6987,7 @@ var $export = __webpack_require__(0);
 $export($export.S + $export.F, 'Object', {assign: __webpack_require__(99)});
 
 /***/ }),
-/* 189 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(0)
@@ -5548,7 +6995,7 @@ var $export = __webpack_require__(0)
 $export($export.S, 'Object', {create: __webpack_require__(33)});
 
 /***/ }),
-/* 190 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(0);
@@ -5556,7 +7003,7 @@ var $export = __webpack_require__(0);
 $export($export.S + $export.F * !__webpack_require__(6), 'Object', {defineProperties: __webpack_require__(100)});
 
 /***/ }),
-/* 191 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(0);
@@ -5564,7 +7011,7 @@ var $export = __webpack_require__(0);
 $export($export.S + $export.F * !__webpack_require__(6), 'Object', {defineProperty: __webpack_require__(7).f});
 
 /***/ }),
-/* 192 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.5 Object.freeze(O)
@@ -5578,7 +7025,7 @@ __webpack_require__(22)('freeze', function($freeze){
 });
 
 /***/ }),
-/* 193 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.6 Object.getOwnPropertyDescriptor(O, P)
@@ -5592,7 +7039,7 @@ __webpack_require__(22)('getOwnPropertyDescriptor', function(){
 });
 
 /***/ }),
-/* 194 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.7 Object.getOwnPropertyNames(O)
@@ -5601,7 +7048,7 @@ __webpack_require__(22)('getOwnPropertyNames', function(){
 });
 
 /***/ }),
-/* 195 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.9 Object.getPrototypeOf(O)
@@ -5615,7 +7062,7 @@ __webpack_require__(22)('getPrototypeOf', function(){
 });
 
 /***/ }),
-/* 196 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.11 Object.isExtensible(O)
@@ -5628,7 +7075,7 @@ __webpack_require__(22)('isExtensible', function($isExtensible){
 });
 
 /***/ }),
-/* 197 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.12 Object.isFrozen(O)
@@ -5641,7 +7088,7 @@ __webpack_require__(22)('isFrozen', function($isFrozen){
 });
 
 /***/ }),
-/* 198 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.13 Object.isSealed(O)
@@ -5654,7 +7101,7 @@ __webpack_require__(22)('isSealed', function($isSealed){
 });
 
 /***/ }),
-/* 199 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.3.10 Object.is(value1, value2)
@@ -5662,7 +7109,7 @@ var $export = __webpack_require__(0);
 $export($export.S, 'Object', {is: __webpack_require__(107)});
 
 /***/ }),
-/* 200 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.14 Object.keys(O)
@@ -5676,7 +7123,7 @@ __webpack_require__(22)('keys', function(){
 });
 
 /***/ }),
-/* 201 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.15 Object.preventExtensions(O)
@@ -5690,7 +7137,7 @@ __webpack_require__(22)('preventExtensions', function($preventExtensions){
 });
 
 /***/ }),
-/* 202 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.17 Object.seal(O)
@@ -5704,7 +7151,7 @@ __webpack_require__(22)('seal', function($seal){
 });
 
 /***/ }),
-/* 203 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.3.19 Object.setPrototypeOf(O, proto)
@@ -5712,7 +7159,7 @@ var $export = __webpack_require__(0);
 $export($export.S, 'Object', {setPrototypeOf: __webpack_require__(74).set});
 
 /***/ }),
-/* 204 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5728,7 +7175,7 @@ if(test + '' != '[object z]'){
 }
 
 /***/ }),
-/* 205 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export     = __webpack_require__(0)
@@ -5737,7 +7184,7 @@ var $export     = __webpack_require__(0)
 $export($export.G + $export.F * (parseFloat != $parseFloat), {parseFloat: $parseFloat});
 
 /***/ }),
-/* 206 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export   = __webpack_require__(0)
@@ -5746,7 +7193,7 @@ var $export   = __webpack_require__(0)
 $export($export.G + $export.F * (parseInt != $parseInt), {parseInt: $parseInt});
 
 /***/ }),
-/* 207 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6051,7 +7498,7 @@ $export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(54)(function
 });
 
 /***/ }),
-/* 208 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.1 Reflect.apply(target, thisArgument, argumentsList)
@@ -6072,7 +7519,7 @@ $export($export.S + $export.F * !__webpack_require__(3)(function(){
 });
 
 /***/ }),
-/* 209 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.2 Reflect.construct(target, argumentsList [, newTarget])
@@ -6124,7 +7571,7 @@ $export($export.S + $export.F * (NEW_TARGET_BUG || ARGS_BUG), 'Reflect', {
 });
 
 /***/ }),
-/* 210 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.3 Reflect.defineProperty(target, propertyKey, attributes)
@@ -6151,7 +7598,7 @@ $export($export.S + $export.F * __webpack_require__(3)(function(){
 });
 
 /***/ }),
-/* 211 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.4 Reflect.deleteProperty(target, propertyKey)
@@ -6167,7 +7614,7 @@ $export($export.S, 'Reflect', {
 });
 
 /***/ }),
-/* 212 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6199,7 +7646,7 @@ $export($export.S, 'Reflect', {
 });
 
 /***/ }),
-/* 213 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.7 Reflect.getOwnPropertyDescriptor(target, propertyKey)
@@ -6214,7 +7661,7 @@ $export($export.S, 'Reflect', {
 });
 
 /***/ }),
-/* 214 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.8 Reflect.getPrototypeOf(target)
@@ -6229,7 +7676,7 @@ $export($export.S, 'Reflect', {
 });
 
 /***/ }),
-/* 215 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.6 Reflect.get(target, propertyKey [, receiver])
@@ -6255,7 +7702,7 @@ function get(target, propertyKey/*, receiver*/){
 $export($export.S, 'Reflect', {get: get});
 
 /***/ }),
-/* 216 */
+/* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.9 Reflect.has(target, propertyKey)
@@ -6268,7 +7715,7 @@ $export($export.S, 'Reflect', {
 });
 
 /***/ }),
-/* 217 */
+/* 220 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.10 Reflect.isExtensible(target)
@@ -6284,7 +7731,7 @@ $export($export.S, 'Reflect', {
 });
 
 /***/ }),
-/* 218 */
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.11 Reflect.ownKeys(target)
@@ -6293,7 +7740,7 @@ var $export = __webpack_require__(0);
 $export($export.S, 'Reflect', {ownKeys: __webpack_require__(104)});
 
 /***/ }),
-/* 219 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.12 Reflect.preventExtensions(target)
@@ -6314,7 +7761,7 @@ $export($export.S, 'Reflect', {
 });
 
 /***/ }),
-/* 220 */
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.14 Reflect.setPrototypeOf(target, proto)
@@ -6334,7 +7781,7 @@ if(setProto)$export($export.S, 'Reflect', {
 });
 
 /***/ }),
-/* 221 */
+/* 224 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 26.1.13 Reflect.set(target, propertyKey, V [, receiver])
@@ -6370,7 +7817,7 @@ function set(target, propertyKey, V/*, receiver*/){
 $export($export.S, 'Reflect', {set: set});
 
 /***/ }),
-/* 222 */
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global            = __webpack_require__(2)
@@ -6418,7 +7865,7 @@ if(__webpack_require__(6) && (!CORRECT_NEW || __webpack_require__(3)(function(){
 __webpack_require__(37)('RegExp');
 
 /***/ }),
-/* 223 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // @@match logic
@@ -6433,7 +7880,7 @@ __webpack_require__(50)('match', 1, function(defined, MATCH, $match){
 });
 
 /***/ }),
-/* 224 */
+/* 227 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // @@replace logic
@@ -6450,7 +7897,7 @@ __webpack_require__(50)('replace', 2, function(defined, REPLACE, $replace){
 });
 
 /***/ }),
-/* 225 */
+/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // @@search logic
@@ -6465,7 +7912,7 @@ __webpack_require__(50)('search', 1, function(defined, SEARCH, $search){
 });
 
 /***/ }),
-/* 226 */
+/* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // @@split logic
@@ -6540,7 +7987,7 @@ __webpack_require__(50)('split', 2, function(defined, SPLIT, $split){
 });
 
 /***/ }),
-/* 227 */
+/* 230 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6571,7 +8018,7 @@ if(__webpack_require__(3)(function(){ return $toString.call({source: 'a', flags:
 }
 
 /***/ }),
-/* 228 */
+/* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6584,7 +8031,7 @@ __webpack_require__(14)('anchor', function(createHTML){
 });
 
 /***/ }),
-/* 229 */
+/* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6597,7 +8044,7 @@ __webpack_require__(14)('big', function(createHTML){
 });
 
 /***/ }),
-/* 230 */
+/* 233 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6610,7 +8057,7 @@ __webpack_require__(14)('blink', function(createHTML){
 });
 
 /***/ }),
-/* 231 */
+/* 234 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6623,7 +8070,7 @@ __webpack_require__(14)('bold', function(createHTML){
 });
 
 /***/ }),
-/* 232 */
+/* 235 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6638,7 +8085,7 @@ $export($export.P, 'String', {
 });
 
 /***/ }),
-/* 233 */
+/* 236 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6664,7 +8111,7 @@ $export($export.P + $export.F * __webpack_require__(64)(ENDS_WITH), 'String', {
 });
 
 /***/ }),
-/* 234 */
+/* 237 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6677,7 +8124,7 @@ __webpack_require__(14)('fixed', function(createHTML){
 });
 
 /***/ }),
-/* 235 */
+/* 238 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6690,7 +8137,7 @@ __webpack_require__(14)('fontcolor', function(createHTML){
 });
 
 /***/ }),
-/* 236 */
+/* 239 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6703,7 +8150,7 @@ __webpack_require__(14)('fontsize', function(createHTML){
 });
 
 /***/ }),
-/* 237 */
+/* 240 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export        = __webpack_require__(0)
@@ -6731,7 +8178,7 @@ $export($export.S + $export.F * (!!$fromCodePoint && $fromCodePoint.length != 1)
 });
 
 /***/ }),
-/* 238 */
+/* 241 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6749,7 +8196,7 @@ $export($export.P + $export.F * __webpack_require__(64)(INCLUDES), 'String', {
 });
 
 /***/ }),
-/* 239 */
+/* 242 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6762,7 +8209,7 @@ __webpack_require__(14)('italics', function(createHTML){
 });
 
 /***/ }),
-/* 240 */
+/* 243 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6785,7 +8232,7 @@ __webpack_require__(70)(String, 'String', function(iterated){
 });
 
 /***/ }),
-/* 241 */
+/* 244 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6798,7 +8245,7 @@ __webpack_require__(14)('link', function(createHTML){
 });
 
 /***/ }),
-/* 242 */
+/* 245 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export   = __webpack_require__(0)
@@ -6821,7 +8268,7 @@ $export($export.S, 'String', {
 });
 
 /***/ }),
-/* 243 */
+/* 246 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(0);
@@ -6832,7 +8279,7 @@ $export($export.P, 'String', {
 });
 
 /***/ }),
-/* 244 */
+/* 247 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6845,7 +8292,7 @@ __webpack_require__(14)('small', function(createHTML){
 });
 
 /***/ }),
-/* 245 */
+/* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6869,7 +8316,7 @@ $export($export.P + $export.F * __webpack_require__(64)(STARTS_WITH), 'String', 
 });
 
 /***/ }),
-/* 246 */
+/* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6882,7 +8329,7 @@ __webpack_require__(14)('strike', function(createHTML){
 });
 
 /***/ }),
-/* 247 */
+/* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6895,7 +8342,7 @@ __webpack_require__(14)('sub', function(createHTML){
 });
 
 /***/ }),
-/* 248 */
+/* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6908,7 +8355,7 @@ __webpack_require__(14)('sup', function(createHTML){
 });
 
 /***/ }),
-/* 249 */
+/* 252 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6921,7 +8368,7 @@ __webpack_require__(44)('trim', function($trim){
 });
 
 /***/ }),
-/* 250 */
+/* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6940,8 +8387,8 @@ var global         = __webpack_require__(2)
   , wks            = __webpack_require__(5)
   , wksExt         = __webpack_require__(109)
   , wksDefine      = __webpack_require__(83)
-  , keyOf          = __webpack_require__(126)
-  , enumKeys       = __webpack_require__(125)
+  , keyOf          = __webpack_require__(129)
+  , enumKeys       = __webpack_require__(128)
   , isArray        = __webpack_require__(68)
   , anObject       = __webpack_require__(1)
   , toIObject      = __webpack_require__(15)
@@ -7162,7 +8609,7 @@ setToStringTag(Math, 'Math', true);
 setToStringTag(global.JSON, 'JSON', true);
 
 /***/ }),
-/* 251 */
+/* 254 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7214,7 +8661,7 @@ $export($export.P + $export.U + $export.F * __webpack_require__(3)(function(){
 __webpack_require__(37)(ARRAY_BUFFER);
 
 /***/ }),
-/* 252 */
+/* 255 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(0);
@@ -7223,7 +8670,7 @@ $export($export.G + $export.W + $export.F * !__webpack_require__(58).ABV, {
 });
 
 /***/ }),
-/* 253 */
+/* 256 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(27)('Float32', 4, function(init){
@@ -7233,7 +8680,7 @@ __webpack_require__(27)('Float32', 4, function(init){
 });
 
 /***/ }),
-/* 254 */
+/* 257 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(27)('Float64', 8, function(init){
@@ -7243,7 +8690,7 @@ __webpack_require__(27)('Float64', 8, function(init){
 });
 
 /***/ }),
-/* 255 */
+/* 258 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(27)('Int16', 2, function(init){
@@ -7253,7 +8700,7 @@ __webpack_require__(27)('Int16', 2, function(init){
 });
 
 /***/ }),
-/* 256 */
+/* 259 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(27)('Int32', 4, function(init){
@@ -7263,7 +8710,7 @@ __webpack_require__(27)('Int32', 4, function(init){
 });
 
 /***/ }),
-/* 257 */
+/* 260 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(27)('Int8', 1, function(init){
@@ -7273,7 +8720,7 @@ __webpack_require__(27)('Int8', 1, function(init){
 });
 
 /***/ }),
-/* 258 */
+/* 261 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(27)('Uint16', 2, function(init){
@@ -7283,7 +8730,7 @@ __webpack_require__(27)('Uint16', 2, function(init){
 });
 
 /***/ }),
-/* 259 */
+/* 262 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(27)('Uint32', 4, function(init){
@@ -7293,7 +8740,7 @@ __webpack_require__(27)('Uint32', 4, function(init){
 });
 
 /***/ }),
-/* 260 */
+/* 263 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(27)('Uint8', 1, function(init){
@@ -7303,7 +8750,7 @@ __webpack_require__(27)('Uint8', 1, function(init){
 });
 
 /***/ }),
-/* 261 */
+/* 264 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(27)('Uint8', 1, function(init){
@@ -7313,7 +8760,7 @@ __webpack_require__(27)('Uint8', 1, function(init){
 }, true);
 
 /***/ }),
-/* 262 */
+/* 265 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7331,7 +8778,7 @@ __webpack_require__(49)('WeakSet', function(get){
 }, weak, false, true);
 
 /***/ }),
-/* 263 */
+/* 266 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7349,7 +8796,7 @@ $export($export.P, 'Array', {
 __webpack_require__(40)('includes');
 
 /***/ }),
-/* 264 */
+/* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/rwaldron/tc39-notes/blob/master/es6/2014-09/sept-25.md#510-globalasap-for-enqueuing-a-microtask
@@ -7366,7 +8813,7 @@ $export($export.G, {
 });
 
 /***/ }),
-/* 265 */
+/* 268 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/ljharb/proposal-is-error
@@ -7380,7 +8827,7 @@ $export($export.S, 'Error', {
 });
 
 /***/ }),
-/* 266 */
+/* 269 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
@@ -7389,7 +8836,7 @@ var $export  = __webpack_require__(0);
 $export($export.P + $export.R, 'Map', {toJSON: __webpack_require__(92)('Map')});
 
 /***/ }),
-/* 267 */
+/* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://gist.github.com/BrendanEich/4294d5c212a6d2254703
@@ -7405,7 +8852,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 268 */
+/* 271 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://gist.github.com/BrendanEich/4294d5c212a6d2254703
@@ -7426,7 +8873,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 269 */
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://gist.github.com/BrendanEich/4294d5c212a6d2254703
@@ -7442,7 +8889,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 270 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://gist.github.com/BrendanEich/4294d5c212a6d2254703
@@ -7463,7 +8910,7 @@ $export($export.S, 'Math', {
 });
 
 /***/ }),
-/* 271 */
+/* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7481,7 +8928,7 @@ __webpack_require__(6) && $export($export.P + __webpack_require__(55), 'Object',
 });
 
 /***/ }),
-/* 272 */
+/* 275 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7499,7 +8946,7 @@ __webpack_require__(6) && $export($export.P + __webpack_require__(55), 'Object',
 });
 
 /***/ }),
-/* 273 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/tc39/proposal-object-values-entries
@@ -7513,7 +8960,7 @@ $export($export.S, 'Object', {
 });
 
 /***/ }),
-/* 274 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/tc39/proposal-object-getownpropertydescriptors
@@ -7537,7 +8984,7 @@ $export($export.S, 'Object', {
 });
 
 /***/ }),
-/* 275 */
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7561,7 +9008,7 @@ __webpack_require__(6) && $export($export.P + __webpack_require__(55), 'Object',
 });
 
 /***/ }),
-/* 276 */
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7585,7 +9032,7 @@ __webpack_require__(6) && $export($export.P + __webpack_require__(55), 'Object',
 });
 
 /***/ }),
-/* 277 */
+/* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/tc39/proposal-object-values-entries
@@ -7599,7 +9046,7 @@ $export($export.S, 'Object', {
 });
 
 /***/ }),
-/* 278 */
+/* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7804,7 +9251,7 @@ $export($export.G, {Observable: $Observable});
 __webpack_require__(37)('Observable');
 
 /***/ }),
-/* 279 */
+/* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var metadata                  = __webpack_require__(26)
@@ -7817,7 +9264,7 @@ metadata.exp({defineMetadata: function defineMetadata(metadataKey, metadataValue
 }});
 
 /***/ }),
-/* 280 */
+/* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var metadata               = __webpack_require__(26)
@@ -7837,7 +9284,7 @@ metadata.exp({deleteMetadata: function deleteMetadata(metadataKey, target /*, ta
 }});
 
 /***/ }),
-/* 281 */
+/* 284 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Set                     = __webpack_require__(112)
@@ -7861,7 +9308,7 @@ metadata.exp({getMetadataKeys: function getMetadataKeys(target /*, targetKey */)
 }});
 
 /***/ }),
-/* 282 */
+/* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var metadata               = __webpack_require__(26)
@@ -7883,7 +9330,7 @@ metadata.exp({getMetadata: function getMetadata(metadataKey, target /*, targetKe
 }});
 
 /***/ }),
-/* 283 */
+/* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var metadata                = __webpack_require__(26)
@@ -7896,7 +9343,7 @@ metadata.exp({getOwnMetadataKeys: function getOwnMetadataKeys(target /*, targetK
 }});
 
 /***/ }),
-/* 284 */
+/* 287 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var metadata               = __webpack_require__(26)
@@ -7910,7 +9357,7 @@ metadata.exp({getOwnMetadata: function getOwnMetadata(metadataKey, target /*, ta
 }});
 
 /***/ }),
-/* 285 */
+/* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var metadata               = __webpack_require__(26)
@@ -7931,7 +9378,7 @@ metadata.exp({hasMetadata: function hasMetadata(metadataKey, target /*, targetKe
 }});
 
 /***/ }),
-/* 286 */
+/* 289 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var metadata               = __webpack_require__(26)
@@ -7945,7 +9392,7 @@ metadata.exp({hasOwnMetadata: function hasOwnMetadata(metadataKey, target /*, ta
 }});
 
 /***/ }),
-/* 287 */
+/* 290 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var metadata                  = __webpack_require__(26)
@@ -7965,7 +9412,7 @@ metadata.exp({metadata: function metadata(metadataKey, metadataValue){
 }});
 
 /***/ }),
-/* 288 */
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
@@ -7974,7 +9421,7 @@ var $export  = __webpack_require__(0);
 $export($export.P + $export.R, 'Set', {toJSON: __webpack_require__(92)('Set')});
 
 /***/ }),
-/* 289 */
+/* 292 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7990,7 +9437,7 @@ $export($export.P, 'String', {
 });
 
 /***/ }),
-/* 290 */
+/* 293 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8026,7 +9473,7 @@ $export($export.P, 'String', {
 });
 
 /***/ }),
-/* 291 */
+/* 294 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8042,7 +9489,7 @@ $export($export.P, 'String', {
 });
 
 /***/ }),
-/* 292 */
+/* 295 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8058,7 +9505,7 @@ $export($export.P, 'String', {
 });
 
 /***/ }),
-/* 293 */
+/* 296 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8071,7 +9518,7 @@ __webpack_require__(44)('trimLeft', function($trim){
 }, 'trimStart');
 
 /***/ }),
-/* 294 */
+/* 297 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8084,19 +9531,19 @@ __webpack_require__(44)('trimRight', function($trim){
 }, 'trimEnd');
 
 /***/ }),
-/* 295 */
+/* 298 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(83)('asyncIterator');
 
 /***/ }),
-/* 296 */
+/* 299 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(83)('observable');
 
 /***/ }),
-/* 297 */
+/* 300 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/ljharb/proposal-global
@@ -8105,7 +9552,7 @@ var $export = __webpack_require__(0);
 $export($export.S, 'System', {global: __webpack_require__(2)});
 
 /***/ }),
-/* 298 */
+/* 301 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $iterators    = __webpack_require__(85)
@@ -8132,7 +9579,7 @@ for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList'
 }
 
 /***/ }),
-/* 299 */
+/* 302 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(0)
@@ -8143,14 +9590,14 @@ $export($export.G + $export.B, {
 });
 
 /***/ }),
-/* 300 */
+/* 303 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // ie9- setTimeout & setInterval additional parameters fix
 var global     = __webpack_require__(2)
   , $export    = __webpack_require__(0)
   , invoke     = __webpack_require__(52)
-  , partial    = __webpack_require__(127)
+  , partial    = __webpack_require__(130)
   , navigator  = global.navigator
   , MSIE       = !!navigator && /MSIE .\./.test(navigator.userAgent); // <- dirty ie9- check
 var wrap = function(set){
@@ -8168,47 +9615,44 @@ $export($export.G + $export.B + $export.F * MSIE, {
 });
 
 /***/ }),
-/* 301 */
+/* 304 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(250);
-__webpack_require__(189);
-__webpack_require__(191);
-__webpack_require__(190);
-__webpack_require__(193);
-__webpack_require__(195);
-__webpack_require__(200);
-__webpack_require__(194);
+__webpack_require__(253);
 __webpack_require__(192);
-__webpack_require__(202);
-__webpack_require__(201);
-__webpack_require__(197);
-__webpack_require__(198);
+__webpack_require__(194);
+__webpack_require__(193);
 __webpack_require__(196);
-__webpack_require__(188);
-__webpack_require__(199);
+__webpack_require__(198);
 __webpack_require__(203);
-__webpack_require__(204);
-__webpack_require__(156);
-__webpack_require__(158);
-__webpack_require__(157);
-__webpack_require__(206);
+__webpack_require__(197);
+__webpack_require__(195);
 __webpack_require__(205);
-__webpack_require__(176);
-__webpack_require__(186);
-__webpack_require__(187);
-__webpack_require__(177);
-__webpack_require__(178);
+__webpack_require__(204);
+__webpack_require__(200);
+__webpack_require__(201);
+__webpack_require__(199);
+__webpack_require__(191);
+__webpack_require__(202);
+__webpack_require__(206);
+__webpack_require__(207);
+__webpack_require__(159);
+__webpack_require__(161);
+__webpack_require__(160);
+__webpack_require__(209);
+__webpack_require__(208);
 __webpack_require__(179);
+__webpack_require__(189);
+__webpack_require__(190);
 __webpack_require__(180);
 __webpack_require__(181);
 __webpack_require__(182);
 __webpack_require__(183);
 __webpack_require__(184);
 __webpack_require__(185);
-__webpack_require__(159);
-__webpack_require__(160);
-__webpack_require__(161);
+__webpack_require__(186);
+__webpack_require__(187);
+__webpack_require__(188);
 __webpack_require__(162);
 __webpack_require__(163);
 __webpack_require__(164);
@@ -8223,147 +9667,150 @@ __webpack_require__(172);
 __webpack_require__(173);
 __webpack_require__(174);
 __webpack_require__(175);
-__webpack_require__(237);
-__webpack_require__(242);
-__webpack_require__(249);
+__webpack_require__(176);
+__webpack_require__(177);
+__webpack_require__(178);
 __webpack_require__(240);
-__webpack_require__(232);
-__webpack_require__(233);
-__webpack_require__(238);
-__webpack_require__(243);
 __webpack_require__(245);
-__webpack_require__(228);
-__webpack_require__(229);
-__webpack_require__(230);
-__webpack_require__(231);
-__webpack_require__(234);
+__webpack_require__(252);
+__webpack_require__(243);
 __webpack_require__(235);
 __webpack_require__(236);
-__webpack_require__(239);
 __webpack_require__(241);
-__webpack_require__(244);
 __webpack_require__(246);
-__webpack_require__(247);
 __webpack_require__(248);
-__webpack_require__(151);
-__webpack_require__(153);
-__webpack_require__(152);
-__webpack_require__(155);
+__webpack_require__(231);
+__webpack_require__(232);
+__webpack_require__(233);
+__webpack_require__(234);
+__webpack_require__(237);
+__webpack_require__(238);
+__webpack_require__(239);
+__webpack_require__(242);
+__webpack_require__(244);
+__webpack_require__(247);
+__webpack_require__(249);
+__webpack_require__(250);
+__webpack_require__(251);
 __webpack_require__(154);
-__webpack_require__(140);
-__webpack_require__(138);
-__webpack_require__(144);
+__webpack_require__(156);
+__webpack_require__(155);
+__webpack_require__(158);
+__webpack_require__(157);
+__webpack_require__(143);
 __webpack_require__(141);
 __webpack_require__(147);
-__webpack_require__(149);
-__webpack_require__(137);
-__webpack_require__(143);
-__webpack_require__(134);
-__webpack_require__(148);
-__webpack_require__(132);
-__webpack_require__(146);
-__webpack_require__(145);
-__webpack_require__(139);
-__webpack_require__(142);
-__webpack_require__(131);
-__webpack_require__(133);
-__webpack_require__(136);
-__webpack_require__(135);
+__webpack_require__(144);
 __webpack_require__(150);
+__webpack_require__(152);
+__webpack_require__(140);
+__webpack_require__(146);
+__webpack_require__(137);
+__webpack_require__(151);
+__webpack_require__(135);
+__webpack_require__(149);
+__webpack_require__(148);
+__webpack_require__(142);
+__webpack_require__(145);
+__webpack_require__(134);
+__webpack_require__(136);
+__webpack_require__(139);
+__webpack_require__(138);
+__webpack_require__(153);
 __webpack_require__(85);
-__webpack_require__(222);
-__webpack_require__(227);
-__webpack_require__(111);
-__webpack_require__(223);
-__webpack_require__(224);
 __webpack_require__(225);
+__webpack_require__(230);
+__webpack_require__(111);
 __webpack_require__(226);
-__webpack_require__(207);
+__webpack_require__(227);
+__webpack_require__(228);
+__webpack_require__(229);
+__webpack_require__(210);
 __webpack_require__(110);
 __webpack_require__(112);
 __webpack_require__(113);
-__webpack_require__(262);
-__webpack_require__(251);
-__webpack_require__(252);
-__webpack_require__(257);
-__webpack_require__(260);
-__webpack_require__(261);
-__webpack_require__(255);
-__webpack_require__(258);
-__webpack_require__(256);
-__webpack_require__(259);
-__webpack_require__(253);
+__webpack_require__(265);
 __webpack_require__(254);
-__webpack_require__(208);
-__webpack_require__(209);
-__webpack_require__(210);
+__webpack_require__(255);
+__webpack_require__(260);
+__webpack_require__(263);
+__webpack_require__(264);
+__webpack_require__(258);
+__webpack_require__(261);
+__webpack_require__(259);
+__webpack_require__(262);
+__webpack_require__(256);
+__webpack_require__(257);
 __webpack_require__(211);
 __webpack_require__(212);
-__webpack_require__(215);
 __webpack_require__(213);
 __webpack_require__(214);
+__webpack_require__(215);
+__webpack_require__(218);
 __webpack_require__(216);
 __webpack_require__(217);
-__webpack_require__(218);
 __webpack_require__(219);
-__webpack_require__(221);
 __webpack_require__(220);
-__webpack_require__(263);
-__webpack_require__(289);
-__webpack_require__(292);
-__webpack_require__(291);
-__webpack_require__(293);
-__webpack_require__(294);
-__webpack_require__(290);
-__webpack_require__(295);
-__webpack_require__(296);
-__webpack_require__(274);
-__webpack_require__(277);
-__webpack_require__(273);
-__webpack_require__(271);
-__webpack_require__(272);
-__webpack_require__(275);
-__webpack_require__(276);
+__webpack_require__(221);
+__webpack_require__(222);
+__webpack_require__(224);
+__webpack_require__(223);
 __webpack_require__(266);
-__webpack_require__(288);
+__webpack_require__(292);
+__webpack_require__(295);
+__webpack_require__(294);
+__webpack_require__(296);
 __webpack_require__(297);
-__webpack_require__(265);
-__webpack_require__(267);
+__webpack_require__(293);
+__webpack_require__(298);
+__webpack_require__(299);
+__webpack_require__(277);
+__webpack_require__(280);
+__webpack_require__(276);
+__webpack_require__(274);
+__webpack_require__(275);
+__webpack_require__(278);
+__webpack_require__(279);
 __webpack_require__(269);
+__webpack_require__(291);
+__webpack_require__(300);
 __webpack_require__(268);
 __webpack_require__(270);
-__webpack_require__(279);
-__webpack_require__(280);
+__webpack_require__(272);
+__webpack_require__(271);
+__webpack_require__(273);
 __webpack_require__(282);
-__webpack_require__(281);
-__webpack_require__(284);
 __webpack_require__(283);
 __webpack_require__(285);
-__webpack_require__(286);
+__webpack_require__(284);
 __webpack_require__(287);
-__webpack_require__(264);
-__webpack_require__(278);
-__webpack_require__(300);
-__webpack_require__(299);
-__webpack_require__(298);
+__webpack_require__(286);
+__webpack_require__(288);
+__webpack_require__(289);
+__webpack_require__(290);
+__webpack_require__(267);
+__webpack_require__(281);
+__webpack_require__(303);
+__webpack_require__(302);
+__webpack_require__(301);
 module.exports = __webpack_require__(24);
 
 /***/ }),
-/* 302 */
+/* 305 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(303)(undefined);
+exports = module.exports = __webpack_require__(306)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "/**\n *  Base class of the component\n *  You can change this to anything but make sure\n *  to change it in the JS class as well!\n *\n *  @type {String} CSS Class\n */\n/**\n *  Gutter\n *\n *  @type {Measurement} The gutter base size\n */\n/**\n *  Font Size\n *  Keep this px and not relative since the contexts that the\n *  script could be in may vary along with their ems/rems/...\n *\n *  @type {px}\n */\n/**\n *  Color variables\n *  Modify these to theme the tracker\n *\n *  @type {hex}\n */\n@font-face {\n  font-family: system;\n  font-style: normal;\n  font-weight: 300;\n  src: local(\".SFNSText-Light\"), local(\".HelveticaNeueDeskInterface-Light\"), local(\".LucidaGrandeUI\"), local(\"Ubuntu Light\"), local(\"Segoe UI Light\"), local(\"Roboto-Light\"), local(\"DroidSans\"), local(\"Tahoma\"); }\n\n@keyframes spin {\n  0% {\n    transform: rotate(0deg); }\n  100% {\n    transform: rotate(-1080deg); } }\n\n@keyframes tada {\n  from {\n    transform: scale3d(1, 1, 1); }\n  10%, 20% {\n    transform: scale3d(0.7, 0.7, 0.7) rotate3d(0, 0, 1, -3deg); }\n  30%, 50%, 70%, 90% {\n    transform: scale3d(1.3, 1.3, 1.3) rotate3d(0, 0, 1, 3deg); }\n  40%, 60%, 80% {\n    transform: scale3d(1.3, 1.3, 1.3) rotate3d(0, 0, 1, -3deg); }\n  to {\n    transform: scale3d(1, 1, 1); } }\n\n@keyframes shake {\n  from, to {\n    transform: translate3d(0, 0, 0); }\n  10%, 30%, 50%, 70%, 90% {\n    transform: translate3d(-10px, 0, 0); }\n  20%, 40%, 60%, 80% {\n    transform: translate3d(10px, 0, 0); } }\n\n/**\n *\tHendles the screenshot state\n */\n.exterminator--screenshot {\n  overflow: hidden;\n  height: auto; }\n\n/**\n *  Reset for our classes\n */\n.exterminator,\n[class^=\".exterminator__\"],\n[class*=\" .exterminator__\"] {\n  margin: 0;\n  padding: 0;\n  vertical-align: baseline;\n  display: block;\n  -webkit-font-smoothing: antialiased !important;\n  transition: all .2s linear 0s;\n  font-family: \"system\";\n  box-sizing: border-box; }\n\n/**\n *  The Exterminator Styles\n *  See variables to adjust certain items\n */\n.exterminator__wrapper {\n  position: relative;\n  z-index: 10000; }\n\n.exterminator__toggler {\n  position: fixed;\n  box-sizing: border-box;\n  bottom: 0px;\n  right: 0;\n  width: 44px;\n  height: 44px;\n  border-radius: 4px;\n  border: 1px solid #33465c;\n  background: #33465c;\n  /* image replacement */\n  overflow: hidden;\n  text-indent: 100%;\n  white-space: nowrap;\n  z-index: 2;\n  font-weight: 400; }\n  .exterminator__toggler span {\n    /* the span element is used to create the menu icon */\n    position: absolute;\n    display: block;\n    width: 20px;\n    height: 2px;\n    background: #fff;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    transition: background 0.3s; }\n    .exterminator__toggler span::before, .exterminator__toggler span::after {\n      content: '';\n      position: absolute;\n      left: 0;\n      background: inherit;\n      width: 100%;\n      height: 100%;\n      /* Force Hardware Acceleration in WebKit */\n      transform: translateZ(0);\n      backface-visibility: hidden;\n      transition: transform 0.3s, background 0s; }\n    .exterminator__toggler span::before {\n      top: -6px;\n      transform: rotate(0); }\n    .exterminator__toggler span::after {\n      bottom: -6px;\n      transform: rotate(0); }\n  .exterminator--open .exterminator__toggler,\n  .exterminator--error .exterminator__toggler {\n    box-shadow: none; }\n    .exterminator--open .exterminator__toggler span,\n    .exterminator--error .exterminator__toggler span {\n      background: rgba(232, 74, 100, 0); }\n      .exterminator--open .exterminator__toggler span::before, .exterminator--open .exterminator__toggler span::after,\n      .exterminator--error .exterminator__toggler span::before,\n      .exterminator--error .exterminator__toggler span::after {\n        background: #fff; }\n      .exterminator--open .exterminator__toggler span::before,\n      .exterminator--error .exterminator__toggler span::before {\n        top: 0;\n        transform: rotate(135deg); }\n      .exterminator--open .exterminator__toggler span::after,\n      .exterminator--error .exterminator__toggler span::after {\n        bottom: 0;\n        transform: rotate(225deg); }\n  .exterminator--sending .exterminator__toggler {\n    box-shadow: inherit;\n    background-color: #FFCC00;\n    border-color: #FFCC00;\n    cursor: wait;\n    animation-name: spin;\n    animation-duration: 2s;\n    animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);\n    animation-iteration-count: infinite; }\n    .exterminator--sending .exterminator__toggler span {\n      background: transparent;\n      width: 2px;\n      transition: all 0.3s; }\n      .exterminator--sending .exterminator__toggler span:before, .exterminator--sending .exterminator__toggler span:after {\n        font-family: sans-serif;\n        background: transparent;\n        left: -1em;\n        line-height: 0em;\n        width: 2em;\n        font-size: 1.7em;\n        color: #fff;\n        text-align: center;\n        transition: none;\n        -webkit-font-smoothing: antialiased; }\n      .exterminator--sending .exterminator__toggler span:before {\n        content: '\\293A';\n        top: calc(-2px - 0.3em);\n        transform: rotate(0); }\n      .exterminator--sending .exterminator__toggler span:after {\n        content: '\\293B';\n        bottom: calc(2px - 0.3em);\n        transform: rotate(0); }\n  .exterminator--sent .exterminator__toggler {\n    box-shadow: inherit;\n    background-color: #4BB543;\n    border-color: #4BB543;\n    animation-name: tada;\n    animation-duration: 1s; }\n    .exterminator--sent .exterminator__toggler span {\n      background-color: transparent; }\n      .exterminator--sent .exterminator__toggler span::before, .exterminator--sent .exterminator__toggler span::after {\n        left: auto;\n        background-color: #fff; }\n      .exterminator--sent .exterminator__toggler span::before {\n        top: 0;\n        transform: rotate(-45deg);\n        right: -3px; }\n      .exterminator--sent .exterminator__toggler span::after {\n        top: 3px;\n        transform: rotate(45deg);\n        left: -2px;\n        width: 50%; }\n  .exterminator--error .exterminator__toggler {\n    box-shadow: inherit;\n    background-color: #e84a64;\n    border-color: #e84a64;\n    animation-name: shake;\n    animation-duration: 0.75s; }\n\n.exterminator__form {\n  color: #33465c;\n  position: fixed;\n  width: 100%;\n  max-height: 100vh;\n  max-width: 400px;\n  right: 0px;\n  bottom: 0px;\n  border-radius: 4px;\n  padding: 20px;\n  background: #fff;\n  visibility: hidden;\n  overflow: scroll;\n  -webkit-overflow-scrolling: touch;\n  z-index: 1;\n  /* Force Hardware Acceleration in WebKit */\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  transform: scale(0);\n  transform-origin: 100% 100%;\n  transition: transform 0.3s, visibility 0s 0.3s;\n  border: 1px solid #33465c;\n  box-shadow: 0 64px 64px 0 rgba(135, 152, 163, 0.1), 0 32px 32px 0 rgba(135, 152, 163, 0.1), 0 16px 16px 0 rgba(135, 152, 163, 0.1), 0 8px 8px 0 rgba(135, 152, 163, 0.1), 0 4px 4px 0 rgba(135, 152, 163, 0.1), 0 2px 2px 0 rgba(135, 152, 163, 0.1); }\n  .exterminator--open .exterminator__form {\n    visibility: visible;\n    transform: scale(1);\n    transition: transform 0.3s, visibility 0s 0s; }\n  .exterminator--sending .exterminator__form {\n    visibility: hidden;\n    transform: scale(0);\n    transition: transform 0.3s, visibility 0s 0.3s; }\n\n.exterminator__title {\n  color: #33465c;\n  font-size: 24px;\n  font-weight: 600;\n  margin-bottom: 20px;\n  display: block; }\n\n.exterminator__label {\n  color: #33465c;\n  margin-bottom: 5px; }\n\n.exterminator__field {\n  margin-bottom: 24px;\n  position: relative; }\n\n.exterminator__counter {\n  position: absolute;\n  top: 0;\n  right: 0; }\n  .exterminator__field--limit_reached .exterminator__counter {\n    color: #e84a64; }\n\n.exterminator__input {\n  text-indent: 0px;\n  font-size: 16px;\n  font-weight: normal;\n  border: 1px solid #eee;\n  padding: 10px 15px;\n  color: #33465c;\n  width: 100%;\n  display: block; }\n  .exterminator__input:valid {\n    border-color: #4BB543; }\n\n.exterminator__textarea {\n  height: 70px; }\n\n.exterminator__submit {\n  text-transform: uppercase;\n  display: block;\n  max-width: calc(100% - 100px);\n  width: 100%;\n  border-radius: 4px;\n  border: 1px solid #33465c;\n  background: #33465c;\n  padding: 15px;\n  font-weight: 600;\n  letter-spacing: 0.3px;\n  color: #fff;\n  cursor: pointer;\n  line-height: 1em; }\n  .exterminator__submit:hover {\n    background: #2d3e52; }\n\n.exterminator__screenshot-ghost {\n  position: absolute;\n  z-index: 100000000;\n  background: rgba(255, 0, 0, 0.1);\n  top: 0;\n  left: 0;\n  border: 10px solid #e84a64;\n  box-sizing: border-box;\n  width: 100%;\n  height: 100%;\n  opacity: 0.5; }\n\n.exterminator__last_clicked {\n  border: 4px solid #e84a64;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 0;\n  height: 0;\n  opacity: 0.5;\n  display: none; }\n  .exterminator--screenshot .exterminator__last_clicked {\n    display: block; }\n\n.exterminator__clickspot {\n  position: absolute;\n  display: none;\n  top: 0;\n  left: 0;\n  width: 20px;\n  height: 20px;\n  border-radius: 50%;\n  transform: translate(-50%, -50%);\n  background: #e84a64;\n  opacity: 0.3; }\n  .exterminator--screenshot .exterminator__clickspot {\n    display: block; }\n\n@media (min-width: 600px) {\n  .exterminator__toggler, .exterminator__form {\n    bottom: 20px;\n    right: 5%; }\n  .exterminator__form {\n    width: 90%; }\n  .exterminator__textarea {\n    height: 100px; } }\n", ""]);
+exports.push([module.i, "@font-face {\n  font-family: system;\n  font-style: normal;\n  font-weight: 300;\n  src: local(\".SFNSText-Light\"), local(\".HelveticaNeueDeskInterface-Light\"), local(\".LucidaGrandeUI\"), local(\"Ubuntu Light\"), local(\"Segoe UI Light\"), local(\"Roboto-Light\"), local(\"DroidSans\"), local(\"Tahoma\"); }\n\n@keyframes spin {\n  0% {\n    transform: rotate(0deg); }\n  100% {\n    transform: rotate(-1080deg); } }\n\n@keyframes tada {\n  from {\n    transform: scale3d(1, 1, 1); }\n  10%, 20% {\n    transform: scale3d(0.7, 0.7, 0.7) rotate3d(0, 0, 1, -3deg); }\n  30%, 50%, 70%, 90% {\n    transform: scale3d(1.3, 1.3, 1.3) rotate3d(0, 0, 1, 3deg); }\n  40%, 60%, 80% {\n    transform: scale3d(1.3, 1.3, 1.3) rotate3d(0, 0, 1, -3deg); }\n  to {\n    transform: scale3d(1, 1, 1); } }\n\n@keyframes shake {\n  from, to {\n    transform: translate3d(0, 0, 0); }\n  10%, 30%, 50%, 70%, 90% {\n    transform: translate3d(-10px, 0, 0); }\n  20%, 40%, 60%, 80% {\n    transform: translate3d(10px, 0, 0); } }\n\n/**\n *\tHendles the screenshot state\n */\n.exterminator--screenshot {\n  overflow: hidden;\n  height: auto; }\n\n/**\n *  Reset for our classes\n */\n.exterminator,\n[class^=\".exterminator__\"],\n[class*=\" .exterminator__\"] {\n  margin: 0;\n  padding: 0;\n  vertical-align: baseline;\n  display: block;\n  -webkit-font-smoothing: antialiased !important;\n  transition: all .2s linear 0s;\n  font-family: \"system\";\n  box-sizing: border-box; }\n\n/**\n *  The Exterminator Styles\n *  See variables to adjust certain items\n */\n.exterminator__wrapper {\n  position: relative;\n  z-index: 10000; }\n\n.exterminator__toggler {\n  position: fixed;\n  box-sizing: border-box;\n  bottom: 0px;\n  right: 0;\n  width: 44px;\n  height: 44px;\n  border-radius: 4px;\n  border: 1px solid #33465c;\n  background: #33465c;\n  /* image replacement */\n  overflow: hidden;\n  text-indent: 100%;\n  white-space: nowrap;\n  z-index: 2;\n  font-weight: 400; }\n  .exterminator__toggler span {\n    /* the span element is used to create the menu icon */\n    position: absolute;\n    display: block;\n    width: 20px;\n    height: 2px;\n    background: #fff;\n    top: 50%;\n    left: 50%;\n    transform: translate(-50%, -50%);\n    transition: background 0.3s; }\n    .exterminator__toggler span::before, .exterminator__toggler span::after {\n      content: '';\n      position: absolute;\n      left: 0;\n      background: inherit;\n      width: 100%;\n      height: 100%;\n      /* Force Hardware Acceleration in WebKit */\n      transform: translateZ(0);\n      backface-visibility: hidden;\n      transition: transform 0.3s, background 0s; }\n    .exterminator__toggler span::before {\n      top: -6px;\n      transform: rotate(0); }\n    .exterminator__toggler span::after {\n      bottom: -6px;\n      transform: rotate(0); }\n  .exterminator--open .exterminator__toggler,\n  .exterminator--error .exterminator__toggler {\n    box-shadow: none; }\n    .exterminator--open .exterminator__toggler span,\n    .exterminator--error .exterminator__toggler span {\n      background: rgba(232, 74, 100, 0); }\n      .exterminator--open .exterminator__toggler span::before, .exterminator--open .exterminator__toggler span::after,\n      .exterminator--error .exterminator__toggler span::before,\n      .exterminator--error .exterminator__toggler span::after {\n        background: #fff; }\n      .exterminator--open .exterminator__toggler span::before,\n      .exterminator--error .exterminator__toggler span::before {\n        top: 0;\n        transform: rotate(135deg); }\n      .exterminator--open .exterminator__toggler span::after,\n      .exterminator--error .exterminator__toggler span::after {\n        bottom: 0;\n        transform: rotate(225deg); }\n  .exterminator--sending .exterminator__toggler {\n    box-shadow: inherit;\n    background-color: #FFCC00;\n    border-color: #FFCC00;\n    cursor: wait;\n    animation-name: spin;\n    animation-duration: 2s;\n    animation-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);\n    animation-iteration-count: infinite; }\n    .exterminator--sending .exterminator__toggler span {\n      background: transparent;\n      width: 2px;\n      transition: all 0.3s; }\n      .exterminator--sending .exterminator__toggler span:before, .exterminator--sending .exterminator__toggler span:after {\n        font-family: sans-serif;\n        background: transparent;\n        left: -1em;\n        line-height: 0em;\n        width: 2em;\n        font-size: 1.7em;\n        color: #fff;\n        text-align: center;\n        transition: none;\n        -webkit-font-smoothing: antialiased; }\n      .exterminator--sending .exterminator__toggler span:before {\n        content: '\\293A';\n        top: calc(-2px - 0.3em);\n        transform: rotate(0); }\n      .exterminator--sending .exterminator__toggler span:after {\n        content: '\\293B';\n        bottom: calc(2px - 0.3em);\n        transform: rotate(0); }\n  .exterminator--sent .exterminator__toggler {\n    box-shadow: inherit;\n    background-color: #4BB543;\n    border-color: #4BB543;\n    animation-name: tada;\n    animation-duration: 1s; }\n    .exterminator--sent .exterminator__toggler span {\n      background-color: transparent; }\n      .exterminator--sent .exterminator__toggler span::before, .exterminator--sent .exterminator__toggler span::after {\n        left: auto;\n        background-color: #fff; }\n      .exterminator--sent .exterminator__toggler span::before {\n        top: 0;\n        transform: rotate(-45deg);\n        right: -3px; }\n      .exterminator--sent .exterminator__toggler span::after {\n        top: 3px;\n        transform: rotate(45deg);\n        left: -2px;\n        width: 50%; }\n  .exterminator--error .exterminator__toggler {\n    box-shadow: inherit;\n    background-color: #e84a64;\n    border-color: #e84a64;\n    animation-name: shake;\n    animation-duration: 0.75s; }\n\n.exterminator__form {\n  color: #33465c;\n  position: fixed;\n  width: 100%;\n  max-height: 100vh;\n  max-width: 400px;\n  right: 0px;\n  bottom: 0px;\n  border-radius: 4px;\n  padding: 20px;\n  background: #fff;\n  visibility: hidden;\n  overflow: scroll;\n  -webkit-overflow-scrolling: touch;\n  z-index: 1;\n  /* Force Hardware Acceleration in WebKit */\n  -webkit-backface-visibility: hidden;\n  backface-visibility: hidden;\n  transform: scale(0);\n  transform-origin: 100% 100%;\n  transition: transform 0.3s, visibility 0s 0.3s;\n  border: 1px solid #33465c;\n  box-shadow: 0 64px 64px 0 rgba(135, 152, 163, 0.1), 0 32px 32px 0 rgba(135, 152, 163, 0.1), 0 16px 16px 0 rgba(135, 152, 163, 0.1), 0 8px 8px 0 rgba(135, 152, 163, 0.1), 0 4px 4px 0 rgba(135, 152, 163, 0.1), 0 2px 2px 0 rgba(135, 152, 163, 0.1); }\n  .exterminator--open .exterminator__form {\n    visibility: visible;\n    transform: scale(1);\n    transition: transform 0.3s, visibility 0s 0s; }\n  .exterminator--sending .exterminator__form {\n    visibility: hidden;\n    transform: scale(0);\n    transition: transform 0.3s, visibility 0s 0.3s; }\n\n.exterminator__title {\n  color: #33465c;\n  font-size: 24px;\n  font-weight: 600;\n  margin-bottom: 20px;\n  display: block; }\n\n.exterminator__label {\n  color: #33465c;\n  margin-bottom: 5px; }\n\n.exterminator__field {\n  margin-bottom: 24px;\n  position: relative; }\n\n.exterminator__counter {\n  position: absolute;\n  top: 0;\n  right: 0; }\n  .exterminator__field--limit_reached .exterminator__counter {\n    color: #e84a64; }\n\n.exterminator__input {\n  text-indent: 0px;\n  font-size: 16px;\n  font-weight: normal;\n  border: 1px solid #eeeeee;\n  padding: 10px 15px;\n  color: #33465c;\n  width: 100%;\n  display: block; }\n  .exterminator__input:valid {\n    border-color: #4BB543; }\n\n.exterminator__textarea {\n  height: 70px; }\n\n.exterminator__submit {\n  text-transform: uppercase;\n  display: block;\n  max-width: calc(100% - 100px);\n  width: 100%;\n  border-radius: 4px;\n  border: 1px solid #33465c;\n  background: #33465c;\n  padding: 15px;\n  font-weight: 600;\n  letter-spacing: 0.3px;\n  color: #fff;\n  cursor: pointer;\n  line-height: 1em; }\n  .exterminator__submit:hover {\n    background: #2d3e52; }\n\n.exterminator__screenshot-ghost {\n  position: absolute;\n  z-index: 100000000;\n  background: rgba(255, 0, 0, 0.1);\n  top: 0;\n  left: 0;\n  border: 10px solid #e84a64;\n  box-sizing: border-box;\n  width: 100%;\n  height: 100%;\n  opacity: 0.5; }\n\n.exterminator__last_clicked {\n  border: 4px solid #e84a64;\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 0;\n  height: 0;\n  opacity: 0.5;\n  display: none; }\n  .exterminator--screenshot .exterminator__last_clicked {\n    display: block; }\n\n.exterminator__clickspot {\n  position: absolute;\n  display: none;\n  top: 0;\n  left: 0;\n  width: 20px;\n  height: 20px;\n  border-radius: 50%;\n  transform: translate(-50%, -50%);\n  background: #e84a64;\n  opacity: 0.3; }\n  .exterminator--screenshot .exterminator__clickspot {\n    display: block; }\n\n@media (min-width: 600px) {\n  .exterminator__toggler, .exterminator__form {\n    bottom: 20px;\n    right: 5%; }\n  .exterminator__form {\n    width: 90%; }\n  .exterminator__textarea {\n    height: 100px; } }\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 303 */
+/* 306 */
 /***/ (function(module, exports) {
 
 /*
@@ -8445,7 +9892,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 304 */
+/* 307 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var require;var require;/*
@@ -11996,7 +13443,7 @@ module.exports = XHR;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(59)))
 
 /***/ }),
-/* 305 */
+/* 308 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -13218,10 +14665,10 @@ module.exports = XHR;
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(310)(module), __webpack_require__(59)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(313)(module), __webpack_require__(59)))
 
 /***/ }),
-/* 306 */
+/* 309 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -13964,7 +15411,7 @@ module.exports = XHR;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(59)))
 
 /***/ }),
-/* 307 */
+/* 310 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -14001,7 +15448,7 @@ var stylesInDom = {},
 	singletonElement = null,
 	singletonCounter = 0,
 	styleElementsInsertedAtTop = [],
-	fixUrls = __webpack_require__(308);
+	fixUrls = __webpack_require__(311);
 
 module.exports = function(list, options) {
 	if(typeof DEBUG !== "undefined" && DEBUG) {
@@ -14260,7 +15707,7 @@ function updateLink(linkElement, options, obj) {
 
 
 /***/ }),
-/* 308 */
+/* 311 */
 /***/ (function(module, exports) {
 
 
@@ -14355,23 +15802,23 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 309 */
+/* 312 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(302);
+var content = __webpack_require__(305);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(307)(content, {});
+var update = __webpack_require__(310)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./style.scss", function() {
-			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!./style.scss");
+		module.hot.accept("!!../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!../../node_modules/@epegzz/sass-vars-loader/src/index.js??ref--1-3!./style.scss", function() {
+			var newContent = require("!!../../node_modules/css-loader/index.js!../../node_modules/sass-loader/lib/loader.js!../../node_modules/@epegzz/sass-vars-loader/src/index.js??ref--1-3!./style.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -14381,7 +15828,7 @@ if(false) {
 }
 
 /***/ }),
-/* 310 */
+/* 313 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -14409,1172 +15856,13 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 311 */
+/* 314 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(116);
 __webpack_require__(115);
 module.exports = __webpack_require__(114);
 
-
-/***/ }),
-/* 312 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     	CallTheExterminator
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     	A lightweight QA reporter that sends through much needed informations.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     */
-
-// Grab Platform.js for browser info
-
-
-// Grab html2canvas for screenshots
-// plus quick fix for IE (assigning to window)
-
-
-var _templateObject = _taggedTemplateLiteral([','], [',']);
-
-var _Detective = __webpack_require__(119);
-
-var _Detective2 = _interopRequireDefault(_Detective);
-
-var _html2canvas = __webpack_require__(304);
-
-var _html2canvas2 = _interopRequireDefault(_html2canvas);
-
-var _fields = __webpack_require__(120);
-
-var _fields2 = _interopRequireDefault(_fields);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-window.html2canvas = _html2canvas2.default;
-
-// Grab our set fields
-
-
-// The class
-module.exports = function () {
-
-	/**
-  *	Construct
-  */
-	function CallTheExterminator(args) {
-		var _this = this;
-
-		_classCallCheck(this, CallTheExterminator);
-
-		// Add arguments to the object
-		_extends(this, {
-
-			// Set the base class of the elements
-			base_class: 'exterminator',
-
-			// Sets the submit button text
-			submit_button_text: 'Report',
-
-			// Set the project name
-			project: 'Project Name',
-
-			// Set the Subject formatting
-			subject_format: '%project% - Bug Report - %date_time%',
-
-			// Sets the form's method
-			action: 'mailto:',
-
-			// Set the method
-			method: 'POST',
-
-			// Set the pm
-			email: 'somepm@someagency.com',
-
-			// Set up ccd emails
-			cc: [],
-
-			// Show labels
-			labels: false,
-
-			// Set the minimum browser (IE)
-			min_browser: 10,
-
-			// Whether to send through a screenshot
-			sends_screenshot: false,
-
-			// Custom Logs to send through in report
-			custom_logs: [],
-
-			// Placeholder for Bitbucket creds
-			bitbutcket: null,
-
-			// Handles the formatting of the body
-			body_format: {
-
-				// Set the type
-				type: 'basic',
-
-				// Sets the formatting of the body of submission
-				html: {
-					header: '<thead><tr><td>Row A</td><td>Row B</td></tr></thead>',
-					wrapper: '<table>%HEADER%<tbody>%BODY%</tbody></table>',
-					row: '<tr>%ROW%</tr>',
-					label: '<td>%LABEL%</td>',
-					value: '<td>%VALUE%</td>'
-				},
-
-				// Sets the formatting of the body for emails
-				basic: {
-					header: '',
-					wrapper: '%BODY%',
-					row: '%ROW%\r\n',
-					label: '%LABEL%\r\n',
-					value: '%VALUE%\r\n'
-				}
-
-			}
-
-		}, args);
-
-		// Instantiate our detective
-		this.detective = new _Detective2.default();
-
-		// Check if the version of browser is supported
-		this.detective.detect('support', { 'version': this.min_browser });
-
-		// Extra information to detect
-		// See the detective class for available
-		this.detect_extra_info = [{ label: 'Page', fn: 'URL' }, { label: 'Last Page', fn: 'previousURL' }, { label: 'Envirnoment', fn: 'envirnoment' }, { label: 'Resolution', fn: 'resolution' }, { label: 'Pixel Aspect Ratio', fn: 'pixelAspectRatio' }, { label: 'Scroll Position', fn: 'scrollPosition' }, { label: 'Download Speed', fn: 'bandwidth' }, { label: 'AdBlock', fn: 'adBlock' }, { label: 'Browser Plugins', fn: 'browserPlugins' }, { label: 'Cookies', fn: 'cookiesEnabled' }, { label: 'Errors', fn: 'errors' }, { label: 'Locale', fn: 'locale' }, { label: 'Battery Status', fn: 'batteryStatus' }];
-
-		// Add our custom logging functions
-		if (this.custom_logs.length) this.addCustomLogs();
-
-		// Set the mailto flag
-		this.is_mailto = this.action.indexOf('mailto:') > -1;
-
-		// Set the action up
-		this.action = this.is_mailto ? this.action + this.email : this.action;
-
-		// Set up the field map
-		this.fields_map = {};
-
-		// Set up the submit button holder
-		this.button = null;
-
-		// Set the current screenshot to empty
-		this.screenshot = null;
-
-		// Set up a sending flag
-		this.is_sending = false;
-
-		// Set the last clicked element to null
-		this.last_clicked = null;
-
-		// Set the limit reached class
-		this.limit_reached_class = this.base_class + '__field--limit_reached';
-
-		// Fires the rest of the setup once the window loads
-		if (!document.body) window.addEventListener('load', function () {
-			_this.windowReady();
-		});else this.windowReady();
-	}
-
-	/**
-  *	All the functions to fire when the window is ready
-  */
-
-
-	_createClass(CallTheExterminator, [{
-		key: 'windowReady',
-		value: function windowReady() {
-
-			// Set the top level wrapper element
-			// should keep this to the body
-			this.shell = document.body;
-
-			// Builds the form
-			this.form = this.generateFormElement();
-
-			// Set up the field mapping
-			this.fields = this.processFields(_fields2.default);
-
-			// Set up the toggler
-			this.toggler = this.buildToggler();
-
-			// Set up the wrapper
-			this.wrapper = this.buildWrapper();
-
-			// Build the form
-			this.form = this.buildForm();
-
-			// Set up click listener
-			this.clickListener();
-		}
-
-		/**
-   *	Adds listener for clickspots.
-   *	Clicked areas that will appear when the screenshot is taken
-   */
-
-	}, {
-		key: 'clickListener',
-		value: function clickListener() {
-			var _this2 = this;
-
-			// Add a listener on the window for all clicks
-			window.addEventListener('click', function (e) {
-
-				// Check to see if we are clicking on the exterminator
-				if (_this2.wrapper.contains(e.target)) return;
-
-				// Add the clickspot to the DOM
-				_this2.addClickSpot(e.pageX, e.pageY);
-
-				// Set the last clicked element
-				_this2.setLastClicked(e.target);
-			});
-		}
-
-		/**
-   *	Sets the last clicked target and points to it
-   */
-
-	}, {
-		key: 'setLastClicked',
-		value: function setLastClicked(target) {
-
-			// Set the last clicked element
-			this.last_clicked = target;
-		}
-
-		/**
-   *	Renders the last clicked element
-   */
-
-	}, {
-		key: 'renderLastClicked',
-		value: function renderLastClicked() {
-
-			if (!this.last_clicked) return false;
-
-			// grab the vars of the last clicked
-			var width = this.last_clicked.offsetWidth,
-			    height = this.last_clicked.offsetHeight,
-			    position = this.getElementPosition(this.last_clicked),
-			    element = this.buildLastClickedElement();
-
-			// Style the element
-			element.style.width = width + 'px';
-			element.style.height = height + 'px';
-			element.style.left = position.left + 'px';
-			element.style.top = position.top + 'px';
-		}
-
-		/**
-   *	Builds the last clicked element
-   */
-
-	}, {
-		key: 'buildLastClickedElement',
-		value: function buildLastClickedElement() {
-
-			// return the element if we have already built it
-			if (this.last_clicked_element) return this.last_clicked_element;
-
-			// Create the element
-			this.last_clicked_element = this.buildElement('span', 'last_clicked');
-
-			// Add the element to the body
-			document.body.appendChild(this.last_clicked_element);
-
-			// return the element
-			return this.last_clicked_element;
-		}
-
-		/**
-   *	Adds a clickspot to the body and positions it
-   */
-
-	}, {
-		key: 'addClickSpot',
-		value: function addClickSpot(x, y) {
-
-			// If this instance is going to take a screenshot
-			if (this.sends_screenshot) {
-
-				// Else let's create an element
-				var spot = this.buildElement('span', 'clickspot');
-
-				// Set it's position
-				spot.style.left = x + 'px';
-				spot.style.top = y + 'px';
-
-				// Add it to the body
-				document.body.appendChild(spot);
-			}
-		}
-
-		/**
-   *	Adds custom logging to reporting loop
-   */
-
-	}, {
-		key: 'addCustomLogs',
-		value: function addCustomLogs() {
-
-			// Store the custom rows to loop throug
-			var rows = this.custom_logs,
-			    detect_custom_logs = [];
-
-			// Loop through the rows
-			for (var i = 0, l = rows.length; i < l; i++) {
-
-				// Add the row to the message body generator loop
-				detect_custom_logs[i] = {
-					label: rows[i].label,
-					fn: rows[i].callback.name
-				};
-
-				// Add the function as a callback
-				this.detective[rows[i].callback.name] = rows[i].callback.fn;
-			}
-
-			// Add the custom logs to the extra info
-			this.detect_extra_info = this.detect_extra_info.concat(detect_custom_logs);
-
-			// return the extra info for inspection
-			return this.detect_extra_info;
-		}
-
-		/**
-   *	Applies needed transformations on the set fields
-   */
-
-	}, {
-		key: 'processFields',
-		value: function processFields(fields) {
-
-			// Add subject and body fields
-			fields = fields.concat([{
-				name: 'subject',
-				el_type: 'input',
-				type: 'hidden'
-			}, {
-				name: 'body',
-				el_type: 'input',
-				type: 'hidden'
-			}]);
-
-			// return the fields
-			return fields;
-		}
-
-		/**
-   *	Builds a wrapper that will hold our form
-   */
-
-	}, {
-		key: 'buildWrapper',
-		value: function buildWrapper() {
-
-			// create the wrapper element
-			var wrapper = document.createElement('div');
-
-			// add appropriate classes
-			wrapper.classList.add(this.base_class + '__wrapper');
-
-			// Add the toggler button to the wrapper
-			wrapper.appendChild(this.toggler);
-
-			// return the wrapper
-			return wrapper;
-		}
-
-		/**
-   *	Builds the HTML form
-   */
-
-	}, {
-		key: 'buildForm',
-		value: function buildForm() {
-
-			// Store the form for local use
-			var form = this.form;
-
-			// Loop through the required fields
-			for (var i = 0, l = this.fields.length; i < l; i++) {
-
-				// Make sure the field has a type
-				this.fields[i].el_type = this.fields[i].el_type || 'input';
-
-				// Generate the field element
-				var field = this.buildField(this.fields[i]);
-
-				// Store the newly created field element
-				this.fields[i].el = field;
-
-				// Add the field to a name map
-				this.fields_map[this.fields[i].name] = field;
-
-				// Add Filed's params
-				this.addFieldParams(this.fields[i]);
-
-				// Sets the max length on a field if present
-				this.setFieldMaxLength(this.fields[i]);
-
-				// Add the field to the form
-				form.appendChild(field.wrapper);
-			}
-
-			// Adds the submit button
-			this.button = this.addSubmit();
-
-			// Now write the form to the body
-			this.writeForm();
-
-			// Set up the form events
-			this.formEvents();
-
-			// return the form
-			return form;
-		}
-
-		/**
-   *	Adds a submit button to the form
-   */
-
-	}, {
-		key: 'addSubmit',
-		value: function addSubmit() {
-
-			// Create the button element
-			var button = document.createElement('button');
-
-			// Add the proper class to the button
-			button.classList.add(this.base_class + '__submit');
-
-			// Set the button to submit
-			button.setAttribute('type', 'submit');
-
-			// Add the submit value to button so it can post the form
-			button.value = 'Submit';
-
-			// Add the text to the button
-			button.innerHTML = this.submit_button_text;
-
-			// Add the button to the form
-			this.form.appendChild(button);
-
-			return button;
-		}
-
-		/**
-   *	Adds open/close button
-   */
-
-	}, {
-		key: 'buildToggler',
-		value: function buildToggler() {
-
-			// Create the element
-			var toggler = document.createElement('a'),
-			    span = document.createElement('span'),
-			    span_count = 1;
-
-			// Add a class to the span
-			span.classList.add(this.base_class + '__toggler-span');
-
-			// add some spans for styling
-			for (var i = 1; i <= span_count; i++) {
-
-				// Store the current span
-				var current_span = span.cloneNode(true);
-
-				// Add an identifying class
-				current_span.classList.add(this.base_class + '__toggler-span--' + i);
-
-				// Add the span to the toggler
-				toggler.appendChild(current_span);
-			}
-
-			// Add proper class to the anchor
-			toggler.classList.add(this.base_class + '__toggler');
-
-			// Set up the toggler events
-			this.togglerEvents(toggler);
-
-			// return the anchor
-			return toggler;
-		}
-
-		/**
-   *	Handles all events associated with the toggler
-   *	Mainly the open/close
-   */
-
-	}, {
-		key: 'togglerEvents',
-		value: function togglerEvents(toggler) {
-			var _this3 = this;
-
-			// Add toggler events
-			toggler.addEventListener('click', function () {
-
-				// Jump out if we are sending
-				if (_this3.is_sending) return;
-
-				// Toggle the open class
-				_this3.shell.classList.toggle(_this3.base_class + '--open');
-			});
-		}
-
-		/**
-   *
-   */
-
-		/**
-   *	Adds necessary paramaters to the field
-   */
-
-	}, {
-		key: 'addFieldParams',
-		value: function addFieldParams(field) {
-
-			// Set the field's placeholder
-			field.el.input.setAttribute('placeholder', field.placeholder || '');
-
-			// Set the field's name
-			field.el.input.setAttribute('name', field.name || '');
-
-			// Set the field's type
-			field.el.input.setAttribute('type', field.type || '');
-
-			// Set the maxlength of the field if present
-			if (field.max_length) field.el.input.setAttribute('maxlength', field.max_length);
-
-			// Set the field's value
-			field.el.input.value = field.value || '';
-		}
-
-		/**
-   *	Sets a maximum length on a field
-   */
-
-	}, {
-		key: 'setFieldMaxLength',
-		value: function setFieldMaxLength(field) {
-			var _this4 = this;
-
-			// jump out if no max_length
-			if (!field.max_length) return;
-
-			// Store the input for easy access
-			var input = field.el.input,
-			    wrapper = field.el.wrapper,
-			    counter = this.buildElement('span', 'counter'),
-			    max_length = field.max_length,
-			    limit_reached = false;
-
-			// Add the counter to the field object
-			field.counter = counter;
-
-			// Set the counter value to 0
-			counter.innerHTML = max_length;
-
-			// Add the counter to the wrapper
-			wrapper.appendChild(counter);
-
-			// Watch the field for update in values
-			input.addEventListener('input', function () {
-
-				// Store the value for easy access
-				var value = input.value,
-				    char_count = max_length - value.length;
-
-				// If we've acheived our max character length
-				if (char_count <= 0) {
-
-					// Stop the string from going past max length
-					input.value = value.substring(0, max_length);
-
-					// Set the limit reached
-					if (!limit_reached) {
-
-						// Increment the counter
-						counter.innerHTML = '0';
-
-						// Add the limit reached class
-						wrapper.classList.add(_this4.limit_reached_class);
-
-						// Set the limit reached switch
-						// so we don't do this every time
-						limit_reached = true;
-					}
-				} else {
-
-					// Increment the counter
-					counter.innerHTML = char_count;
-
-					// if the limit was reached, reset it
-					if (limit_reached) {
-
-						// Add the limit reached class
-						wrapper.classList.remove(_this4.limit_reached_class);
-
-						// Unset the limit reached switch
-						// so we don't do this every time
-						limit_reached = false;
-					}
-				}
-			});
-		}
-
-		/**
-   *	Writes the generated html to the shell
-   */
-
-	}, {
-		key: 'writeForm',
-		value: function writeForm() {
-
-			// Add the form to the wrapper
-			this.wrapper.appendChild(this.form);
-
-			// Add the wrapper to the shell
-			this.shell.appendChild(this.wrapper);
-		}
-
-		/**
-   *	Builds a field including it's wrapper element and label
-   */
-
-	}, {
-		key: 'buildField',
-		value: function buildField(field) {
-
-			// Generate field
-			// Wrapper element
-			// and label
-			var field_el = this.buildElement(field.el_type),
-			    field_wrapper = this.buildElement('div', 'field'),
-			    field_label = this.buildElement('label');
-
-			// Add class to field
-			field_el.classList.add(this.base_class + '__input');
-
-			// Add required to field
-			if (field.required) field_el.setAttribute('required', 'required');
-
-			// Add text to the label
-			if (field.label && this.label) field_label.innerHTML = field.label;
-
-			// Add the elements to the wrapper
-			if (field.label && this.label) field_wrapper.appendChild(field_label);
-			field_wrapper.appendChild(field_el);
-
-			// return the wrapper
-			return {
-				input: field_el,
-				wrapper: field_wrapper
-			};
-		}
-
-		/**
-   *	Generates the form's markup (including extra params)
-   */
-
-	}, {
-		key: 'generateFormElement',
-		value: function generateFormElement() {
-
-			// Generate the form element
-			var form = this.buildElement('form');
-
-			// Add extra params here
-			form.setAttribute('action', this.action);
-
-			// Set the method
-			form.setAttribute('method', this.method);
-
-			// Add extra params here
-			form.setAttribute('enctype', 'text/plain');
-
-			// return it
-			return form;
-		}
-
-		/**
-   *	Build Element
-   */
-
-	}, {
-		key: 'buildElement',
-		value: function buildElement() {
-			var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'input';
-			var i_class = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-
-
-			// Store the element
-			var el = document.createElement(type),
-			    el_class = i_class || type;
-
-			// Give the element a class
-			el.classList.add(this.base_class + '__' + el_class);
-
-			// return the built element
-			return el;
-		}
-
-		/**
-   *	Generates the subject line of the email
-   */
-
-	}, {
-		key: 'generateSubjectLine',
-		value: function generateSubjectLine() {
-
-			// Create the subject var
-			var subject = this.subject_format;
-
-			// add the project to the
-			subject = subject.replace('%project%', this.project);
-
-			// Add datetime to the string
-			subject = subject.replace('%date_time%', new Date());
-
-			// return the formatted subject
-			return subject;
-		}
-
-		/**
-   * Generates encoded fields for posting
-   */
-
-	}, {
-		key: 'generateEncodedFields',
-		value: function generateEncodedFields() {
-
-			// init the field string
-			var fields_string = '';
-
-			// Loop through all fields
-			for (var i = 0; i < this.fields.length; i++) {
-
-				// Jump out if subject or body fields
-				if (~['body', 'subject'].indexOf(this.fields[i].name)) continue;
-
-				// Add an amp
-				fields_string += fields_string ? '&' : '';
-
-				// Add the value of the new line to the body
-				fields_string += this.fields[i].name + '=' + this.fields[i].el.input.value;
-			}
-
-			// return the built fields string
-			return !fields_string ? '' : '&' + fields_string;
-		}
-
-		/**
-   *	Generates the body of the message
-   */
-
-	}, {
-		key: 'generateMessageBody',
-		value: function generateMessageBody() {
-
-			// Set up our body
-			var body = '',
-			    label = '',
-			    value = '',
-			    row = '';
-
-			// Loop through all fields
-			for (var i = 0; i < this.fields.length; i++) {
-
-				// Jump out if subject or body fields
-				if (~['body', 'subject'].indexOf(this.fields[i].name)) continue;
-
-				// Add new line to the body
-				label = this.fields[i].label;
-
-				// Add the value of the new line to the body
-				value = this.sanitize(this.fields[i].el.input.value.replace(/&/g, ' amp '));
-
-				// Add the fields to the body
-				body += this.formatRow(label, value);
-			}
-
-			// Loop through our extra informations
-			// for dev purposes
-			for (var i = 0; i < this.detect_extra_info.length; i++) {
-
-				// Set the label
-				label = this.detect_extra_info[i].label;
-
-				// Set the value
-				value = this.detective.detect(this.detect_extra_info[i].fn).message;
-
-				// Add it to the body
-				body += this.formatRow(label, value);
-			}
-
-			// Return the constructed body
-			return this.getBodyFormat().wrapper.replace('%HEADER%', this.getBodyFormat().header).replace('%BODY%', body);
-		}
-
-		/**
-   *	Formats the row (table or not)
-   */
-
-	}, {
-		key: 'formatRow',
-		value: function formatRow(label, value) {
-
-			// Return the formatted row
-			return this.getBodyFormat().row.replace('%ROW%', this.getBodyFormat().label.replace('%LABEL%', label) + this.getBodyFormat().value.replace('%VALUE%', value));
-		}
-
-		/**
-   *	Generates a browser screenshot
-   */
-
-	}, {
-		key: 'generateScreenshot',
-		value: function generateScreenshot(cb) {
-			var _this5 = this;
-
-			// Jump out if we don't want to render a screenshot
-			if (!this.sends_screenshot) return cb();
-
-			// Get the user's scroll position
-			var doc = document.documentElement,
-			    pos_x = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0),
-			    pos_y = (window.pageYOffset || doc.scrollTop) - (doc.clientTop || 0);
-
-			// First, hide the exterminator
-			this.shell.classList.add(this.base_class + '--screenshot');
-
-			// Scroll the window to the top
-			window.scrollTo(0, 0);
-
-			// Add the viewport ghost
-			this.addViewportghost(pos_x, pos_y);
-
-			// Render the last clicked
-			this.renderLastClicked();
-
-			// Now use html2canvas to take a screenshot
-			(0, _html2canvas2.default)(this.shell, { background: '#fff' }).then(function (canvas) {
-
-				// remove the viewport ghost
-				_this5.removeViewportghost();
-
-				// Set the scroll position back to where they were
-				window.scrollTo(pos_x, pos_y);
-
-				// After screenshot has been taken, put
-				// the exterminator back
-				_this5.shell.classList.remove(_this5.base_class + '--screenshot');
-
-				// Turn the canvas into an image and
-				// store it in the obj as base64 "image/png"
-				_this5.screenshot = canvas.toDataURL();
-
-				// run our callback
-				cb();
-			});
-		}
-
-		/**
-   *	Builds a ghost so we can see where the user
-   *	reported the bug
-   */
-
-	}, {
-		key: 'addViewportghost',
-		value: function addViewportghost(x, y) {
-
-			// We haven't already created the ghost
-			if (!this.screenshot_ghost) {
-
-				// Create the ghost and store it in the obj
-				this.screenshot_ghost = document.createElement('div');
-
-				// Give it the class it needs
-				this.screenshot_ghost.classList.add(this.base_class + '__screenshot-ghost');
-			}
-
-			// Set its x and y coords
-			this.screenshot_ghost.style.left = x + 'px';
-			this.screenshot_ghost.style.top = y + 'px';
-			this.screenshot_ghost.style.width = (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) + 'px';
-			this.screenshot_ghost.style.height = (window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight) + 'px';
-
-			// add the ghost to the body
-			this.shell.appendChild(this.screenshot_ghost);
-		}
-
-		/**
-   *	Removes the ghost from the viewport
-   */
-
-	}, {
-		key: 'removeViewportghost',
-		value: function removeViewportghost() {
-
-			// removes the ghost from the shell....
-			this.shell.removeChild(this.screenshot_ghost);
-		}
-
-		/**
-   *	Submits the form as a mailto link
-   */
-
-	}, {
-		key: 'triggerMailto',
-		value: function triggerMailto() {
-			var _this6 = this;
-
-			// Set the basic format and store the previous value
-			this.body_format.previous = this.body_format.type;
-			this.body_format.type = 'basic';
-
-			// Send the form via email mailto link
-			var win = window.open(
-			//this.form.getAttribute('action')
-			'mailto:' + this.email + '?subject=' + encodeURI(this.generateSubjectLine()) + '&body=' + encodeURI(this.generateMessageBody()) + (this.cc.length ? '&cc=' + this.cc.concat(_templateObject) : ''), '_blank');
-
-			// Set the body formatting back to what it was
-			this.body_format.type = this.body_format.previous;
-
-			// Set close after 1 second
-			setTimeout(function () {
-
-				// Set the successful state
-				_this6.triggerSuccess();
-
-				// close the window
-				if (win) win.close();
-			}, 1000);
-		}
-
-		/**
-   *	Sets the sending state of the form
-   */
-
-	}, {
-		key: 'setSendingState',
-		value: function setSendingState() {
-			var is_sending = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
-
-
-			// Turn on the sending flag
-			this.is_sending = is_sending;
-
-			// Add a "sending" class to the shell
-			this.shell.classList[is_sending ? 'add' : 'remove'](this.base_class + '--sending');
-		}
-
-		/**
-   *	Sets up the events associated with the form
-   */
-
-	}, {
-		key: 'formEvents',
-		value: function formEvents() {
-			var _this7 = this;
-
-			// Set up a form submission callback
-			this.form.addEventListener('submit', function (e) {
-
-				// prevent form from submitting
-				e.preventDefault();
-
-				// Set the sending state of the form
-				_this7.setSendingState(true);
-
-				// If the form is set to trigger a mailto
-				if (_this7.is_mailto) {
-
-					// Trigger the mailto
-					_this7.triggerMailto();
-				} else {
-
-					// Generate a screenshot
-					_this7.generateScreenshot(function () {
-
-						// do ajax request
-						_this7.triggerAjax(function (successful) {
-
-							// If it fails, fallback to mailto
-							if (!successful) _this7.triggerMailto();
-
-							// Trigger the success state
-							else _this7.triggerSuccess();
-						});
-					});
-				}
-			});
-		}
-
-		/**
-   *	This is what happens when the message is sent
-   */
-
-	}, {
-		key: 'triggerSuccess',
-		value: function triggerSuccess() {
-			var _this8 = this;
-
-			// Clear the form out
-			this.clearForm();
-
-			// Remove the sending state
-			this.setSendingState(false);
-
-			// Set the form to success
-			this.shell.classList.add(this.base_class + '--sent');
-
-			// After 3 seconds remove success state
-			setTimeout(function () {
-				_this8.shell.classList.remove(_this8.base_class + '--sent');
-			}, 3000);
-		}
-
-		/**
-   *	Makes an ajax request to an endpoint
-   */
-
-	}, {
-		key: 'triggerAjax',
-		value: function triggerAjax(cb) {
-
-			// Set up the request
-			var r = new XMLHttpRequest(),
-			    data = 'subject=' + encodeURI(this.sanitize(this.generateSubjectLine())) + '&body=' + encodeURI(this.generateMessageBody()) + '&email=' + this.email + this.generateEncodedFields() + (this.cc.length ? '&cc=' + this.cc.concat(_templateObject) : '') + (this.screenshot ? '&screenshot=' + this.screenshot : '') + (this.bitbucket ? "&bitbucket=" + JSON.stringify(this.bitbucket) : '');
-
-			// Set up the post
-			r.open(this.method, this.action, true);
-
-			// Set up the content type
-			r.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-
-			// Do a check
-			r.onreadystatechange = function () {
-
-				// if is ready?? lolz
-				if (this.readyState === 4) {
-
-					// if response was successful
-					if (this.status >= 200 && this.status < 400) {
-
-						// Get the response
-						var resp = JSON.parse(this.responseText);
-
-						// return the status of the request
-						cb(resp.status);
-					} else {
-
-						// return false to the callback
-						cb(false);
-					}
-				}
-			};
-
-			// Send the request
-			r.send(data);
-		}
-
-		/**
-   *	Clears out the form
-   */
-
-	}, {
-		key: 'clearForm',
-		value: function clearForm() {
-
-			// Store the fields for easy access
-			var fields = this.fields;
-
-			// Loop through the fields
-			for (var i = 0; i < fields.length; i++) {
-
-				// Store the field in the block scope
-				var field = this.fields[i],
-				    input = field.el.input;
-
-				// Skip if is hidden
-				if (field.type && field.type == 'hidden') continue;
-
-				// Store the value in case we need to retreive it
-				field.previous_value = input.value;
-
-				// if the character counter is present
-				if (field.counter) {
-
-					// reset the counter
-					field.counter.innerHTML = field.max_length;
-
-					// take off the limit reached class
-					field.el.wrapper.classList.remove(this.limit_reached_class);
-				}
-
-				// Clear the field's value
-				input.value = '';
-			}
-		}
-
-		/**
-   *	Sanatizes strings
-   */
-
-	}, {
-		key: 'sanitize',
-		value: function sanitize(str) {
-			str = str.replace(/[^a-z0-9áéíóúñü\.\/\s,_-]/gim, "");
-			return str.trim();
-		}
-
-		/**
-   *	Gets the element's position relative to the page
-   */
-
-	}, {
-		key: 'getElementPosition',
-		value: function getElementPosition(el) {
-
-			// Get the rect
-			var rec = el.getBoundingClientRect();
-
-			// return the calculated positioning
-			return { top: rec.top + window.scrollY, left: rec.left + window.scrollX };
-		}
-
-		/**
-   *	Gets the format for the body to insert into
-   */
-
-	}, {
-		key: 'getBodyFormat',
-		value: function getBodyFormat() {
-
-			// return the format
-			return this.body_format[this.body_format.type];
-		}
-	}]);
-
-	return CallTheExterminator;
-}();
 
 /***/ })
 /******/ ]);

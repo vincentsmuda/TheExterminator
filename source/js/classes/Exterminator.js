@@ -1,11 +1,14 @@
 /*
 
-	CallTheExterminator
+	Exterminator
 	A lightweight QA reporter that sends through much needed informations.
 
 */
 
-// Grab Platform.js for browser info
+// Get the variables
+import variables from '../helpers/variables';
+
+// Grab Detective helper class
 import Detective from './Detective';
 
 // Grab html2canvas for screenshots
@@ -17,7 +20,7 @@ window.html2canvas = html2canvas;
 import Fields from '../settings/fields.js';
 
 // The class
-module.exports = class CallTheExterminator {
+module.exports = class Exterminator {
 
 	/**
 	 *	Construct
@@ -28,7 +31,7 @@ module.exports = class CallTheExterminator {
 		Object.assign(this, {
 
 			// Set the base class of the elements
-			base_class: 'exterminator',
+			base_class: variables.get('base_class'),
 
 			// Sets the submit button text
 			submit_button_text: 'Report',
