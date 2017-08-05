@@ -5,7 +5,11 @@
 
 */
 
-// Grab Platform.js for browser info
+// Get the variables
+import js as variables from '../helpers/variables';
+console.log(variables);
+
+// Grab Detective helper class
 import Detective from './Detective';
 
 // Grab html2canvas for screenshots
