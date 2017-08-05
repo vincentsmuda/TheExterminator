@@ -1,6 +1,6 @@
 /*
 
-	CallTheExterminator
+	Exterminator
 	A lightweight QA reporter that sends through much needed informations.
 
 */
@@ -20,7 +20,7 @@ window.html2canvas = html2canvas;
 import Fields from '../settings/fields.js';
 
 // The class
-module.exports = class CallTheExterminator {
+module.exports = class Exterminator {
 
 	/**
 	 *	Construct

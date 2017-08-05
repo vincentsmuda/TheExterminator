@@ -4226,7 +4226,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /*
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     	CallTheExterminator
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     	Exterminator
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      	A lightweight QA reporter that sends through much needed informations.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
@@ -4276,10 +4276,10 @@ module.exports = function () {
 	/**
   *	Construct
   */
-	function CallTheExterminator(args) {
+	function Exterminator(args) {
 		var _this = this;
 
-		_classCallCheck(this, CallTheExterminator);
+		_classCallCheck(this, Exterminator);
 
 		// Add arguments to the object
 		_extends(this, {
@@ -4399,7 +4399,7 @@ module.exports = function () {
   */
 
 
-	_createClass(CallTheExterminator, [{
+	_createClass(Exterminator, [{
 		key: 'windowReady',
 		value: function windowReady() {
 
@@ -5378,7 +5378,7 @@ module.exports = function () {
 		}
 	}]);
 
-	return CallTheExterminator;
+	return Exterminator;
 }();
 
 /***/ }),
