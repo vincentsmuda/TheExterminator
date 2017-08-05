@@ -1,5 +1,6 @@
 const path = require('path'),
-      LiveReloadPlugin = require('webpack-livereload-plugin');
+      LiveReloadPlugin = require('webpack-livereload-plugin'),
+      variables = require(path.resolve(__dirname, 'source/js/settings/variables.js'));
 
 module.exports = {
   entry: [
@@ -26,14 +27,18 @@ module.exports = {
       // For SCSS
       {
         test: /\.scss$/,
-        exclude: /node_modules/,
         use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader'
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+          { loader: 'sass-loader' },
+          {
+            loader: "@epegzz/sass-vars-loader",
+            options: {
+              vars: variables.get()
+            }
+          }
         ]
       }
-
     ]
   },
   plugins: [

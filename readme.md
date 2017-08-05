@@ -118,7 +118,6 @@ Please read our [Contribution guideline](https://github.com/thefreshvince/TheExt
 
 ### MVP
 - X browser testing
-- Add number counters (max 150)
 
 ### Code
 - Use promises in place of nested CBs
