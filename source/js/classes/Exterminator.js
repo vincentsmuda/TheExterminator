@@ -5,7 +5,10 @@
 
 */
 
-// Grab Platform.js for browser info
+// Get the variables
+import variables from '../helpers/variables';
+
+// Grab Detective helper class
 import Detective from './Detective';
 
 // Grab html2canvas for screenshots
@@ -28,7 +31,7 @@ module.exports = class CallTheExterminator {
 		Object.assign(this, {
 
 			// Set the base class of the elements
-			base_class: 'exterminator',
+			base_class: variables.get('base_class'),
 
 			// Sets the submit button text
 			submit_button_text: 'Report',
