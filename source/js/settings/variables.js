@@ -1,3 +1,9 @@
+/**
+ *  This file syncronizes JS ans SCSS variables so that
+ *  some classes, gutters, colors, sizes, and any other
+ *  type of visual style can be standardized throughout
+ */
+
 module.exports = {vars:[
 
   /**

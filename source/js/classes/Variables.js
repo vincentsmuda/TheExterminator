@@ -17,17 +17,34 @@ module.exports = class Variables {
      *  we can control suffixes and scss specific
      *  values
      */
-    this.is_scss = args.is_scss ? args.is_scss : true ;
+    this.is_scss = !!args.is_scss;
+
+    /**
+     *  Store the variables for processing later
+     */
+    this.source_variables = args.variables;
+
+    /**
+     *  Porcess the variables on construct
+     */
+    this.processVariables () ;
+
+  }
+
+  /**
+   *  Build our variables object
+   */
+  processVariables () {
 
     /**
      *  Loop through the vars in the args and apply them
      *  to the class
      */
-    if(args.variables)
-      for (let i = 0, l = args.variables.length; i < l; i++) {
+    if(this.source_variables){
+      for (let i = 0, l = this.source_variables.length; i < l; i++) {
 
         // Set the current variable
-        let variable = args.variables[i],
+        let variable = this.source_variables[i],
             value = typeof variable.value == 'object'
               ? variable.value
               : [variable.value];
@@ -41,6 +58,8 @@ module.exports = class Variables {
         );
 
       }
+    }
+
   }
 
   /**
@@ -135,10 +154,28 @@ module.exports = class Variables {
   /**
    *  Returns the constructed variables
    */
-  get (index = '') {
+  get (args = {index: '', is_scss: null}) {
+
+    // Set the index
+    let index = typeof args == 'string'
+      ? args : args.index || null ;
+
+    // process the variables if is_scss is set
+    if(args.is_scss !== null) {
+
+      // set is scss to the new value
+      this.is_scss = args.is_scss;
+
+      // process the variables again
+      this.processVariables();
+
+    }
+
+    // return our desired variable/s
     return index
       ? this.variables[index]
       : this.variables ;
+
   }
 
 }

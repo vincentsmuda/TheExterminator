@@ -34,7 +34,7 @@ module.exports = {
           {
             loader: "@epegzz/sass-vars-loader",
             options: {
-              vars: variables.scss.get()
+              vars: variables.get({is_scss:true})
             }
           }
         ]
