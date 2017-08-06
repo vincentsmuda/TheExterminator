@@ -40,7 +40,7 @@ module.exports = class Exterminator {
 			project: 'Project Name',
 
 			// Set the Subject formatting
-			subject_format: '%project% - Bug Report - %date_time%',
+			subject_format: '%project% - Issue Report',
 
 			// Sets the form's method
 			action: 'mailto:',
@@ -106,6 +106,7 @@ module.exports = class Exterminator {
 		// Extra information to detect
 		// See the detective class for available
 		this.detect_extra_info = [
+			{label:'Date/Time',fn:'dateTime'},
 			{label:'Page',fn:'URL'},
 			{label:'Last Page',fn:'previousURL'},
 			{label:'Envirnoment',fn:'envirnoment'},

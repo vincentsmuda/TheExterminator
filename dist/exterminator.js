@@ -3689,6 +3689,16 @@ module.exports = function () {
     }
 
     /**
+     *  Reports the current date/time
+     */
+
+  }, {
+    key: 'dateTime',
+    value: function dateTime() {
+      return new Date();
+    }
+
+    /**
     *	Check to see if you support the current testing browser
     */
 
@@ -4153,7 +4163,7 @@ module.exports = function () {
 			project: 'Project Name',
 
 			// Set the Subject formatting
-			subject_format: '%project% - Bug Report - %date_time%',
+			subject_format: '%project% - Issue Report',
 
 			// Sets the form's method
 			action: 'mailto:',
@@ -4218,7 +4228,7 @@ module.exports = function () {
 
 		// Extra information to detect
 		// See the detective class for available
-		this.detect_extra_info = [{ label: 'Page', fn: 'URL' }, { label: 'Last Page', fn: 'previousURL' }, { label: 'Envirnoment', fn: 'envirnoment' }, { label: 'Resolution', fn: 'resolution' }, { label: 'Pixel Aspect Ratio', fn: 'pixelAspectRatio' }, { label: 'Scroll Position', fn: 'scrollPosition' }, { label: 'Download Speed', fn: 'bandwidth' }, { label: 'AdBlock', fn: 'adBlock' }, { label: 'Privately Browsing', fn: 'incognito' }, { label: 'Browser Plugins', fn: 'browserPlugins' }, { label: 'Cookies', fn: 'cookiesEnabled' }, { label: 'Errors', fn: 'errors' }, { label: 'Locale', fn: 'locale' }, { label: 'Battery Status', fn: 'batteryStatus' }];
+		this.detect_extra_info = [{ label: 'Date/Time', fn: 'dateTime' }, { label: 'Page', fn: 'URL' }, { label: 'Last Page', fn: 'previousURL' }, { label: 'Envirnoment', fn: 'envirnoment' }, { label: 'Resolution', fn: 'resolution' }, { label: 'Pixel Aspect Ratio', fn: 'pixelAspectRatio' }, { label: 'Scroll Position', fn: 'scrollPosition' }, { label: 'Download Speed', fn: 'bandwidth' }, { label: 'AdBlock', fn: 'adBlock' }, { label: 'Privately Browsing', fn: 'incognito' }, { label: 'Browser Plugins', fn: 'browserPlugins' }, { label: 'Cookies', fn: 'cookiesEnabled' }, { label: 'Errors', fn: 'errors' }, { label: 'Locale', fn: 'locale' }, { label: 'Battery Status', fn: 'batteryStatus' }];
 
 		// Add our custom logging functions
 		if (this.custom_logs.length) this.addCustomLogs();

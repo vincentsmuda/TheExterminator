@@ -37,7 +37,7 @@ module.exports = class Detective {
   /**
    *  Tells the Detective to detect
    */
-  detect(fn, args = '') {
+  detect (fn, args = '') {
 
     // Return the detective's report report
     return {
@@ -47,6 +47,13 @@ module.exports = class Detective {
         : 'Looks like the detective can\'t detect ' + fn
     };
 
+  }
+
+  /**
+   *  Reports the current date/time
+   */
+  dateTime () {
+    return new Date();
   }
 
   /**
