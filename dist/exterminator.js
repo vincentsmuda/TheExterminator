@@ -4153,7 +4153,7 @@ module.exports = function () {
 			project: 'Project Name',
 
 			// Set the Subject formatting
-			subject_format: '%project% - Bug Report - %date_time%',
+			subject_format: '%project% - Issue Report',
 
 			// Sets the form's method
 			action: 'mailto:',
