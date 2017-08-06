@@ -3695,7 +3695,7 @@ module.exports = function () {
   }, {
     key: 'seperator',
     value: function seperator() {
-      return '-----------------------------';
+      return '-----------------------------------------------';
     }
 
     /**
@@ -4238,7 +4238,7 @@ module.exports = function () {
 
 		// Extra information to detect
 		// See the detective class for available
-		this.detect_extra_info = [{ label: 'Reported On', fn: 'seperator' }, { label: 'Date/Time', fn: 'dateTime' }, { label: 'Interactive Information', fn: 'seperator' }, { label: 'Page', fn: 'URL' }, { label: 'Last Page', fn: 'previousURL' }, { label: 'Resolution', fn: 'resolution' }, { label: 'Pixel Aspect Ratio', fn: 'pixelAspectRatio' }, { label: 'Scroll Position', fn: 'scrollPosition' }, { label: 'Browser', fn: 'seperator' }, { label: 'Envirnoment', fn: 'envirnoment' }, { label: 'Privately Browsing', fn: 'incognito' }, { label: 'Cookies', fn: 'cookiesEnabled' }, { label: 'Errors', fn: 'errors' }, { label: 'Plugins', fn: 'seperator' }, { label: 'Browser Plugins', fn: 'browserPlugins' }, { label: 'AdBlock', fn: 'adBlock' }, { label: 'Computer', fn: 'seperator' }, { label: 'Locale', fn: 'locale' }, { label: 'Battery Status', fn: 'batteryStatus' }, { label: 'Download Speed', fn: 'bandwidth' }];
+		this.detect_extra_info = [{ label: 'Reported On', fn: 'seperator' }, { label: 'Date/Time', fn: 'dateTime' }, { label: 'Website', fn: 'seperator' }, { label: 'Page', fn: 'URL' }, { label: 'Last Page', fn: 'previousURL' }, { label: 'Browser', fn: 'seperator' }, { label: 'Envirnoment', fn: 'envirnoment' }, { label: 'Privately Browsing', fn: 'incognito' }, { label: 'Cookies', fn: 'cookiesEnabled' }, { label: 'Interactive Information', fn: 'seperator' }, { label: 'Resolution', fn: 'resolution' }, { label: 'Scroll Position', fn: 'scrollPosition' }, { label: 'Errors', fn: 'errors' }, { label: 'Plugins', fn: 'seperator' }, { label: 'AdBlock', fn: 'adBlock' }, { label: 'Browser Plugins', fn: 'browserPlugins' }, { label: 'Computer', fn: 'seperator' }, { label: 'Pixel Aspect Ratio', fn: 'pixelAspectRatio' }, { label: 'Locale', fn: 'locale' }, { label: 'Battery Status', fn: 'batteryStatus' }, { label: 'Download Speed', fn: 'bandwidth' }];
 
 		// Add our custom logging functions
 		if (this.custom_logs.length) this.addCustomLogs();

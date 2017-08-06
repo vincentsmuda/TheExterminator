@@ -110,28 +110,30 @@ module.exports = class Exterminator {
 			{label:'Reported On',fn:'seperator'},
 			{label:'Date/Time',fn:'dateTime'},
 
-			{label:'Interactive Information',fn:'seperator'},
+			{label:'Website',fn:'seperator'},
 			{label:'Page',fn:'URL'},
 			{label:'Last Page',fn:'previousURL'},
-			{label:'Resolution',fn:'resolution'},
-			{label:'Pixel Aspect Ratio',fn:'pixelAspectRatio'},
-			{label:'Scroll Position',fn:'scrollPosition'},
 
 			{label:'Browser',fn:'seperator'},
 			{label:'Envirnoment',fn:'envirnoment'},
 			{label:'Privately Browsing',fn:'incognito'},
 			{label:'Cookies',fn:'cookiesEnabled'},
+
+			{label:'Interactive Information',fn:'seperator'},
+			{label:'Resolution',fn:'resolution'},
+			{label:'Scroll Position',fn:'scrollPosition'},
 			{label:'Errors',fn:'errors'},
 
 			{label:'Plugins',fn:'seperator'},
-			{label:'Browser Plugins',fn:'browserPlugins'},
 			{label:'AdBlock',fn:'adBlock'},
+			{label:'Browser Plugins',fn:'browserPlugins'},
 
 			{label:'Computer',fn:'seperator'},
+			{label:'Pixel Aspect Ratio',fn:'pixelAspectRatio'},
 			{label:'Locale',fn:'locale'},
 			{label:'Battery Status',fn:'batteryStatus'},
 			{label:'Download Speed',fn:'bandwidth'},
-			
+
 		];
 
 		// Add our custom logging functions

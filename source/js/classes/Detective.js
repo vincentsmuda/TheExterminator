@@ -53,7 +53,7 @@ module.exports = class Detective {
    *  Generates a seperator for visual purposes
    */
   seperator () {
-    return '-----------------------------';
+    return '-----------------------------------------------';
   }
 
   /**
