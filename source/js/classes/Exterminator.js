@@ -646,13 +646,20 @@ module.exports = class Exterminator {
 		if(field.value)
 			field_el.setAttribute('value',field.value);
 
-		// Add text to the label
-		if(field.label && this.label)
+		// Add Label
+		if(
+			field.label
+			&& this.label
+			&& field.type !== 'hidden'
+		) {
+
+			// Add text to the label
 			field_label.innerHTML = field.label;
 
-		// Add the label to the wrapper
-		if(field.label && this.label)
+			// Add the label to the wrapper
 			field_wrapper.appendChild(field_label);
+
+		}
 
 		// Add the field to the wrapper
 		field_wrapper.appendChild(field_el);

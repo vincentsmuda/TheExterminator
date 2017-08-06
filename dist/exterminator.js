@@ -4762,11 +4762,15 @@ module.exports = function () {
 			// Add required to field
 			if (field.value) field_el.setAttribute('value', field.value);
 
-			// Add text to the label
-			if (field.label && this.label) field_label.innerHTML = field.label;
+			// Add Label
+			if (field.label && this.label && field.type !== 'hidden') {
 
-			// Add the label to the wrapper
-			if (field.label && this.label) field_wrapper.appendChild(field_label);
+				// Add text to the label
+				field_label.innerHTML = field.label;
+
+				// Add the label to the wrapper
+				field_wrapper.appendChild(field_label);
+			}
 
 			// Add the field to the wrapper
 			field_wrapper.appendChild(field_el);
