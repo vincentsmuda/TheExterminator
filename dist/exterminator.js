@@ -4238,7 +4238,7 @@ module.exports = function () {
 
 		// Extra information to detect
 		// See the detective class for available
-		this.detect_extra_info = [{ label: "\nWebsite", fn: 'seperator' }, { label: 'Page', fn: 'URL' }, { label: 'Last Page', fn: 'previousURL' }, { label: "\nInteractive Information", fn: 'seperator' }, { label: 'Resolution', fn: 'resolution' }, { label: 'Scroll Position', fn: 'scrollPosition' }, { label: 'Errors', fn: 'errors' }, { label: "\nBrowser", fn: 'seperator' }, { label: 'Envirnoment', fn: 'envirnoment' }, { label: 'Privately Browsing', fn: 'incognito' }, { label: 'Cookies', fn: 'cookiesEnabled' }, { label: "\nPlugins", fn: 'seperator' }, { label: 'AdBlock', fn: 'adBlock' }, { label: 'Browser Plugins', fn: 'browserPlugins' }, { label: "\nComputer", fn: 'seperator' }, { label: 'Pixel Aspect Ratio', fn: 'pixelAspectRatio' }, { label: 'Locale', fn: 'locale' }, { label: 'Battery Status', fn: 'batteryStatus' }, { label: 'Download Speed', fn: 'bandwidth' }, { label: "\nReported On", fn: 'seperator' }, { label: 'Date/Time', fn: 'dateTime' }, { label: "\nOther", fn: 'seperator' }];
+		this.detect_extra_info = [{ label: 'Date/Time', fn: 'dateTime' }, { label: "\nWebsite", fn: 'seperator' }, { label: 'Page', fn: 'URL' }, { label: 'Last Page', fn: 'previousURL' }, { label: "\nInteractive Information", fn: 'seperator' }, { label: 'Resolution', fn: 'resolution' }, { label: 'Scroll Position', fn: 'scrollPosition' }, { label: 'Errors', fn: 'errors' }, { label: "\nBrowser", fn: 'seperator' }, { label: 'Envirnoment', fn: 'envirnoment' }, { label: 'Privately Browsing', fn: 'incognito' }, { label: 'Cookies', fn: 'cookiesEnabled' }, { label: "\nPlugins", fn: 'seperator' }, { label: 'AdBlock', fn: 'adBlock' }, { label: 'Browser Plugins', fn: 'browserPlugins' }, { label: "\nComputer", fn: 'seperator' }, { label: 'Pixel Aspect Ratio', fn: 'pixelAspectRatio' }, { label: 'Locale', fn: 'locale' }, { label: 'Battery Status', fn: 'batteryStatus' }, { label: 'Download Speed', fn: 'bandwidth' }, { label: "\nOther", fn: 'seperator' }];
 
 		// Add our custom logging functions
 		if (this.custom_logs.length) this.addCustomLogs();
@@ -4759,11 +4759,16 @@ module.exports = function () {
 			// Add required to field
 			if (field.required) field_el.setAttribute('required', 'required');
 
+			// Add required to field
+			if (field.value) field_el.setAttribute('value', field.value);
+
 			// Add text to the label
 			if (field.label && this.label) field_label.innerHTML = field.label;
 
-			// Add the elements to the wrapper
+			// Add the label to the wrapper
 			if (field.label && this.label) field_wrapper.appendChild(field_label);
+
+			// Add the field to the wrapper
 			field_wrapper.appendChild(field_el);
 
 			// return the wrapper
@@ -5516,6 +5521,12 @@ module.exports = new Variables({
  */
 
 module.exports = [{
+  label: 'Issue Information',
+  name: 'heading',
+  value: '______________________________________________',
+  el_type: 'input',
+  type: 'hidden'
+}, {
   label: 'Action Taken',
   name: 'action_taken',
   el_type: 'textarea',

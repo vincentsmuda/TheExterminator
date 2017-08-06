@@ -7,6 +7,14 @@
 module.exports = [
 
   {
+    label: 'Issue Information',
+    name: 'heading',
+    value: '______________________________________________',
+    el_type: 'input',
+    type: 'hidden'
+  },
+
+  {
     label: 'Action Taken',
     name: 'action_taken',
     el_type: 'textarea',

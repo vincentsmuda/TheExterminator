@@ -107,6 +107,8 @@ module.exports = class Exterminator {
 		// See the detective class for available
 		this.detect_extra_info = [
 
+			{label:'Date/Time',fn:'dateTime'},
+
 			{label:"\nWebsite",fn:'seperator'},
 			{label:'Page',fn:'URL'},
 			{label:'Last Page',fn:'previousURL'},
@@ -130,9 +132,6 @@ module.exports = class Exterminator {
 			{label:'Locale',fn:'locale'},
 			{label:'Battery Status',fn:'batteryStatus'},
 			{label:'Download Speed',fn:'bandwidth'},
-
-			{label:"\nReported On",fn:'seperator'},
-			{label:'Date/Time',fn:'dateTime'},
 
 			{label:"\nOther",fn:'seperator'},
 
@@ -643,11 +642,19 @@ module.exports = class Exterminator {
 		if(field.required)
 			field_el.setAttribute('required','required');
 
-		// Add text to the label
-		if(field.label && this.label) field_label.innerHTML = field.label;
+		// Add required to field
+		if(field.value)
+			field_el.setAttribute('value',field.value);
 
-		// Add the elements to the wrapper
-		if(field.label && this.label) field_wrapper.appendChild(field_label);
+		// Add text to the label
+		if(field.label && this.label)
+			field_label.innerHTML = field.label;
+
+		// Add the label to the wrapper
+		if(field.label && this.label)
+			field_wrapper.appendChild(field_label);
+
+		// Add the field to the wrapper
 		field_wrapper.appendChild(field_el);
 
 		// return the wrapper
