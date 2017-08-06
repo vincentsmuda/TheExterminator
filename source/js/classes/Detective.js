@@ -19,6 +19,9 @@ module.exports = class Detective {
     // Set up the last page logic
 		this.setPreviousURL();
 
+    // Set up the incognito checker
+    this.incognito();
+
     // Set up the erros string
     // And set the max errors to store
     this.error = this.detect('errors', {count: 10}).message;
@@ -320,17 +323,70 @@ module.exports = class Detective {
    */
   setPreviousURL () {
 
+    // jump out if we cant localStorage
+    if(!window.localStorage) return;
+
     // Store the storage vars for ease of use
     let current = localStorage.ext_current_page,
         previous = localStorage.ext_prev_page;
 
-    // Set the last page as long as it's not the same url
-    localStorage.ext_prev_page = current == location.href
-      ? previous || document.referrer
-      : current || document.referrer ;
+    try {
 
-    // Put the current page as the existing url
-		localStorage.ext_current_page = location.href;
+      // Set the last page as long as it's not the same url
+      localStorage.ext_prev_page = current == location.href
+        ? previous || document.referrer
+        : current || document.referrer ;
+
+      // Put the current page as the existing url
+  		localStorage.ext_current_page = location.href;
+
+    } catch (e) {}
+
+  }
+
+  /**
+   *  Detects wether the browser is an incognito window or not
+   */
+  incognito () {
+
+    // Store our vars
+    let status_false = 'Not in private browsing mode',
+        status_true = 'Maybe in private browsing mode',
+        file_system = window.RequestFileSystem || window.webkitRequestFileSystem,
+        db = window.indexedDB,
+        localStorage = window.localStorage,
+        request = null;
+
+    // initialize the incog status (true)
+    // until otherwise proven
+    if(!this.incognito_status)
+      this.incognito_status = status_true;
+
+    // Try the filesystem way first
+    if (file_system)
+      file_system(window.TEMPORARY, 100, () => {
+        this.incognito_status = status_false;
+      });
+
+    // Next try for firefox
+    // TODO: fix error being thrown
+    if(db && ~platform.name.indexOf('Firefox')) {
+      try {
+        request = db.open("MyTestDatabase");
+        request.onsuccess = () =>
+          this.incognito_status = status_false;
+      } catch (e) {}
+    }
+
+    // Next try for safari
+    if(localStorage  && ~platform.name.indexOf('Safari')){
+      try { localStorage.externubatir_test = 2; } catch (e) {}
+      if (localStorage.externubatir_test)
+        this.incognito_status = status_false;
+    }
+
+    // return the current status of incognito
+    return this.incognito_status;
 
   }
 

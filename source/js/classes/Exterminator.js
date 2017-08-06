@@ -89,7 +89,7 @@ module.exports = class Exterminator {
 					header: ``,
 					wrapper: `%BODY%`,
 					row: `%ROW%\r\n`,
-					label: `%LABEL%\r\n`,
+					label: `%LABEL%:\r\n`,
 					value: `%VALUE%\r\n`
 				}
 
@@ -114,6 +114,7 @@ module.exports = class Exterminator {
 			{label:'Scroll Position',fn:'scrollPosition'},
 			{label:'Download Speed',fn:'bandwidth'},
 			{label:'AdBlock',fn:'adBlock'},
+			{label:'Privately Browsing',fn:'incognito'},
 			{label:'Browser Plugins',fn:'browserPlugins'},
 			{label:'Cookies',fn:'cookiesEnabled'},
 			{label:'Errors',fn:'errors'},
