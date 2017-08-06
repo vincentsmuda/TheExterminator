@@ -106,6 +106,7 @@ module.exports = class Exterminator {
 		// Extra information to detect
 		// See the detective class for available
 		this.detect_extra_info = [
+			{label:'Date/Time',fn:'dateTime'},
 			{label:'Page',fn:'URL'},
 			{label:'Last Page',fn:'previousURL'},
 			{label:'Envirnoment',fn:'envirnoment'},
