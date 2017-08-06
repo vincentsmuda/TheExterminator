@@ -107,32 +107,33 @@ module.exports = class Exterminator {
 		// See the detective class for available
 		this.detect_extra_info = [
 
-			{label:'Reported On',fn:'seperator'},
 			{label:'Date/Time',fn:'dateTime'},
 
-			{label:'Website',fn:'seperator'},
+			{label:"\nWebsite",fn:'seperator'},
 			{label:'Page',fn:'URL'},
 			{label:'Last Page',fn:'previousURL'},
 
-			{label:'Browser',fn:'seperator'},
-			{label:'Envirnoment',fn:'envirnoment'},
-			{label:'Privately Browsing',fn:'incognito'},
-			{label:'Cookies',fn:'cookiesEnabled'},
-
-			{label:'Interactive Information',fn:'seperator'},
+			{label:"\nInteractive Information",fn:'seperator'},
 			{label:'Resolution',fn:'resolution'},
 			{label:'Scroll Position',fn:'scrollPosition'},
 			{label:'Errors',fn:'errors'},
 
-			{label:'Plugins',fn:'seperator'},
+			{label:"\nBrowser",fn:'seperator'},
+			{label:'Envirnoment',fn:'envirnoment'},
+			{label:'Privately Browsing',fn:'incognito'},
+			{label:'Cookies',fn:'cookiesEnabled'},
+
+			{label:"\nPlugins",fn:'seperator'},
 			{label:'AdBlock',fn:'adBlock'},
 			{label:'Browser Plugins',fn:'browserPlugins'},
 
-			{label:'Computer',fn:'seperator'},
+			{label:"\nComputer",fn:'seperator'},
 			{label:'Pixel Aspect Ratio',fn:'pixelAspectRatio'},
 			{label:'Locale',fn:'locale'},
 			{label:'Battery Status',fn:'batteryStatus'},
 			{label:'Download Speed',fn:'bandwidth'},
+
+			{label:"\nOther",fn:'seperator'},
 
 		];
 
@@ -641,11 +642,26 @@ module.exports = class Exterminator {
 		if(field.required)
 			field_el.setAttribute('required','required');
 
-		// Add text to the label
-		if(field.label && this.label) field_label.innerHTML = field.label;
+		// Add required to field
+		if(field.value)
+			field_el.setAttribute('value',field.value);
 
-		// Add the elements to the wrapper
-		if(field.label && this.label) field_wrapper.appendChild(field_label);
+		// Add Label
+		if(
+			field.label
+			&& this.label
+			&& field.type !== 'hidden'
+		) {
+
+			// Add text to the label
+			field_label.innerHTML = field.label;
+
+			// Add the label to the wrapper
+			field_wrapper.appendChild(field_label);
+
+		}
+
+		// Add the field to the wrapper
 		field_wrapper.appendChild(field_el);
 
 		// return the wrapper
