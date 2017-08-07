@@ -758,7 +758,24 @@ module.exports = class Exterminator {
 			fields_string += fields_string ? '&' : '' ;
 
 			// Add the value of the new line to the body
-			fields_string += this.fields[i].name + '=' + this.fields[i].el.input.value;
+			fields_string += this.fields[i].name + '=' + encodeURI(this.fields[i].el.input.value);
+
+		}
+
+		// Add the detected information to POST
+		for (var i = 0; i < this.detect_extra_info.length; i++) {
+
+			// Set the label
+			label = this.detect_extra_info[i].label;
+
+			// Set the value
+			value = this.detective.detect(this.detect_extra_info[i].fn).message;
+
+			// Add an amp ?
+			fields_string += fields_string ? '&' : '' ;
+
+			// Add it to the body
+			fields_string += label + '=' + encodeURI(value);
 
 		}
 
