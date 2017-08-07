@@ -7,12 +7,12 @@
 module.exports = [
 
   {
-    label: 'Issue Information',
+    label: "______________________________________________\n\nIssue Information",
     name: 'heading',
     value: '______________________________________________',
     el_type: 'input',
     type: 'hidden',
-    query_ignore: true
+    ignore: true
   },
 
   {

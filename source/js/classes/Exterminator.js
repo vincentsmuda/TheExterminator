@@ -118,31 +118,31 @@ module.exports = class Exterminator {
 
 			{label:'Date/Time',fn:'dateTime'},
 
-			{label:"\nWebsite",fn:'seperator',query_ignore: true},
+			{label:"\n" + this.detective.seperator() + "\n\nWebsite",fn:'seperator',query_ignore: true},
 			{label:'Page',fn:'URL'},
 			{label:'Last Page',fn:'previousURL'},
 
-			{label:"\nInteractive Information",fn:'seperator',query_ignore: true},
+			{label:"\n" + this.detective.seperator() + "\n\nInteractive Information",fn:'seperator',query_ignore: true},
 			{label:'Resolution',fn:'resolution'},
 			{label:'Scroll Position',fn:'scrollPosition'},
 			{label:'Errors',fn:'errors'},
 
-			{label:"\nBrowser",fn:'seperator',query_ignore: true},
+			{label:"\n" + this.detective.seperator() + "\n\nBrowser",fn:'seperator',query_ignore: true},
 			{label:'Envirnoment',fn:'envirnoment'},
 			{label:'Privately Browsing',fn:'incognito'},
 			{label:'Cookies',fn:'cookiesEnabled'},
 
-			{label:"\nPlugins",fn:'seperator',query_ignore: true},
+			{label:"\n" + this.detective.seperator() + "\n\nPlugins",fn:'seperator',query_ignore: true},
 			{label:'AdBlock',fn:'adBlock'},
 			{label:'Browser Plugins',fn:'browserPlugins'},
 
-			{label:"\nComputer",fn:'seperator',query_ignore: true},
+			{label:"\n" + this.detective.seperator() + "\n\nComputer",fn:'seperator',query_ignore: true},
 			{label:'Pixel Aspect Ratio',fn:'pixelAspectRatio'},
 			{label:'Locale',fn:'locale'},
 			{label:'Battery Status',fn:'batteryStatus'},
 			{label:'Download Speed',fn:'bandwidth'},
 
-			{label:"\nOther",fn:'seperator',query_ignore: true},
+			{label:"\n" + this.detective.seperator() + "\n\nOther",fn:'seperator',query_ignore: true},
 
 		];
 
@@ -414,8 +414,9 @@ module.exports = class Exterminator {
 			// Sets the max length on a field if present
 			this.setFieldMaxLength(this.fields[i]);
 
-			// Add the field to the form
-			form.appendChild(field.wrapper);
+			// Add the field to the form if not ignored
+			if(!this.fields[i].ignore)
+				form.appendChild(field.wrapper);
 
 		}
 
@@ -760,7 +761,7 @@ module.exports = class Exterminator {
 			fields_string += fields_string ? '&' : '' ;
 
 			// Skip if requests to be ignored
-			if(this.fields[i].query_ignore) continue;
+			if(this.fields[i].ignore) continue;
 
 			// Set the query key
 			key = this.fields[i].name;
