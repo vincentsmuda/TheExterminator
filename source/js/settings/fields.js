@@ -11,7 +11,8 @@ module.exports = [
     name: 'heading',
     value: '______________________________________________',
     el_type: 'input',
-    type: 'hidden'
+    type: 'hidden',
+    query_ignore: true
   },
 
   {

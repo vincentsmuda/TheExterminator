@@ -4247,7 +4247,7 @@ module.exports = function () {
 
 		// Extra information to detect
 		// See the detective class for available
-		this.detect_extra_info = [{ label: 'Date/Time', fn: 'dateTime' }, { label: "\nWebsite", fn: 'seperator' }, { label: 'Page', fn: 'URL' }, { label: 'Last Page', fn: 'previousURL' }, { label: "\nInteractive Information", fn: 'seperator' }, { label: 'Resolution', fn: 'resolution' }, { label: 'Scroll Position', fn: 'scrollPosition' }, { label: 'Errors', fn: 'errors' }, { label: "\nBrowser", fn: 'seperator' }, { label: 'Envirnoment', fn: 'envirnoment' }, { label: 'Privately Browsing', fn: 'incognito' }, { label: 'Cookies', fn: 'cookiesEnabled' }, { label: "\nPlugins", fn: 'seperator' }, { label: 'AdBlock', fn: 'adBlock' }, { label: 'Browser Plugins', fn: 'browserPlugins' }, { label: "\nComputer", fn: 'seperator' }, { label: 'Pixel Aspect Ratio', fn: 'pixelAspectRatio' }, { label: 'Locale', fn: 'locale' }, { label: 'Battery Status', fn: 'batteryStatus' }, { label: 'Download Speed', fn: 'bandwidth' }, { label: "\nOther", fn: 'seperator' }];
+		this.detect_extra_info = [{ label: 'Date/Time', fn: 'dateTime' }, { label: "\nWebsite", fn: 'seperator', query_ignore: true }, { label: 'Page', fn: 'URL' }, { label: 'Last Page', fn: 'previousURL' }, { label: "\nInteractive Information", fn: 'seperator', query_ignore: true }, { label: 'Resolution', fn: 'resolution' }, { label: 'Scroll Position', fn: 'scrollPosition' }, { label: 'Errors', fn: 'errors' }, { label: "\nBrowser", fn: 'seperator', query_ignore: true }, { label: 'Envirnoment', fn: 'envirnoment' }, { label: 'Privately Browsing', fn: 'incognito' }, { label: 'Cookies', fn: 'cookiesEnabled' }, { label: "\nPlugins", fn: 'seperator', query_ignore: true }, { label: 'AdBlock', fn: 'adBlock' }, { label: 'Browser Plugins', fn: 'browserPlugins' }, { label: "\nComputer", fn: 'seperator', query_ignore: true }, { label: 'Pixel Aspect Ratio', fn: 'pixelAspectRatio' }, { label: 'Locale', fn: 'locale' }, { label: 'Battery Status', fn: 'batteryStatus' }, { label: 'Download Speed', fn: 'bandwidth' }, { label: "\nOther", fn: 'seperator', query_ignore: true }];
 
 		// Add our custom logging functions
 		if (this.custom_logs.length) this.addCustomLogs();
@@ -4867,7 +4867,9 @@ module.exports = function () {
 		value: function generateEncodedFields() {
 
 			// init the field string
-			var fields_string = '';
+			var fields_string = '',
+			    key = '',
+			    value = '';
 
 			// Loop through all fields
 			for (var i = 0; i < this.fields.length; i++) {
@@ -4878,24 +4880,36 @@ module.exports = function () {
 				// Add an amp
 				fields_string += fields_string ? '&' : '';
 
+				// Skip if requests to be ignored
+				if (this.fields[i].query_ignore) continue;
+
+				// Set the query key
+				key = this.fields[i].name;
+
+				// Set the query value
+				value = this.fields[i].el.input.value;
+
 				// Add the value of the new line to the body
-				fields_string += this.fields[i].name + '=' + encodeURI(this.fields[i].el.input.value);
+				fields_string += key + '=' + encodeURI(value);
 			}
 
 			// Add the detected information to POST
 			for (var i = 0; i < this.detect_extra_info.length; i++) {
 
 				// Set the label
-				label = this.detect_extra_info[i].label;
+				key = 'detected-' + this.detect_extra_info[i].label;
 
 				// Set the value
 				value = this.detective.detect(this.detect_extra_info[i].fn).message;
+
+				// skip if has invalid value/key
+				if (!key || !value || this.detect_extra_info[i].query_ignore) continue;
 
 				// Add an amp ?
 				fields_string += fields_string ? '&' : '';
 
 				// Add it to the body
-				fields_string += label + '=' + encodeURI(value);
+				fields_string += key + '=' + encodeURI(value);
 			}
 
 			// return the built fields string
@@ -5554,7 +5568,8 @@ module.exports = [{
   name: 'heading',
   value: '______________________________________________',
   el_type: 'input',
-  type: 'hidden'
+  type: 'hidden',
+  query_ignore: true
 }, {
   label: 'Action Taken',
   name: 'action_taken',

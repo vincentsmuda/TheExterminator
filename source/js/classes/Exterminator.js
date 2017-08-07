@@ -118,31 +118,31 @@ module.exports = class Exterminator {
 
 			{label:'Date/Time',fn:'dateTime'},
 
-			{label:"\nWebsite",fn:'seperator'},
+			{label:"\nWebsite",fn:'seperator',query_ignore: true},
 			{label:'Page',fn:'URL'},
 			{label:'Last Page',fn:'previousURL'},
 
-			{label:"\nInteractive Information",fn:'seperator'},
+			{label:"\nInteractive Information",fn:'seperator',query_ignore: true},
 			{label:'Resolution',fn:'resolution'},
 			{label:'Scroll Position',fn:'scrollPosition'},
 			{label:'Errors',fn:'errors'},
 
-			{label:"\nBrowser",fn:'seperator'},
+			{label:"\nBrowser",fn:'seperator',query_ignore: true},
 			{label:'Envirnoment',fn:'envirnoment'},
 			{label:'Privately Browsing',fn:'incognito'},
 			{label:'Cookies',fn:'cookiesEnabled'},
 
-			{label:"\nPlugins",fn:'seperator'},
+			{label:"\nPlugins",fn:'seperator',query_ignore: true},
 			{label:'AdBlock',fn:'adBlock'},
 			{label:'Browser Plugins',fn:'browserPlugins'},
 
-			{label:"\nComputer",fn:'seperator'},
+			{label:"\nComputer",fn:'seperator',query_ignore: true},
 			{label:'Pixel Aspect Ratio',fn:'pixelAspectRatio'},
 			{label:'Locale',fn:'locale'},
 			{label:'Battery Status',fn:'batteryStatus'},
 			{label:'Download Speed',fn:'bandwidth'},
 
-			{label:"\nOther",fn:'seperator'},
+			{label:"\nOther",fn:'seperator',query_ignore: true},
 
 		];
 
@@ -745,7 +745,9 @@ module.exports = class Exterminator {
 	generateEncodedFields () {
 
 		// init the field string
-		let fields_string = '';
+		let fields_string = '',
+				key = '',
+				value = '';
 
 		// Loop through all fields
 		for (var i = 0; i < this.fields.length; i++) {
@@ -757,8 +759,17 @@ module.exports = class Exterminator {
 			// Add an amp
 			fields_string += fields_string ? '&' : '' ;
 
+			// Skip if requests to be ignored
+			if(this.fields[i].query_ignore) continue;
+
+			// Set the query key
+			key = this.fields[i].name;
+
+			// Set the query value
+			value = this.fields[i].el.input.value;
+
 			// Add the value of the new line to the body
-			fields_string += this.fields[i].name + '=' + encodeURI(this.fields[i].el.input.value);
+			fields_string += key + '=' + encodeURI(value);
 
 		}
 
@@ -766,16 +777,23 @@ module.exports = class Exterminator {
 		for (var i = 0; i < this.detect_extra_info.length; i++) {
 
 			// Set the label
-			label = this.detect_extra_info[i].label;
+			key = 'detected-' + this.detect_extra_info[i].label;
 
 			// Set the value
 			value = this.detective.detect(this.detect_extra_info[i].fn).message;
+
+			// skip if has invalid value/key
+			if(
+				!key
+				|| !value
+				|| this.detect_extra_info[i].query_ignore
+			) continue;
 
 			// Add an amp ?
 			fields_string += fields_string ? '&' : '' ;
 
 			// Add it to the body
-			fields_string += label + '=' + encodeURI(value);
+			fields_string += key + '=' + encodeURI(value);
 
 		}
 
