@@ -91,6 +91,15 @@ module.exports = class Exterminator {
 					row: `%ROW%\r\n`,
 					label: `%LABEL%:\r\n`,
 					value: `%VALUE%\r\n`
+				},
+
+				// Sets the formatting of the body for emails
+				md: {
+					header: `| Row A | Row B |\r\n| --- | --- |`,
+					wrapper: `%HEADER%\r\n%BODY%`,
+					row: `| %ROW%\r\n`,
+					label: `%LABEL% |`,
+					value: `%VALUE% |`
 				}
 
 			}
